@@ -19,8 +19,7 @@ public class Constants {
     public static final int kOperatorControllerPort = 1;
 
     public static final int DRIVETRAIN_PIGEON_ID = 2; // Pigeon ID
-    public static final int CANDLE_ID = 3;
-    public static final String DRIVETRAIN_CANBUS = "canivore";
+    public static final String DRIVETRAIN_CANBUS = "CANivore1";
 
     public static final double DRIVE_SPEED = 1.0;
     public static final double BOOST_SPEED = 1.0;
@@ -64,21 +63,43 @@ public class Constants {
         public static final NeutralModeValue angleNeutralMode = NeutralModeValue.Brake;
         public static final NeutralModeValue driveNeutralMode = NeutralModeValue.Brake;
     
+        // billet wheels have a 4" OD as per spec, measuered distance in onshape
+        // is 3.95" with wear diammeter will be reduced 
         public static final double wheelDiameter = Units.inchesToMeters(3.94);
         public static final double wheelCircumference = wheelDiameter * Math.PI;
-        public static final double driveGearRatio = (50.0/14.0)*(17.0/27.0)*(45.0/15.0); //6.75:1
-        public static final double angleGearRatio = (32.0/15.0)*(60.0/10.0); //12.8:1
+
+        //MK4i drive gear ratios
+        //          L1                  L2(using)           L3
+        //stage     Driving  Driven     Driving  Driven     Driving  Driven
+        //  1       14       50         14       50         14       50       
+        //  2       25       19         27       17         28       16       
+        //  3       15       45         15       45         15       45  
+        //          8.14:1              6.75:1              6.12:1     
+        private static final double Stage1Ratio = 50.0/14.0;
+        private static final double Stage2Ratio = 17.0/27.0;
+        private static final double Stage3Ratio = 45.0/15.0;
+        public static final double driveGearRatio = Stage1Ratio * Stage2Ratio * Stage3Ratio; //6.75:1
+
+        //The steering gear ratio of the MK4i is 150/7:1
+        public static final double angleGearRatio = 21.43;
+
+        //The below line of code has the default angle gear ratio from the repo.
+        //I kept because it's significantly different from the ratio listed on SDS's website.
+        //I'm not sure why they are so different.
+        //public static final double angleGearRatio = (32.0/15.0)*(60.0/10.0); //12.8:1
+        
         public static final double rotationsPerMeter = driveGearRatio / wheelCircumference;
     }
 
     public static final class SwerveConstants {
-        public static final double TRACKWIDTH_METERS = Units.inchesToMeters(17.5);
-        public static final double WHEELBASE_METERS = Units.inchesToMeters(26.5);
+        public static final double TRACKWIDTH_METERS = Units.inchesToMeters(26.75);
+        public static final double WHEELBASE_METERS = Units.inchesToMeters(22.375);
   
         public static final double MAX_VOLTAGE = 12.0;
   
-        //public static final double MAX_VELOCITY_METERS_PER_SECOND = 6380.0 / 60.0 * ((14.0 / 50.0) * (27.0 / 17.0) * (15.0 / 45.0)) * 0.10033 * Math.PI;
-        public static final double MAX_VELOCITY_METERS_PER_SECOND = 5.0;
+        // MK4I speeds in ft/s using falcon 500     L1: 13.7   L2: 16.5     L3: 18.2
+        //public static final double MAX_VELOCITY_METERS_PER_SECOND = 6380.0 / 60.0 * ((14.0 / 50.0) * (27.0 / 17.0) * (15.0 / 45.0)) * 0.100076 * Math.PI;
+        public static final double MAX_VELOCITY_METERS_PER_SECOND = Units.feetToMeters(16.5);
   
         public static final double MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND = MAX_VELOCITY_METERS_PER_SECOND / Math.hypot(TRACKWIDTH_METERS / 2.0, WHEELBASE_METERS / 2.0);
   
@@ -94,24 +115,28 @@ public class Constants {
             new Translation2d(-WHEELBASE_METERS / 2.0, TRACKWIDTH_METERS / 2.0), // Back Left
             new Translation2d(-WHEELBASE_METERS / 2.0, -TRACKWIDTH_METERS / 2.0)); // Back Right
   
-        public static final int FRONT_LEFT_DRIVE_MOTOR = 19; // Front left module drive motor ID
-        public static final int FRONT_LEFT_STEER_MOTOR = 20; // Front left module steer motor ID
-        public static final int FRONT_LEFT_STEER_ENCODER = 21; // Front left steer encoder ID
-        public static final double FRONT_LEFT_STEER_OFFSET = -0.3564453125; // Front left steer offset
+        public static final String FRONT_LEFT_MODULE_NAME = "FrontLeft";    
+        public static final int FRONT_LEFT_DRIVE_MOTOR = 20; // Front left module drive motor ID
+        public static final int FRONT_LEFT_STEER_MOTOR = 22; // Front left module steer motor ID 
+        public static final int FRONT_LEFT_STEER_ENCODER = 53; // Front left steer encoder ID
+        public static final double FRONT_LEFT_STEER_OFFSET = 242.490; // Front left steer offset
   
-        public static final int FRONT_RIGHT_DRIVE_MOTOR = 14; // Front right drive motor ID
-        public static final int FRONT_RIGHT_STEER_MOTOR = 13; // Front right steer motor ID
-        public static final int FRONT_RIGHT_STEER_ENCODER = 15; // Front right steer encoder ID
-        public static final double FRONT_RIGHT_STEER_OFFSET = -0.190673828125; // Front right steer offset
+        public static final String FRONT_RIGHT_MODULE_NAME = "FrontRight";
+        public static final int FRONT_RIGHT_DRIVE_MOTOR = 23; // Front right drive motor ID
+        public static final int FRONT_RIGHT_STEER_MOTOR = 41; // Front right steer motor ID
+        public static final int FRONT_RIGHT_STEER_ENCODER = 52; // Front right steer encoder ID
+        public static final double FRONT_RIGHT_STEER_OFFSET = 31.904; // Front right steer offset
   
-        public static final int BACK_LEFT_DRIVE_MOTOR = 16; // Back left drive motor ID
-        public static final int BACK_LEFT_STEER_MOTOR = 17; // Back left steer motor ID
-        public static final int BACK_LEFT_STEER_ENCODER = 18; // Back left steer encoder ID 
-        public static final double BACK_LEFT_STEER_OFFSET = 0.2724609375; // Back left steer offset
+        public static final String BACK_LEFT_MODULE_NAME = "BackLeft";
+        public static final int BACK_LEFT_DRIVE_MOTOR = 43; // Back left drive motor ID
+        public static final int BACK_LEFT_STEER_MOTOR = 44; // Back left steer motor ID
+        public static final int BACK_LEFT_STEER_ENCODER = 52; // Back left steer encoder ID 
+        public static final double BACK_LEFT_STEER_OFFSET = 160.400; // Back left steer offset
   
-        public static final int BACK_RIGHT_DRIVE_MOTOR = 10; // Back right drive motor ID
-        public static final int BACK_RIGHT_STEER_MOTOR = 11; // Back right steer motor ID
-        public static final int BACK_RIGHT_STEER_ENCODER = 12; // Back right steer encoder ID
-        public static final double BACK_RIGHT_STEER_OFFSET = -0.01220703125; // Back right steer offset
+        public static final String BACK_RIGHT_MODULE_NAME = "BackRight";
+        public static final int BACK_RIGHT_DRIVE_MOTOR = 45; // Back right drive motor ID
+        public static final int BACK_RIGHT_STEER_MOTOR = 40; // Back right steer motor ID
+        public static final int BACK_RIGHT_STEER_ENCODER = 50; // Back right steer encoder ID
+        public static final double BACK_RIGHT_STEER_OFFSET = 142.207; // Back right steer offset
     }
 }
