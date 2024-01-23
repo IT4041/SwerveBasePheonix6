@@ -93,7 +93,7 @@ public class Constants {
 
     public static final class SwerveConstants {
         public static final double TRACKWIDTH_METERS = Units.inchesToMeters(26.75);
-        public static final double WHEELBASE_METERS = Units.inchesToMeters(22.375);
+        public static final double WHEELBASE_METERS = Units.inchesToMeters(22.25);
   
         public static final double MAX_VOLTAGE = 12.0;
   
@@ -104,39 +104,39 @@ public class Constants {
         public static final double MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND = MAX_VELOCITY_METERS_PER_SECOND / Math.hypot(TRACKWIDTH_METERS / 2.0, WHEELBASE_METERS / 2.0);
   
         public static final SwerveDriveKinematics KINEMATICS = new SwerveDriveKinematics(
-            new Translation2d(WHEELBASE_METERS / 2.0, TRACKWIDTH_METERS / 2.0), // Front Left
-            new Translation2d(WHEELBASE_METERS / 2.0, -TRACKWIDTH_METERS / 2.0), // Front Right
-            new Translation2d(-WHEELBASE_METERS / 2.0, TRACKWIDTH_METERS / 2.0), // Back Left
-            new Translation2d(-WHEELBASE_METERS / 2.0, -TRACKWIDTH_METERS / 2.0)); // Back Right
+            new Translation2d(TRACKWIDTH_METERS / 2.0, WHEELBASE_METERS / 2.0), // Front Left
+            new Translation2d(TRACKWIDTH_METERS / 2.0, -WHEELBASE_METERS / 2.0), // Front Right
+            new Translation2d(-TRACKWIDTH_METERS / 2.0, WHEELBASE_METERS / 2.0), // Back Left
+            new Translation2d(-TRACKWIDTH_METERS / 2.0, -WHEELBASE_METERS / 2.0)); // Back Right
 
         public static final BetterSwerveKinematics BETTER_KINEMATICS = new BetterSwerveKinematics(
-            new Translation2d(WHEELBASE_METERS / 2.0, TRACKWIDTH_METERS / 2.0), // Front Left
-            new Translation2d(WHEELBASE_METERS / 2.0, -TRACKWIDTH_METERS / 2.0), // Front Right
-            new Translation2d(-WHEELBASE_METERS / 2.0, TRACKWIDTH_METERS / 2.0), // Back Left
-            new Translation2d(-WHEELBASE_METERS / 2.0, -TRACKWIDTH_METERS / 2.0)); // Back Right
+            new Translation2d(TRACKWIDTH_METERS / 2.0, WHEELBASE_METERS / 2.0), // Front Left
+            new Translation2d(TRACKWIDTH_METERS / 2.0, -WHEELBASE_METERS / 2.0), // Front Right
+            new Translation2d(-TRACKWIDTH_METERS / 2.0, WHEELBASE_METERS / 2.0), // Back Left
+            new Translation2d(-TRACKWIDTH_METERS / 2.0, -WHEELBASE_METERS / 2.0)); // Back Right
   
         public static final String FRONT_LEFT_MODULE_NAME = "FrontLeft";    
         public static final int FRONT_LEFT_DRIVE_MOTOR = 20; // Front left module drive motor ID
         public static final int FRONT_LEFT_STEER_MOTOR = 22; // Front left module steer motor ID 
         public static final int FRONT_LEFT_STEER_ENCODER = 53; // Front left steer encoder ID
-        public static final double FRONT_LEFT_STEER_OFFSET = 242.490; // Front left steer offset
+        public static final double FRONT_LEFT_STEER_OFFSET = -0.325439; // Front left steer offset
   
         public static final String FRONT_RIGHT_MODULE_NAME = "FrontRight";
         public static final int FRONT_RIGHT_DRIVE_MOTOR = 23; // Front right drive motor ID
         public static final int FRONT_RIGHT_STEER_MOTOR = 41; // Front right steer motor ID
         public static final int FRONT_RIGHT_STEER_ENCODER = 52; // Front right steer encoder ID
-        public static final double FRONT_RIGHT_STEER_OFFSET = 31.904; // Front right steer offset
+        public static final double FRONT_RIGHT_STEER_OFFSET = 0.089600; // Front right steer offset
   
         public static final String BACK_LEFT_MODULE_NAME = "BackLeft";
         public static final int BACK_LEFT_DRIVE_MOTOR = 43; // Back left drive motor ID
         public static final int BACK_LEFT_STEER_MOTOR = 44; // Back left steer motor ID
-        public static final int BACK_LEFT_STEER_ENCODER = 52; // Back left steer encoder ID 
-        public static final double BACK_LEFT_STEER_OFFSET = 160.400; // Back left steer offset
+        public static final int BACK_LEFT_STEER_ENCODER = 51; // Back left steer encoder ID 
+        public static final double BACK_LEFT_STEER_OFFSET = 0.439209; // Back left steer offset
   
         public static final String BACK_RIGHT_MODULE_NAME = "BackRight";
         public static final int BACK_RIGHT_DRIVE_MOTOR = 45; // Back right drive motor ID
         public static final int BACK_RIGHT_STEER_MOTOR = 40; // Back right steer motor ID
         public static final int BACK_RIGHT_STEER_ENCODER = 50; // Back right steer encoder ID
-        public static final double BACK_RIGHT_STEER_OFFSET = 142.207; // Back right steer offset
+        public static final double BACK_RIGHT_STEER_OFFSET = 0.254395; // Back right steer offset
     }
 }

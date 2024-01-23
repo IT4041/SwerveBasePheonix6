@@ -28,8 +28,8 @@ public class RobotContainer {
     swerveSubsystem.setDefaultCommand(new DriveWithJoysticks(
       swerveSubsystem,
       poseEstimator,
-      () -> -driverController.getLeftY(),
       () -> -driverController.getLeftX(),
+      () -> -driverController.getLeftY(),
       () -> -driverController.getRightX(),
       () -> GlobalVariables.fieldRelative,
       () -> GlobalVariables.maxSpeed));
