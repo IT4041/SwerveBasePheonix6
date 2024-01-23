@@ -93,7 +93,7 @@ public class Constants {
 
     public static final class SwerveConstants {
         public static final double TRACKWIDTH_METERS = Units.inchesToMeters(26.75);
-        public static final double WHEELBASE_METERS = Units.inchesToMeters(22.375);
+        public static final double WHEELBASE_METERS = Units.inchesToMeters(22.25);
   
         public static final double MAX_VOLTAGE = 12.0;
   
