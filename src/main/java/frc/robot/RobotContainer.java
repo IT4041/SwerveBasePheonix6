@@ -28,11 +28,20 @@ public class RobotContainer {
     swerveSubsystem.setDefaultCommand(new DriveWithJoysticks(
       swerveSubsystem,
       poseEstimator,
-      () -> -driverController.getLeftX(),
-      () -> -driverController.getLeftY(),
+      () -> driverController.getLeftY(),
+      () -> driverController.getLeftX(),
       () -> -driverController.getRightX(),
       () -> GlobalVariables.fieldRelative,
       () -> GlobalVariables.maxSpeed));
+
+      // swerveSubsystem.setDefaultCommand(new DriveWithJoysticks(
+      // swerveSubsystem,
+      // poseEstimator,
+      // () -> driverController.getLeftX(),
+      // () -> driverController.getLeftY(),
+      // () -> -driverController.getRightX(),
+      // () -> GlobalVariables.fieldRelative,
+      // () -> GlobalVariables.maxSpeed));
       
     configureBindings();
   }
