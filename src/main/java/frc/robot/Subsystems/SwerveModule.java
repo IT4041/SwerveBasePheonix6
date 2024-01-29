@@ -159,7 +159,7 @@ public class SwerveModule {
         // I had to change .setRotorPosition() to something since it doesn't exist
         // I'm hoping that it just set position now!
         //angleMotor.setRotorPosition(angleEncoder.getAbsolutePosition().refresh().getValue());
-        angleMotor.setPosition(angleEncoder.getAbsolutePosition().refresh().getValue());
+        //angleMotor.setPosition(angleEncoder.getAbsolutePosition().refresh().getValue());
     }
 
     /**

@@ -17,6 +17,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.lib.BetterSwerveKinematics;
 import frc.lib.BetterSwerveModuleState;
 import frc.lib.SwerveModuleConstants;
+import frc.robot.Constants;
 import frc.robot.Constants.SwerveConstants;
 
 public class SwerveSubsystem extends SubsystemBase {
@@ -25,6 +26,7 @@ public class SwerveSubsystem extends SubsystemBase {
   BaseStatusSignal[] signals;
 
   public SwerveSubsystem() {
+    
     swerveModules = new SwerveModule[] {
       new SwerveModule(0, new SwerveModuleConstants(
       SwerveConstants.FRONT_LEFT_DRIVE_MOTOR, 
@@ -75,6 +77,7 @@ public class SwerveSubsystem extends SubsystemBase {
     SmartDashboard.putNumber("FRM", swerveModules[1].getMotorAngle().getRotations());
     SmartDashboard.putNumber("BLM", swerveModules[2].getMotorAngle().getRotations());
     SmartDashboard.putNumber("BRM", swerveModules[3].getMotorAngle().getRotations());
+    
   }
 
   /**
@@ -137,6 +140,16 @@ public class SwerveSubsystem extends SubsystemBase {
     swerveModules[1].setDesiredState(new SwerveModuleState(0.0, Rotation2d.fromDegrees(-45)));
     swerveModules[2].setDesiredState(new SwerveModuleState(0.0, Rotation2d.fromDegrees(-45)));
     swerveModules[3].setDesiredState(new SwerveModuleState(0.0, Rotation2d.fromDegrees(45)));
+  }
+
+
+  public void reset(){
+
+    swerveModules[0].setDesiredState(new SwerveModuleState(0.0, new Rotation2d().minus(swerveModules[0].getEncoderAngle())));
+    swerveModules[1].setDesiredState(new SwerveModuleState(0.0, new Rotation2d().minus(swerveModules[1].getEncoderAngle())));
+    swerveModules[2].setDesiredState(new SwerveModuleState(0.0, new Rotation2d().minus(swerveModules[2].getEncoderAngle())));
+    swerveModules[3].setDesiredState(new SwerveModuleState(0.0, new Rotation2d().minus(swerveModules[3].getEncoderAngle())));
+
   }
 
   /**

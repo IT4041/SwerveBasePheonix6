@@ -12,6 +12,8 @@ import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.math.kinematics.SwerveModulePosition;
+import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.math.numbers.N1;
 import edu.wpi.first.math.numbers.N3;
 import edu.wpi.first.math.trajectory.Trajectory;
@@ -51,11 +53,25 @@ public class PoseEstimator extends SubsystemBase {
 
     poseEstimator = new SwerveDrivePoseEstimator(
       SwerveConstants.KINEMATICS, 
-      pigeon2Subsystem.getGyroRotation(true), 
-      swerveSubsystem.getPositions(true), 
+      new Rotation2d(), 
+      new SwerveModulePosition[] {
+        new SwerveModulePosition(0.0, new Rotation2d()),
+        new SwerveModulePosition(0.0, new Rotation2d()),
+        new SwerveModulePosition(0.0, new Rotation2d()),
+        new SwerveModulePosition(0.0, new Rotation2d())
+      }, 
       new Pose2d(new Translation2d(0, 0), new Rotation2d(0.0)), 
       stateStdDevs, 
       visionMeasurementStdDevs);
+
+
+    // poseEstimator = new SwerveDrivePoseEstimator(
+    //   SwerveConstants.KINEMATICS, 
+    //   pigeon2Subsystem.getGyroRotation(true), 
+    //   swerveSubsystem.getPositions(true), 
+    //   new Pose2d(new Translation2d(0, 0), new Rotation2d(0.0)), 
+    //   stateStdDevs, 
+    //   visionMeasurementStdDevs);
 
     SmartDashboard.putData("Field", field2d);
 
