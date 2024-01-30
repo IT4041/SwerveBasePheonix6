@@ -26,7 +26,6 @@ public class RobotContainer {
   public RobotContainer() {
 
     swerveSubsystem.reset();
-
     swerveSubsystem.setDefaultCommand(new DriveWithJoysticks(
       swerveSubsystem,
       poseEstimator,

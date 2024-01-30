@@ -55,10 +55,10 @@ public class PoseEstimator extends SubsystemBase {
       SwerveConstants.KINEMATICS, 
       new Rotation2d(), 
       new SwerveModulePosition[] {
-        new SwerveModulePosition(0.0, new Rotation2d()),
-        new SwerveModulePosition(0.0, new Rotation2d()),
-        new SwerveModulePosition(0.0, new Rotation2d()),
-        new SwerveModulePosition(0.0, new Rotation2d())
+        swerveSubsystem.swerveModules[0].getPosition(true),
+        swerveSubsystem.swerveModules[1].getPosition(true),
+        swerveSubsystem.swerveModules[2].getPosition(true),
+        swerveSubsystem.swerveModules[3].getPosition(true),
       }, 
       new Pose2d(new Translation2d(0, 0), new Rotation2d(0.0)), 
       stateStdDevs, 

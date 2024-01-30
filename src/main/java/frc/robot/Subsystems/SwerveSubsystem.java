@@ -17,7 +17,6 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.lib.BetterSwerveKinematics;
 import frc.lib.BetterSwerveModuleState;
 import frc.lib.SwerveModuleConstants;
-import frc.robot.Constants;
 import frc.robot.Constants.SwerveConstants;
 
 public class SwerveSubsystem extends SubsystemBase {
