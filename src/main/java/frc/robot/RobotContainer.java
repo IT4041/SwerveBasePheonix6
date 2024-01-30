@@ -34,7 +34,6 @@ public class RobotContainer {
       () -> -driverController.getRightX(),
       () -> GlobalVariables.fieldRelative,
       () -> GlobalVariables.maxSpeed));
-
     swerveSubsystem.reset();
     configureBindings();
   }

@@ -102,4 +102,5 @@ public class Pigeon2Subsystem extends SubsystemBase {
   public BaseStatusSignal[] getSignals() {
     return signals;
   }
+
 }
