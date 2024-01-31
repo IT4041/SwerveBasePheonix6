@@ -99,7 +99,7 @@ public class PoseEstimator extends SubsystemBase {
               }
               return false;
             },
-            this // Reference to this subsystem to set requirements
+            swerveSubsystem // Reference to this subsystem to set requirements
     );
   
   }
