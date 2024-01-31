@@ -5,6 +5,10 @@
 package frc.robot.Subsystems;
 
 import com.ctre.phoenix6.BaseStatusSignal;
+import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.util.HolonomicPathFollowerConfig;
+import com.pathplanner.lib.util.PIDConstants;
+import com.pathplanner.lib.util.ReplanningConfig;
 
 import edu.wpi.first.math.Matrix;
 import edu.wpi.first.math.VecBuilder;
@@ -17,6 +21,7 @@ import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.math.numbers.N1;
 import edu.wpi.first.math.numbers.N3;
 import edu.wpi.first.math.trajectory.Trajectory;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -51,19 +56,6 @@ public class PoseEstimator extends SubsystemBase {
     this.swerveSubsystem = swerveSubsystem;
     this.pigeon2Subsystem = pigeon2Subsystem;
 
-    // poseEstimator = new SwerveDrivePoseEstimator(
-    //   SwerveConstants.KINEMATICS, 
-    //   new Rotation2d(), 
-    //   new SwerveModulePosition[] {
-    //     new SwerveModulePosition(0.0, new Rotation2d().minus(swerveSubsystem.swerveModules[0].getEncoderAngle())),
-    //     new SwerveModulePosition(0.0, new Rotation2d().minus(swerveSubsystem.swerveModules[1].getEncoderAngle())),
-    //     new SwerveModulePosition(0.0, new Rotation2d().minus(swerveSubsystem.swerveModules[2].getEncoderAngle())),
-    //     new SwerveModulePosition(0.0, new Rotation2d().minus(swerveSubsystem.swerveModules[3].getEncoderAngle()))
-    //   }, 
-    //   new Pose2d(new Translation2d(0, 0), new Rotation2d(0.0)), 
-    //   stateStdDevs, 
-    //   visionMeasurementStdDevs);
-
     poseEstimator = new SwerveDrivePoseEstimator(
       SwerveConstants.KINEMATICS, 
       pigeon2Subsystem.getGyroRotation(true), 
@@ -82,6 +74,34 @@ public class PoseEstimator extends SubsystemBase {
     BaseStatusSignal[] pigeon2Signals = pigeon2Subsystem.getSignals();
     signals[16] = pigeon2Signals[0];
     signals[17] = pigeon2Signals[1];
+  
+          // Configure AutoBuilder last
+    AutoBuilder.configureHolonomic(
+            this::getPose, // Robot pose supplier
+            this::setPose, // Method to reset odometry (will be called if your auto has a starting pose)
+            swerveSubsystem::getCurrentChassisSpeeds, // ChassisSpeeds supplier. MUST BE ROBOT RELATIVE
+            swerveSubsystem::betterDrive, // Method that will drive the robot given ROBOT RELATIVE ChassisSpeeds
+            new HolonomicPathFollowerConfig( // HolonomicPathFollowerConfig, this should likely live in your Constants class
+                    new PIDConstants(5.0, 0.0, 0.0), // Translation PID constants
+                    new PIDConstants(5.0, 0.0, 0.0), // Rotation PID constants
+                    4.5, // Max module speed, in m/s
+                    0.4, // Drive base radius in meters. Distance from robot center to furthest module.
+                    new ReplanningConfig() // Default path replanning config. See the API for the options here
+            ),
+            () -> {
+              // Boolean supplier that controls when the path will be mirrored for the red alliance
+              // This will flip the path being followed to the red side of the field.
+              // THE ORIGIN WILL REMAIN ON THE BLUE SIDE
+
+              var alliance = DriverStation.getAlliance();
+              if (alliance.isPresent()) {
+                return alliance.get() == DriverStation.Alliance.Red;
+              }
+              return false;
+            },
+            this // Reference to this subsystem to set requirements
+    );
+  
   }
 
   @Override

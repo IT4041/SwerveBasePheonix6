@@ -5,6 +5,10 @@
 package frc.robot.Subsystems;
 
 import com.ctre.phoenix6.BaseStatusSignal;
+import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.util.HolonomicPathFollowerConfig;
+import com.pathplanner.lib.util.PIDConstants;
+import com.pathplanner.lib.util.ReplanningConfig;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -12,12 +16,14 @@ import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.lib.BetterSwerveKinematics;
 import frc.lib.BetterSwerveModuleState;
 import frc.lib.SwerveModuleConstants;
 import frc.robot.Constants.SwerveConstants;
+
 
 public class SwerveSubsystem extends SubsystemBase {
 
@@ -60,6 +66,7 @@ public class SwerveSubsystem extends SubsystemBase {
       signals[i*4+2] = tempSignals[2];
       signals[i*4+3] = tempSignals[3];
     }
+  
   }
 
   @Override
@@ -188,6 +195,13 @@ public class SwerveSubsystem extends SubsystemBase {
     ChassisSpeeds currentSpeeds = SwerveConstants.KINEMATICS.toChassisSpeeds(this.getStates(refresh));
     double linearVelocity = Math.sqrt((currentSpeeds.vxMetersPerSecond * currentSpeeds.vxMetersPerSecond) + (currentSpeeds.vyMetersPerSecond * currentSpeeds.vyMetersPerSecond));
     return linearVelocity;
+  }
+
+  /**
+   * @return the current speed of the robot in whatever direction it is traveling as a chassis speed object
+   */
+  public ChassisSpeeds getCurrentChassisSpeeds() {
+       return SwerveConstants.KINEMATICS.toChassisSpeeds(this.getStates(true));
   }
 
   /**
