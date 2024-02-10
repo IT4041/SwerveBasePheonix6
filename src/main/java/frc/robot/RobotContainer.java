@@ -19,6 +19,8 @@ import frc.robot.Subsystems.PoseEstimator;
 import frc.robot.Subsystems.SwerveSubsystem;
 import com.pathplanner.lib.commands.PathPlannerAuto;
 
+
+
 public class RobotContainer {
 
   private final SwerveSubsystem swerveSubsystem = new SwerveSubsystem();
@@ -52,7 +54,7 @@ public class RobotContainer {
     driverController.back().onTrue(new InstantCommand(() -> poseEstimator.setPose(new Pose2d()), poseEstimator));
     driverController.x().onTrue(new InstantCommand(() -> GlobalVariables.fieldRelative = !GlobalVariables.fieldRelative));
     driverController.b().onTrue(new InstantCommand(() -> swerveSubsystem.lock(), swerveSubsystem));
-    driverController.rightBumper().whileTrue(new InstantCommand(() -> firingHead.Fire(), firingHead));
+    driverController.rightBumper().whileTrue(new InstantCommand(() -> firingHead.SpeedUp(), firingHead));
     driverController.rightBumper().onFalse(new InstantCommand(() -> firingHead.Stop(), firingHead));
 
 
