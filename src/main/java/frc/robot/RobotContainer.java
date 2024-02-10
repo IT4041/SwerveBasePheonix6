@@ -58,7 +58,7 @@ public class RobotContainer {
     driverController.rightBumper().onFalse(new InstantCommand(() -> firingHead.Stop(), firingHead));
 
 
-    operatorController.rightBumper().onTrue(new InstantCommand(() -> intake.shoot(), intake));
+    operatorController.rightBumper().onTrue(new InstantCommand(() -> intake.on(), intake));
     operatorController.leftBumper().onTrue(new InstantCommand(() -> intake.off(), intake));
 
 

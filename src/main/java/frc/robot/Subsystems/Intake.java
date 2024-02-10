@@ -11,7 +11,9 @@ import com.playingwithfusion.TimeOfFlight;
 import com.playingwithfusion.TimeOfFlight.RangingMode;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.Constants;
 
 public class Intake extends SubsystemBase {
@@ -21,6 +23,7 @@ private CANSparkMax conveyrUp;
 private CANSparkMax conveyrLow;
 
 private final TimeOfFlight rangeSensorIntake = new TimeOfFlight(Constants.IntakeConstants.TimeOfFlightSensorId);
+public boolean isOn;
 
   public Intake() {
     //lower intake
@@ -31,6 +34,7 @@ private final TimeOfFlight rangeSensorIntake = new TimeOfFlight(Constants.Intake
     intakeLow.setIdleMode(IdleMode.kBrake);
     intakeLow.setSmartCurrentLimit(80);
     intakeLow.setClosedLoopRampRate(1);
+    isOn = false;
 
     //upper conveyr
     conveyrUp = new CANSparkMax(Constants.IntakeConstants.UpperConvyerSparkmaxDeviceID,MotorType.kBrushless);
@@ -58,16 +62,22 @@ private final TimeOfFlight rangeSensorIntake = new TimeOfFlight(Constants.Intake
   @Override
   public void periodic() {
     SmartDashboard.putBoolean("rangeSensorIntake triggered?",this.IntakeTriggered());
+    if(isOn && this.IntakeTriggered()){
+      this.off();
+    }
+
+
   }
 
   public boolean IntakeTriggered(){
     return rangeSensorIntake.getRange() <= Constants.IntakeConstants.ballTreshholdIntake;
   }
 
-  public void shoot(){
+  public void on(){
     intakeLow.set(Constants.IntakeConstants.IntakeMotorSpeed);
     conveyrLow.set(Constants.IntakeConstants.ConveyrMotorSpeed);
     conveyrUp.set(Constants.IntakeConstants.ConveyrMotorSpeed);
+    isOn = true;
   
   }
 
@@ -75,5 +85,6 @@ private final TimeOfFlight rangeSensorIntake = new TimeOfFlight(Constants.Intake
     intakeLow.set(0);
     conveyrLow.set(0);
     conveyrUp.set(0);
+    isOn = false;
   }
 }
