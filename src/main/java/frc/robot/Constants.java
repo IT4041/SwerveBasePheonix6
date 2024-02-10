@@ -174,6 +174,7 @@ public class Constants {
             public static final double DumpPoint = 0;
             public static final double ShootingPoint = 0;
             public static final double StartingPoint = 0;
+            public static final double offset = 0;
 
         }
 
