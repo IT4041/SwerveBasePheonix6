@@ -2,10 +2,10 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 1.043143800573316,
-      "y": 6.948583040023223
+      "x": 0.85,
+      "y": 6.783182564137958
     },
-    "rotation": 0.0
+    "rotation": -116.56505117707805
   },
   "command": {
     "type": "sequential",
@@ -14,7 +14,13 @@
         {
           "type": "path",
           "data": {
-            "pathName": "New Path"
+            "pathName": "Fire Left To Note Path"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Left Note To Firing Path"
           }
         }
       ]
