@@ -157,6 +157,29 @@ public class Constants {
     public static final class PivotConstants {
         
         public static int SparkmaxDeviceID = 31;
+       
+        public static final class PivotPIDConstants{
+           
+            public static final double kP = 0;
+            public static final double kI = 0;
+            public static final double kD = 0;
+            public static final double kIz = 0;
+            public static final double kFF = 0;
+            public static final double kMaxOutput = 0;
+            public static final double kMinOutput = 0;
+            
+            public static final double DumpPoint = 0;
+            public static final double ShootingPoint = 0;
+            public static final double StartingPoint = 0;
+
+
+        }
+        
+        public static final class PivotPostions{
+            public static final double Starting = 0;
+            public static final double Dumping = 0;
+            public static final double Shooting = 0;
+        }
         
 
     }
@@ -165,6 +188,7 @@ public class Constants {
         
         public static int UpperSparkmaxDeviceID = 9;
         public static int LowerSparkmaxDeviceID = 55;
+        public static int UpperTransportSparkmaxDeviceID = 33;
         
 
     }
