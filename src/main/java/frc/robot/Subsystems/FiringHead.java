@@ -10,6 +10,8 @@ import com.revrobotics.RelativeEncoder;
 import com.revrobotics.CANSparkBase.IdleMode;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 import com.revrobotics.SparkPIDController;
+
+import edu.wpi.first.units.Distance;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
@@ -21,7 +23,7 @@ public class FiringHead extends SubsystemBase {
   private CANSparkMax transportMotor;
   private SparkPIDController m_pidController;
   private RelativeEncoder m_Encoder;
-  private double kP, kI, kD, kIz, kFF, kMaxOutput, kMinOutput;
+  private double kP, kI, kD, kIz, kFF, kMaxOutput, kMinOutput, cRPM;
   
 
 
@@ -72,9 +74,28 @@ public class FiringHead extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
+    
+    if (m_Encoder.getVelocity() >= CalculateRPM(0)) {
+      
+    }
+  
+  
   }
+  private double CalculateRPM(double distance) {
+    cRPM = 0;
+    
+    return cRPM;
+  }
+  
+  public void SpeedUp() {
+    m_pidController.setReference(Constants.FiringHeadConstants.FiringHeadPIDConstants.FireVelocity, CANSparkMax.ControlType.kVelocity);
+    
+    
+  }
+  
   public void Fire() {
     m_pidController.setReference(Constants.FiringHeadConstants.FiringHeadPIDConstants.FireVelocity, CANSparkMax.ControlType.kVelocity);
+
   
   }
   public void Stop() {
