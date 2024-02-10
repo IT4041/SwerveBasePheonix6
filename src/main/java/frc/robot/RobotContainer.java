@@ -52,8 +52,8 @@ public class RobotContainer {
     driverController.back().onTrue(new InstantCommand(() -> poseEstimator.setPose(new Pose2d()), poseEstimator));
     driverController.x().onTrue(new InstantCommand(() -> GlobalVariables.fieldRelative = !GlobalVariables.fieldRelative));
     driverController.b().onTrue(new InstantCommand(() -> swerveSubsystem.lock(), swerveSubsystem));
-    driverController.rightBumper().onTrue(new InstantCommand(() -> firingHead.Fire(), firingHead));
-    driverController.leftBumper().onTrue(new InstantCommand(() -> firingHead.Stop(), firingHead));
+    driverController.rightBumper().whileTrue(new InstantCommand(() -> firingHead.Fire(), firingHead));
+    driverController.rightBumper().onFalse(new InstantCommand(() -> firingHead.Stop(), firingHead));
 
 
     operatorController.rightBumper().onTrue(new InstantCommand(() -> intake.shoot(), intake));
