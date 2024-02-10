@@ -63,7 +63,7 @@ public boolean isOn;
   public void periodic() {
     SmartDashboard.putBoolean("rangeSensorIntake triggered?",this.IntakeTriggered());
     if(isOn && this.IntakeTriggered()){
-      this.off();
+      //this.off();
     }
 
 
@@ -75,8 +75,8 @@ public boolean isOn;
 
   public void on(){
     intakeLow.set(Constants.IntakeConstants.IntakeMotorSpeed);
-    //conveyrLow.set(Constants.IntakeConstants.ConveyrMotorSpeed);
-    //conveyrUp.set(Constants.IntakeConstants.ConveyrMotorSpeed);
+    conveyrLow.set(Constants.IntakeConstants.ConveyrMotorSpeed);
+    conveyrUp.set(-Constants.IntakeConstants.ConveyrMotorSpeed);
     isOn = true;
   
   }

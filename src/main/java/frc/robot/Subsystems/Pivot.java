@@ -14,6 +14,7 @@ import com.revrobotics.SparkAbsoluteEncoder.Type;
 import com.revrobotics.SparkPIDController.ArbFFUnits;
 import com.revrobotics.SparkPIDController;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
@@ -33,27 +34,27 @@ public class Pivot extends SubsystemBase {
 
     mainMotor.restoreFactoryDefaults();
     
-    m_pidController = mainMotor.getPIDController();
+    //m_pidController = mainMotor.getPIDController();
     m_Encoder = mainMotor.getAbsoluteEncoder(Type.kDutyCycle);
-    m_Encoder.setPositionConversionFactor(360);
-    m_Encoder.setVelocityConversionFactor(1);
-    m_Encoder.setInverted(false);
-    m_Encoder.setZeroOffset(Constants.PivotConstants.PivotPIDConstants.offset);
+    // m_Encoder.setPositionConversionFactor(360);
+    // m_Encoder.setVelocityConversionFactor(1);
+    // m_Encoder.setInverted(false);
+    // m_Encoder.setZeroOffset(Constants.PivotConstants.PivotPIDConstants.offset);
 
-    kP = Constants.PivotConstants.PivotPIDConstants.kP;
-    kI = Constants.PivotConstants.PivotPIDConstants.kI;
-    kD = Constants.PivotConstants.PivotPIDConstants.kD;
-    kIz = Constants.PivotConstants.PivotPIDConstants.kIz;
-    kFF = Constants.PivotConstants.PivotPIDConstants.kFF;
-    kMaxOutput = Constants.PivotConstants.PivotPIDConstants.kMaxOutput;
-    kMinOutput = Constants.PivotConstants.PivotPIDConstants.kMinOutput;
+    // kP = Constants.PivotConstants.PivotPIDConstants.kP;
+    // kI = Constants.PivotConstants.PivotPIDConstants.kI;
+    // kD = Constants.PivotConstants.PivotPIDConstants.kD;
+    // kIz = Constants.PivotConstants.PivotPIDConstants.kIz;
+    // kFF = Constants.PivotConstants.PivotPIDConstants.kFF;
+    // kMaxOutput = Constants.PivotConstants.PivotPIDConstants.kMaxOutput;
+    // kMinOutput = Constants.PivotConstants.PivotPIDConstants.kMinOutput;
     
-    m_pidController.setP(kP);
-    m_pidController.setI(kI);
-    m_pidController.setD(kD);
-    m_pidController.setIZone(kIz);
-    m_pidController.setFF(kFF);
-    m_pidController.setOutputRange(kMinOutput, kMaxOutput);
+    // m_pidController.setP(kP);
+    // m_pidController.setI(kI);
+    // m_pidController.setD(kD);
+    // m_pidController.setIZone(kIz);
+    // m_pidController.setFF(kFF);
+    // m_pidController.setOutputRange(kMinOutput, kMaxOutput);
 
     mainMotor.setIdleMode(IdleMode.kBrake);
     mainMotor.setSmartCurrentLimit(80);
@@ -63,6 +64,8 @@ public class Pivot extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
+    SmartDashboard.putNumber("getEncoderRate", m_Encoder.getVelocity());
+    
   }
   public void setPosition(double position){
     m_pidController.setReference(position, CANSparkMax.ControlType.kPosition, 0, 0, ArbFFUnits.kPercentOut);
@@ -78,6 +81,10 @@ public class Pivot extends SubsystemBase {
   public void Shooting() {
    this.setPosition(Constants.PivotConstants.PivotPIDConstants.ShootingPoint);
   }
-
-  
+  public void TestingOn() {
+    mainMotor.set(0.4);
+  }
+  public void TestingOff() {
+    mainMotor.stopMotor();
+  }
 }
