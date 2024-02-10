@@ -147,7 +147,7 @@ public class Constants {
         public static final String BACK_LEFT_MODULE_NAME = "BackLeft";
         public static final int BACK_LEFT_DRIVE_MOTOR = 43; // Back left drive motor ID
         public static final int BACK_LEFT_STEER_MOTOR = 44; // Back left steer motor ID
-        public static final int BACK_LEFT_STEER_ENCODER = 51; // Back left steer encoder ID
+        public static final int BACK_LEFT_STEER_ENCODER = 13; // Back left steer encoder ID
         public static final double BACK_LEFT_STEER_OFFSET = 0.060302734375; // Back left steer offset
 
         public static final String BACK_RIGHT_MODULE_NAME = "BackRight";
