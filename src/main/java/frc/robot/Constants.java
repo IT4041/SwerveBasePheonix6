@@ -159,7 +159,7 @@ public class Constants {
 
     public static final class PivotConstants {
 
-        public static int SparkmaxDeviceID = 31;
+        public static int SparkmaxDeviceID = 8;
 
         public static final class PivotPIDConstants {
 
