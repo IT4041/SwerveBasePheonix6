@@ -204,7 +204,7 @@ public class Constants {
             public static final double kMaxOutput = 0;
             public static final double kMinOutput = 0;
 
-            public static final double FireVelocity = 0;
+            public static final double FireVelocity = 0.4;
 
         }
         
@@ -220,7 +220,7 @@ public class Constants {
         public static int TimeOfFlightSensorId = 0;
         public static double ballTreshholdIntake = 0;
         public static double IntakeMotorSpeed = 0.4;
-        public static double ConveyrMotorSpeed = 0.4;
+        public static double ConveyrMotorSpeed = 0.2;
 
     }
 }
