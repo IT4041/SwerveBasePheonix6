@@ -191,6 +191,8 @@ public class Constants {
         public static int LowerSparkmaxDeviceID = 55;
         public static int UpperTransportSparkmaxDeviceID = 33;
 
+        public static double FiringSpeed = 0;
+
         public static final class FiringHeadPIDConstants {
             
             public static final double kP = 0;
