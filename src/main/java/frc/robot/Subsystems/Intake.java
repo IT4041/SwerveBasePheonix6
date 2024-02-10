@@ -75,8 +75,8 @@ public boolean isOn;
 
   public void on(){
     intakeLow.set(Constants.IntakeConstants.IntakeMotorSpeed);
-    conveyrLow.set(Constants.IntakeConstants.ConveyrMotorSpeed);
-    conveyrUp.set(Constants.IntakeConstants.ConveyrMotorSpeed);
+    //conveyrLow.set(Constants.IntakeConstants.ConveyrMotorSpeed);
+    //conveyrUp.set(Constants.IntakeConstants.ConveyrMotorSpeed);
     isOn = true;
   
   }

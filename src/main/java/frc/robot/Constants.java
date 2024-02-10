@@ -147,7 +147,7 @@ public class Constants {
         public static final String BACK_LEFT_MODULE_NAME = "BackLeft";
         public static final int BACK_LEFT_DRIVE_MOTOR = 43; // Back left drive motor ID
         public static final int BACK_LEFT_STEER_MOTOR = 44; // Back left steer motor ID
-        public static final int BACK_LEFT_STEER_ENCODER = 13; // Back left steer encoder ID
+        public static final int BACK_LEFT_STEER_ENCODER = 54; // Back left steer encoder ID
         public static final double BACK_LEFT_STEER_OFFSET = -0.065674; // Back left steer offset
 
         public static final String BACK_RIGHT_MODULE_NAME = "BackRight";
@@ -219,8 +219,8 @@ public class Constants {
         public static int UpperIntakeSparkmaxDeviceID = 33;
         public static int TimeOfFlightSensorId = 0;
         public static double ballTreshholdIntake = 0;
-        public static double IntakeMotorSpeed = 0;
-        public static double ConveyrMotorSpeed = 0;
+        public static double IntakeMotorSpeed = 0.4;
+        public static double ConveyrMotorSpeed = 0.4;
 
     }
 }
