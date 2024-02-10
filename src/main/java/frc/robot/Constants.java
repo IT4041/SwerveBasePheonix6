@@ -174,6 +174,10 @@ public class Constants {
         public static int UpperConvyerSparkmaxDeviceID = 1;
         public static int LowerConvyerSparkmaxDeviceID = 2;
         public static int UpperIntakeSparkmaxDeviceID = 33;
+        public static int TimeOfFlightSensorId = 0;
+        public static double ballTreshholdIntake = 0;
+        public static double IntakeMotorSpeed = 0;
+        public static double ConveyrMotorSpeed = 0;
         
 
     }

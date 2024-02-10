@@ -4,14 +4,76 @@
 
 package frc.robot.Subsystems;
 
+import com.revrobotics.CANSparkBase.IdleMode;
+import com.revrobotics.CANSparkLowLevel.MotorType;
+import com.revrobotics.CANSparkMax;
+import com.playingwithfusion.TimeOfFlight;
+import com.playingwithfusion.TimeOfFlight.RangingMode;
+
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
 
 public class Intake extends SubsystemBase {
-  /** Creates a new Intake. */
-  public Intake() {}
+  
+private CANSparkMax intakeLow;
+private CANSparkMax conveyrUp;
+private CANSparkMax conveyrLow;
+
+private final TimeOfFlight rangeSensorIntake = new TimeOfFlight(Constants.IntakeConstants.TimeOfFlightSensorId);
+
+  public Intake() {
+    //lower intake
+    intakeLow = new CANSparkMax(Constants.IntakeConstants.LowerIntakeSparkmaxDeviceID,MotorType.kBrushless);
+
+    intakeLow.restoreFactoryDefaults();
+    
+    intakeLow.setIdleMode(IdleMode.kBrake);
+    intakeLow.setSmartCurrentLimit(80);
+    intakeLow.setClosedLoopRampRate(1);
+
+    //upper conveyr
+    conveyrUp = new CANSparkMax(Constants.IntakeConstants.UpperConvyerSparkmaxDeviceID,MotorType.kBrushless);
+
+    conveyrUp.restoreFactoryDefaults();
+    
+    conveyrUp.setIdleMode(IdleMode.kBrake);
+    conveyrUp.setSmartCurrentLimit(80);
+    conveyrUp.setClosedLoopRampRate(1);
+
+    //lower conveyr
+    conveyrLow = new CANSparkMax(Constants.IntakeConstants.LowerConvyerSparkmaxDeviceID,MotorType.kBrushless);
+
+    conveyrLow.restoreFactoryDefaults();
+    
+    conveyrLow.setIdleMode(IdleMode.kBrake);
+    conveyrLow.setSmartCurrentLimit(80);
+    conveyrLow.setClosedLoopRampRate(1);
+
+
+
+    rangeSensorIntake.setRangingMode(RangingMode.Short, 1);
+  }
 
   @Override
   public void periodic() {
-    // This method will be called once per scheduler run
+    SmartDashboard.putBoolean("rangeSensorIntake triggered?",this.IntakeTriggered());
+  }
+
+  public boolean IntakeTriggered(){
+    return rangeSensorIntake.getRange() <= Constants.IntakeConstants.ballTreshholdIntake;
+  }
+
+  public void shoot(){
+    intakeLow.set(Constants.IntakeConstants.IntakeMotorSpeed);
+    conveyrLow.set(Constants.IntakeConstants.ConveyrMotorSpeed);
+    conveyrUp.set(Constants.IntakeConstants.ConveyrMotorSpeed);
+  
+  }
+
+  public void off(){
+    intakeLow.set(0);
+    conveyrLow.set(0);
+    conveyrUp.set(0);
   }
 }
