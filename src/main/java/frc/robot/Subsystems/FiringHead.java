@@ -75,9 +75,9 @@ public class FiringHead extends SubsystemBase {
   public void periodic() {
     // This method will be called once per scheduler run
     
-    if (m_Encoder.getVelocity() >= CalculateRPM(0)) {
+    // if (m_Encoder.getVelocity() >= CalculateRPM(0)) {
       
-    }
+    // }
   
   
   }
