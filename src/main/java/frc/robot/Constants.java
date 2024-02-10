@@ -153,4 +153,28 @@ public class Constants {
         public static final int BACK_RIGHT_STEER_ENCODER = 50; // Back right steer encoder ID
         public static final double BACK_RIGHT_STEER_OFFSET = 0.106201171875; // Back right steer offset
     }
+
+    public static final class PivotConstants {
+        
+        public static int SparkmaxDeviceID = 31;
+        
+
+    }
+
+    public static final class FiringHeadConstants {
+        
+        public static int UpperSparkmaxDeviceID = 9;
+        public static int LowerSparkmaxDeviceID = 55;
+        
+
+    }
+    public static final class IntakeConstants {
+        
+        public static int LowerIntakeSparkmaxDeviceID = 11;
+        public static int UpperConvyerSparkmaxDeviceID = 1;
+        public static int LowerConvyerSparkmaxDeviceID = 2;
+        public static int UpperIntakeSparkmaxDeviceID = 33;
+        
+
+    }
 }
