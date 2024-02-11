@@ -191,8 +191,12 @@ public class Constants {
         public static int UpperSparkmaxDeviceID = 9;
         public static int LowerSparkmaxDeviceID = 55;
         public static int UpperTransportSparkmaxDeviceID = 33;
+        public static int TimeOfFlightSensorID = 89;
 
-        public static double FiringSpeed = 0;
+        public static int NoIntakeThreshold = 0;
+
+        public static double FiringSpeed = 0.2;             // 0.4
+        public static double TransportMotorSpeed = 0.2;     // 0.8
 
         public static final class FiringHeadPIDConstants {
             
@@ -219,8 +223,8 @@ public class Constants {
         public static int UpperIntakeSparkmaxDeviceID = 33;
         public static int TimeOfFlightSensorId = 0;
         public static double ballTreshholdIntake = 0;
-        public static double IntakeMotorSpeed = 0.6;
-        public static double ConveyrMotorSpeed = 0.3;
+        public static double IntakeMotorSpeed = 0.2; // Number Reduced For Testing  Original 1
+        public static double ConveyrMotorSpeed = 0.1; //                                     0.8
 
     }
 }

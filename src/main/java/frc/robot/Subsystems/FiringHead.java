@@ -10,6 +10,8 @@ import com.revrobotics.RelativeEncoder;
 import com.revrobotics.CANSparkBase.IdleMode;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 import com.revrobotics.SparkPIDController;
+import com.playingwithfusion.TimeOfFlight;
+import com.playingwithfusion.TimeOfFlight.RangingMode;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
@@ -19,6 +21,10 @@ public class FiringHead extends SubsystemBase {
   
   private CANSparkMax fireMotor;
   private CANSparkMax followMotor;
+  
+private int Stage = 0;
+
+  private final TimeOfFlight firingSensor = new TimeOfFlight(Constants.FiringHeadConstants.TimeOfFlightSensorID);
 
   private CANSparkMax transportMotor;
   private SparkPIDController m_pidController;
@@ -34,6 +40,8 @@ public class FiringHead extends SubsystemBase {
     fireMotor.restoreFactoryDefaults();
     followMotor.restoreFactoryDefaults();
     transportMotor.restoreFactoryDefaults();
+    
+    Stage = 0;
 
     //m_pidController = fireMotor.getPIDController();
     m_Encoder = fireMotor.getEncoder();
@@ -66,6 +74,8 @@ public class FiringHead extends SubsystemBase {
     transportMotor.setClosedLoopRampRate(1);
 
     followMotor.follow(fireMotor, true);
+
+    firingSensor.setRangingMode(RangingMode.Long, 1);
   }
   
   @Override
@@ -75,8 +85,13 @@ public class FiringHead extends SubsystemBase {
     // if (m_Encoder.getVelocity() >= CalculateRPM(0)) {
       
     // }
+    SmartDashboard.putNumber("Stage",Stage);
     SmartDashboard.putNumber("firing head velocity", m_Encoder.getVelocity());
-
+    SmartDashboard.putBoolean("firingSensor triggered?",this.IntakeTriggered());
+    if(this.IntakeTriggered() && Stage==1) {
+      StopTransport();
+    }
+    
   }
   private double CalculateRPM(double distance) {
     cRPM = 0;
@@ -85,8 +100,22 @@ public class FiringHead extends SubsystemBase {
   }
 
   public void Feed() {
-    transportMotor.set(0.4);
-    fireMotor.set(0.2);
+    if (Stage==0) {
+      transportMotor.set(Constants.FiringHeadConstants.TransportMotorSpeed);
+      Stage = 1;
+    } else {
+      if(Stage==2){
+        transportMotor.set(Constants.FiringHeadConstants.TransportMotorSpeed);
+        fireMotor.set(Constants.FiringHeadConstants.FiringSpeed);
+        Stage = 3;
+      }
+      
+    }
+    
+    
+    
+    
+    
   }
 
   public void SpeedUp() {
@@ -97,8 +126,20 @@ public class FiringHead extends SubsystemBase {
     //m_pidController.setReference(Constants.FiringHeadConstants.FiringHeadPIDConstants.FireVelocity, CANSparkMax.ControlType.kVelocity);
   }
 
-  public void Stop() {
+  public void StopTransport() {
+    transportMotor.stopMotor();
+    
+    Stage = 2;
+
+  }
+
+  public boolean IntakeTriggered(){
+    return firingSensor.getRange() <= Constants.FiringHeadConstants.NoIntakeThreshold;
+  }
+  
+  public void MasterStop() {
     transportMotor.stopMotor();
     fireMotor.stopMotor();
+    Stage = 0;
   }
 }

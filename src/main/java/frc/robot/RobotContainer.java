@@ -48,12 +48,12 @@ public class RobotContainer {
 
   private void configureBindings() {
 
-    driverController.back().onTrue(new InstantCommand(() -> poseEstimator.setPose(new Pose2d()), poseEstimator));
-    driverController.x().onTrue(new InstantCommand(() -> GlobalVariables.fieldRelative = !GlobalVariables.fieldRelative));
-    driverController.b().onTrue(new InstantCommand(() -> swerveSubsystem.lock(), swerveSubsystem));
+    //driverController.back().onTrue(new InstantCommand(() -> poseEstimator.setPose(new Pose2d()), poseEstimator));
+    //driverController.x().onTrue(new InstantCommand(() -> GlobalVariables.fieldRelative = !GlobalVariables.fieldRelative));
+    //driverController.b().onTrue(new InstantCommand(() -> swerveSubsystem.lock(), swerveSubsystem));
 
     driverController.rightBumper().onTrue(new InstantCommand(() -> firingHead.Feed(), firingHead));
-    driverController.leftBumper().onTrue(new InstantCommand(() -> firingHead.Stop(), firingHead));
+    driverController.leftBumper().onTrue(new InstantCommand(() -> firingHead.MasterStop(), firingHead));
 
     driverController.rightTrigger().onTrue(new InstantCommand(() -> intake.on(), intake));
     driverController.leftTrigger().onTrue(new InstantCommand(() -> intake.off(), intake));
