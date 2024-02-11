@@ -9,16 +9,13 @@ import com.revrobotics.CANSparkLowLevel.MotorType;
 import com.revrobotics.CANSparkMax;
 import com.playingwithfusion.TimeOfFlight;
 import com.playingwithfusion.TimeOfFlight.RangingMode;
-
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.Constants;
 
 public class Intake extends SubsystemBase {
   
-private CANSparkMax intakeLow;
+private CANSparkMax intake;
 private CANSparkMax conveyrUp;
 private CANSparkMax conveyrLow;
 
@@ -26,30 +23,25 @@ private final TimeOfFlight rangeSensorIntake = new TimeOfFlight(Constants.Intake
 public boolean isOn;
 
   public Intake() {
-    //lower intake
-    intakeLow = new CANSparkMax(Constants.IntakeConstants.LowerIntakeSparkmaxDeviceID,MotorType.kBrushless);
 
-    intakeLow.restoreFactoryDefaults();
-    
-    intakeLow.setIdleMode(IdleMode.kBrake);
-    intakeLow.setSmartCurrentLimit(80);
-    intakeLow.setClosedLoopRampRate(1);
+    //lower intake
+    intake = new CANSparkMax(Constants.IntakeConstants.LowerIntakeSparkmaxDeviceID,MotorType.kBrushless);
+    intake.restoreFactoryDefaults();
+    intake.setIdleMode(IdleMode.kBrake);
+    intake.setSmartCurrentLimit(80);
+    intake.setClosedLoopRampRate(1);
     isOn = false;
 
     //upper conveyr
     conveyrUp = new CANSparkMax(Constants.IntakeConstants.UpperConvyerSparkmaxDeviceID,MotorType.kBrushless);
-
     conveyrUp.restoreFactoryDefaults();
-    
     conveyrUp.setIdleMode(IdleMode.kBrake);
     conveyrUp.setSmartCurrentLimit(80);
     conveyrUp.setClosedLoopRampRate(1);
 
     //lower conveyr
     conveyrLow = new CANSparkMax(Constants.IntakeConstants.LowerConvyerSparkmaxDeviceID,MotorType.kBrushless);
-
     conveyrLow.restoreFactoryDefaults();
-    
     conveyrLow.setIdleMode(IdleMode.kBrake);
     conveyrLow.setSmartCurrentLimit(80);
     conveyrLow.setClosedLoopRampRate(1);
@@ -61,12 +53,12 @@ public boolean isOn;
 
   @Override
   public void periodic() {
+
     SmartDashboard.putBoolean("rangeSensorIntake triggered?",this.IntakeTriggered());
+
     if(isOn && this.IntakeTriggered()){
       //this.off();
     }
-
-
   }
 
   public boolean IntakeTriggered(){
@@ -74,7 +66,7 @@ public boolean isOn;
   }
 
   public void on(){
-    intakeLow.set(Constants.IntakeConstants.IntakeMotorSpeed);
+    intake.set(Constants.IntakeConstants.IntakeMotorSpeed);
     conveyrLow.set(Constants.IntakeConstants.ConveyrMotorSpeed);
     conveyrUp.set(-Constants.IntakeConstants.ConveyrMotorSpeed);
     isOn = true;
@@ -82,7 +74,7 @@ public boolean isOn;
   }
 
   public void off(){
-    intakeLow.set(0);
+    intake.set(0);
     conveyrLow.set(0);
     conveyrUp.set(0);
     isOn = false;

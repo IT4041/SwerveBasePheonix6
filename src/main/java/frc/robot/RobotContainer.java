@@ -4,8 +4,6 @@
 
 package frc.robot;
 
-import edu.wpi.first.wpilibj.XboxController;
-import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
@@ -18,8 +16,6 @@ import frc.robot.Subsystems.Pivot;
 import frc.robot.Subsystems.PoseEstimator;
 import frc.robot.Subsystems.SwerveSubsystem;
 import com.pathplanner.lib.commands.PathPlannerAuto;
-
-
 
 public class RobotContainer {
 
@@ -42,27 +38,28 @@ public class RobotContainer {
     swerveSubsystem.setDefaultCommand(new DriveWithJoysticks(
         swerveSubsystem,
         poseEstimator,
-        () -> driverController.getLeftY(),
-        () -> driverController.getLeftX(),
-        () -> -driverController.getRightX(),
+        () -> -driverController.getLeftY(),
+        () -> -driverController.getLeftX(),
+        () -> driverController.getRightX(),
         () -> GlobalVariables.fieldRelative,
         () -> GlobalVariables.maxSpeed));
     configureBindings();
   }
 
   private void configureBindings() {
+
     driverController.back().onTrue(new InstantCommand(() -> poseEstimator.setPose(new Pose2d()), poseEstimator));
     driverController.x().onTrue(new InstantCommand(() -> GlobalVariables.fieldRelative = !GlobalVariables.fieldRelative));
     driverController.b().onTrue(new InstantCommand(() -> swerveSubsystem.lock(), swerveSubsystem));
-    driverController.rightBumper().whileTrue(new InstantCommand(() -> pivot.TestingOn(), firingHead));
-    driverController.rightBumper().onFalse(new InstantCommand(() -> pivot.TestingOff(), firingHead));
+
+    driverController.rightBumper().onTrue(new InstantCommand(() -> firingHead.Feed(), firingHead));
+    driverController.leftBumper().onTrue(new InstantCommand(() -> firingHead.Stop(), firingHead));
+
+    driverController.rightTrigger().onTrue(new InstantCommand(() -> intake.on(), intake));
+    driverController.leftTrigger().onTrue(new InstantCommand(() -> intake.off(), intake));
     
-
-    operatorController.rightBumper().onTrue(new InstantCommand(() -> intake.on(), intake));
-    operatorController.leftBumper().onTrue(new InstantCommand(() -> intake.off(), intake));
-
-
-
+    // operatorController.rightBumper().onTrue(new InstantCommand(() -> intake.on(), intake));
+    // operatorController.leftBumper().onTrue(new InstantCommand(() -> intake.off(), intake));
 
   }
 
