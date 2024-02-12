@@ -18,23 +18,19 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
-
-
 public class Pivot extends SubsystemBase {
- 
 
   private CANSparkMax mainMotor;
   private SparkPIDController m_pidController;
   private SparkAbsoluteEncoder m_Encoder;
   private double kP, kI, kD, kIz, kFF, kMaxOutput, kMinOutput;
-  
-  
+
   public Pivot() {
-    mainMotor = new CANSparkMax(Constants.PivotConstants.SparkmaxDeviceID,MotorType.kBrushless);
+    mainMotor = new CANSparkMax(Constants.PivotConstants.SparkmaxDeviceID, MotorType.kBrushless);
 
     mainMotor.restoreFactoryDefaults();
-    
-    //m_pidController = mainMotor.getPIDController();
+
+    // m_pidController = mainMotor.getPIDController();
     m_Encoder = mainMotor.getAbsoluteEncoder(Type.kDutyCycle);
     // m_Encoder.setPositionConversionFactor(360);
     // m_Encoder.setVelocityConversionFactor(1);
@@ -48,7 +44,7 @@ public class Pivot extends SubsystemBase {
     // kFF = Constants.PivotConstants.PivotPIDConstants.kFF;
     // kMaxOutput = Constants.PivotConstants.PivotPIDConstants.kMaxOutput;
     // kMinOutput = Constants.PivotConstants.PivotPIDConstants.kMinOutput;
-    
+
     // m_pidController.setP(kP);
     // m_pidController.setI(kI);
     // m_pidController.setD(kD);
@@ -65,30 +61,35 @@ public class Pivot extends SubsystemBase {
   public void periodic() {
     // This method will be called once per scheduler run
     SmartDashboard.putNumber("getEncoderRate", m_Encoder.getVelocity());
-    
+
   }
-  public void setPosition(double position){
+
+  public void setPosition(double position) {
     m_pidController.setReference(position, CANSparkMax.ControlType.kPosition, 0, 0, ArbFFUnits.kPercentOut);
   }
+
   public void Dump() {
     this.setPosition(Constants.PivotConstants.PivotPIDConstants.DumpPoint);
   }
 
   public void Starting() {
-   this.setPosition(Constants.PivotConstants.PivotPIDConstants.StartingPoint);
+    this.setPosition(Constants.PivotConstants.PivotPIDConstants.StartingPoint);
   }
 
   public void Shooting() {
-   this.setPosition(Constants.PivotConstants.PivotPIDConstants.ShootingPoint);
+    this.setPosition(Constants.PivotConstants.PivotPIDConstants.ShootingPoint);
   }
+
   public void TestingOn() {
     mainMotor.set(0.4);
   }
+
   public void TestingOff() {
     mainMotor.stopMotor();
   }
-  public boolean InStartingPosition(){
+
+  public boolean InStartingPosition() {
     return true;
-    //TODO: encoder.getPosition = constantStartingPosition
+    // TODO: encoder.getPosition = constantStartingPosition
   }
 }
