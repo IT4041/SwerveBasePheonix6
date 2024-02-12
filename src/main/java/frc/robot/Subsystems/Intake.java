@@ -19,8 +19,9 @@ private CANSparkMax intake;
 private CANSparkMax conveyrUp;
 private CANSparkMax conveyrLow;
 
+private int Stage;
+
 private final TimeOfFlight rangeSensorIntake = new TimeOfFlight(Constants.IntakeConstants.TimeOfFlightSensorId);
-public boolean isOn;
 
   public Intake() {
 
@@ -30,7 +31,7 @@ public boolean isOn;
     intake.setIdleMode(IdleMode.kBrake);
     intake.setSmartCurrentLimit(80);
     intake.setClosedLoopRampRate(1);
-    isOn = false;
+    Stage = 0;
 
     //upper conveyr
     conveyrUp = new CANSparkMax(Constants.IntakeConstants.UpperConvyerSparkmaxDeviceID,MotorType.kBrushless);
@@ -48,16 +49,21 @@ public boolean isOn;
 
 
 
-    rangeSensorIntake.setRangingMode(RangingMode.Short, 1);
+    rangeSensorIntake.setRangingMode(RangingMode.Long, 1);
   }
 
   @Override
   public void periodic() {
-
+    
     SmartDashboard.putBoolean("rangeSensorIntake triggered?",this.IntakeTriggered());
 
-    if(isOn && this.IntakeTriggered()){
+    if(Stage == 1 && this.IntakeTriggered()){
       //this.off();
+      
+      intake.stopMotor();
+      
+      Stage = 2; 
+
     }
   }
 
@@ -66,17 +72,35 @@ public boolean isOn;
   }
 
   public void on(){
-    intake.set(Constants.IntakeConstants.IntakeMotorSpeed);
+    
     conveyrLow.set(Constants.IntakeConstants.ConveyrMotorSpeed);
     conveyrUp.set(-Constants.IntakeConstants.ConveyrMotorSpeed);
-    isOn = true;
+   
+
+    if(Stage == 0){
+      
+      intake.set(Constants.IntakeConstants.IntakeMotorSpeed);
+      
+      Stage = 1;
+
+    } else {
+      
+      if(Stage == 2){
+        
+        Stage = 3;
+
+      }
+    }
+    
   
   }
 
   public void off(){
-    intake.set(0);
-    conveyrLow.set(0);
-    conveyrUp.set(0);
-    isOn = false;
+    intake.stopMotor();
+    conveyrLow.stopMotor();
+    conveyrUp.stopMotor();
+    
+    Stage = 0;
+
   }
 }
