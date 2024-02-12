@@ -15,6 +15,7 @@ import frc.robot.Subsystems.Pigeon2Subsystem;
 import frc.robot.Subsystems.Pivot;
 import frc.robot.Subsystems.PoseEstimator;
 import frc.robot.Subsystems.SwerveSubsystem;
+import frc.robot.Subsystems.MasterController;
 import com.pathplanner.lib.commands.PathPlannerAuto;
 
 public class RobotContainer {
@@ -31,6 +32,7 @@ public class RobotContainer {
   private final Pivot pivot = new Pivot();
   private final Intake intake = new Intake();
   private final FiringHead firingHead = new FiringHead();
+  private final MasterController masterController = new MasterController(pivot, intake, firingHead);
 
   public RobotContainer() {
 
@@ -53,15 +55,15 @@ public class RobotContainer {
     //driverController.b().onTrue(new InstantCommand(() -> swerveSubsystem.lock(), swerveSubsystem));
 
     driverController.x().onTrue(new InstantCommand(() -> swerveSubsystem.RotateToAim(), swerveSubsystem )); // To Aim The Robot To Correct Target
-    driverController.y().onTrue(new InstantCommand(() -> pivot.Shooting(), pivot));
-    driverController.b().onTrue(new InstantCommand(() -> pivot.Starting(), pivot));
-    driverController.a().onTrue(new InstantCommand(() -> pivot.Dump(), pivot));
+    driverController.y().onTrue(new InstantCommand(() -> masterController.pivot_shooting(), masterController));
+    driverController.b().onTrue(new InstantCommand(() -> masterController.pivot_starting(), masterController));
+    driverController.a().onTrue(new InstantCommand(() -> masterController.pivot_dump(), masterController));
 
-    driverController.rightBumper().onTrue(new InstantCommand(() -> firingHead.Feed(), firingHead));
-    driverController.leftBumper().onTrue(new InstantCommand(() -> firingHead.MasterStop(), firingHead));
+    driverController.rightBumper().onTrue(new InstantCommand(() -> masterController.firingHead_feed(), masterController));
+    driverController.leftBumper().onTrue(new InstantCommand(() -> masterController.firingHead_MasterStop(), masterController));
 
-    driverController.rightTrigger().onTrue(new InstantCommand(() -> intake.on(), intake));
-    driverController.leftTrigger().onTrue(new InstantCommand(() -> intake.off(), intake));
+    driverController.rightTrigger().onTrue(new InstantCommand(() -> masterController.intake_on(), masterController));
+    driverController.leftTrigger().onTrue(new InstantCommand(() -> masterController.intake_off(), masterController));
     
     // operatorController.rightBumper().onTrue(new InstantCommand(() -> intake.on(), intake));
     // operatorController.leftBumper().onTrue(new InstantCommand(() -> intake.off(), intake));

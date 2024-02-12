@@ -87,4 +87,8 @@ public class Pivot extends SubsystemBase {
   public void TestingOff() {
     mainMotor.stopMotor();
   }
+  public boolean InStartingPosition(){
+    return true;
+    //TODO: encoder.getPosition = constantStartingPosition
+  }
 }
