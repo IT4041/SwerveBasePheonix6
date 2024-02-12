@@ -22,7 +22,14 @@ public class FiringHead extends SubsystemBase {
   private CANSparkMax fireMotor;
   private CANSparkMax followMotor;
   
-private int Stage = 0;
+  enum Stages {
+    Idle,
+    Triggered,
+    Paused,
+    Fired
+  }
+  
+  Stages stage = Stages.Idle;
 
   private final TimeOfFlight firingSensor = new TimeOfFlight(Constants.FiringHeadConstants.TimeOfFlightSensorID);
 
@@ -41,8 +48,6 @@ private int Stage = 0;
     followMotor.restoreFactoryDefaults();
     transportMotor.restoreFactoryDefaults();
     
-    Stage = 0;
-
     //m_pidController = fireMotor.getPIDController();
     m_Encoder = fireMotor.getEncoder();
 
@@ -85,37 +90,30 @@ private int Stage = 0;
     // if (m_Encoder.getVelocity() >= CalculateRPM(0)) {
       
     // }
-    SmartDashboard.putNumber("Stage",Stage);
+    SmartDashboard.putString("Stage",stage.toString());
     SmartDashboard.putNumber("firing head velocity", m_Encoder.getVelocity());
     SmartDashboard.putBoolean("firingSensor triggered?",this.IntakeTriggered());
-    if(this.IntakeTriggered() && Stage==1) {
+    if(this.IntakeTriggered() && stage == Stages.Triggered) {
       StopTransport();
     }
     
   }
   private double CalculateRPM(double distance) {
     cRPM = 0;
-    
     return cRPM;
   }
 
   public void Feed() {
-    if (Stage==0) {
+    if (stage == Stages.Idle) {
       transportMotor.set(Constants.FiringHeadConstants.TransportMotorSpeed);
-      Stage = 1;
+      stage = Stages.Triggered;
     } else {
-      if(Stage==2){
+      if(stage == Stages.Paused){
         transportMotor.set(Constants.FiringHeadConstants.TransportMotorSpeed);
         fireMotor.set(Constants.FiringHeadConstants.FiringSpeed);
-        Stage = 3;
+        stage = Stages.Fired;
       }
-      
     }
-    
-    
-    
-    
-    
   }
 
   public void SpeedUp() {
@@ -128,9 +126,7 @@ private int Stage = 0;
 
   public void StopTransport() {
     transportMotor.stopMotor();
-    
-    Stage = 2;
-
+    stage = Stages.Paused;
   }
 
   public boolean IntakeTriggered(){
@@ -140,6 +136,6 @@ private int Stage = 0;
   public void MasterStop() {
     transportMotor.stopMotor();
     fireMotor.stopMotor();
-    Stage = 0;
+    stage = Stages.Idle;
   }
 }
