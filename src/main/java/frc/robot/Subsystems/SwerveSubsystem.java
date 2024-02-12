@@ -209,4 +209,8 @@ public class SwerveSubsystem extends SubsystemBase {
     Rotation2d currentHeading = robotHeading.plus(currentPose.getRotation());
     return currentHeading;
   }
+
+  public void RotateToAim() {
+    
+  }
 }
