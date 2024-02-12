@@ -52,6 +52,11 @@ public class RobotContainer {
     //driverController.x().onTrue(new InstantCommand(() -> GlobalVariables.fieldRelative = !GlobalVariables.fieldRelative));
     //driverController.b().onTrue(new InstantCommand(() -> swerveSubsystem.lock(), swerveSubsystem));
 
+    driverController.x().onTrue(new InstantCommand(() -> swerveSubsystem.RotateToAim(), swerveSubsystem )); // To Aim The Robot To Correct Target
+    driverController.y().onTrue(new InstantCommand(() -> pivot.Shooting(), pivot));
+    driverController.b().onTrue(new InstantCommand(() -> pivot.Starting(), pivot));
+    driverController.a().onTrue(new InstantCommand(() -> pivot.Dump(), pivot));
+
     driverController.rightBumper().onTrue(new InstantCommand(() -> firingHead.Feed(), firingHead));
     driverController.leftBumper().onTrue(new InstantCommand(() -> firingHead.MasterStop(), firingHead));
 
