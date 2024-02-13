@@ -19,7 +19,13 @@ private CANSparkMax intake;
 private CANSparkMax conveyrUp;
 private CANSparkMax conveyrLow;
 
-private int Stage;
+enum Stages{
+  Idle,
+  Triggered,
+  Stopped,
+  Post
+}
+Stages stage = Stages.Idle;
 
 private final TimeOfFlight rangeSensorIntake = new TimeOfFlight(Constants.IntakeConstants.TimeOfFlightSensorId);
 
@@ -31,7 +37,7 @@ private final TimeOfFlight rangeSensorIntake = new TimeOfFlight(Constants.Intake
     intake.setIdleMode(IdleMode.kBrake);
     intake.setSmartCurrentLimit(80);
     intake.setClosedLoopRampRate(1);
-    Stage = 0;
+    
 
     //upper conveyr
     conveyrUp = new CANSparkMax(Constants.IntakeConstants.UpperConvyerSparkmaxDeviceID,MotorType.kBrushless);
@@ -54,15 +60,15 @@ private final TimeOfFlight rangeSensorIntake = new TimeOfFlight(Constants.Intake
 
   @Override
   public void periodic() {
-    
-    SmartDashboard.putBoolean("rangeSensorIntake triggered?",this.IntakeTriggered());
+    SmartDashboard.putString("Intake Stage",stage.toString());
+    SmartDashboard.putBoolean("Intake triggered?",this.IntakeTriggered());
 
-    if(Stage == 1 && this.IntakeTriggered()){
+    if(stage == Stages.Triggered && this.IntakeTriggered()){
       //this.off();
       
       intake.stopMotor();
       
-      Stage = 2; 
+      stage = Stages.Stopped; 
 
     }
   }
@@ -77,17 +83,17 @@ private final TimeOfFlight rangeSensorIntake = new TimeOfFlight(Constants.Intake
     conveyrUp.set(-Constants.IntakeConstants.ConveyrMotorSpeed);
    
 
-    if(Stage == 0){
+    if(stage == Stages.Idle){
       
       intake.set(Constants.IntakeConstants.IntakeMotorSpeed);
       
-      Stage = 1;
+      stage = Stages.Triggered;
 
     } else {
       
-      if(Stage == 2){
+      if(stage == Stages.Stopped){
         
-        Stage = 3;
+        stage = Stages.Post;
 
       }
     }
@@ -100,7 +106,7 @@ private final TimeOfFlight rangeSensorIntake = new TimeOfFlight(Constants.Intake
     conveyrLow.stopMotor();
     conveyrUp.stopMotor();
     
-    Stage = 0;
+    stage = Stages.Idle;
 
   }
 }

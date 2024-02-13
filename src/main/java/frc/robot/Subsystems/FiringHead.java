@@ -90,7 +90,7 @@ public class FiringHead extends SubsystemBase {
     // if (m_Encoder.getVelocity() >= CalculateRPM(0)) {
       
     // }
-    SmartDashboard.putString("Stage",stage.toString());
+    SmartDashboard.putString("Firing Stage",stage.toString());
     SmartDashboard.putNumber("firing head velocity", m_Encoder.getVelocity());
     SmartDashboard.putBoolean("firingSensor triggered?",this.IntakeTriggered());
     if(this.IntakeTriggered() && stage == Stages.Triggered) {
