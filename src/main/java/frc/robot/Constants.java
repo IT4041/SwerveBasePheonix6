@@ -134,15 +134,15 @@ public class Constants {
                 new Translation2d(-TRACKWIDTH_METERS / 2.0, WHEELBASE_METERS / 2.0), // Back Left
                 new Translation2d(-TRACKWIDTH_METERS / 2.0, -WHEELBASE_METERS / 2.0)); // Back Right
 
-        public static final String FRONT_LEFT_MODULE_NAME = "FrontLeft";
-        public static final int FRONT_LEFT_DRIVE_MOTOR = 20; // Front left module drive motor ID
-        public static final int FRONT_LEFT_STEER_MOTOR = 22; // Front left module steer motor ID
+        public static final String FRONT_LEFT_MODULE_NAME = "Frontleft";
+        public static final int FRONT_LEFT_DRIVE_MOTOR = 20; // Front left drive motor ID
+        public static final int FRONT_LEFT_STEER_MOTOR = 22; // Front left steer motor ID
         public static final int FRONT_LEFT_STEER_ENCODER = 53; // Front left steer encoder ID
         public static final double FRONT_LEFT_STEER_OFFSET = -0.1748046875; // Front left steer offset
 
         public static final String FRONT_RIGHT_MODULE_NAME = "FrontRight";
-        public static final int FRONT_RIGHT_DRIVE_MOTOR = 23; // Front right drive motor ID
-        public static final int FRONT_RIGHT_STEER_MOTOR = 41; // Front right steer motor ID
+        public static final int FRONT_RIGHT_DRIVE_MOTOR = 23; // Front right module drive motor ID
+        public static final int FRONT_RIGHT_STEER_MOTOR = 41; // Front right module steer motor ID
         public static final int FRONT_RIGHT_STEER_ENCODER = 52; // Front right steer encoder ID
         public static final double FRONT_RIGHT_STEER_OFFSET = 0.41259765625; // Front right steer offset
 
@@ -156,7 +156,8 @@ public class Constants {
         public static final int BACK_RIGHT_DRIVE_MOTOR = 45; // Back right drive motor ID
         public static final int BACK_RIGHT_STEER_MOTOR = 40; // Back right steer motor ID
         public static final int BACK_RIGHT_STEER_ENCODER = 50; // Back right steer encoder ID
-        public static final double BACK_RIGHT_STEER_OFFSET = 0.106201171875; // Back right steer offset
+        public static final double BACK_RIGHT_STEER_OFFSET = 0.10620117185; // Back right steer offset
+
     }
 
     public static final class PivotConstants {
