@@ -25,6 +25,8 @@ public class Constants {
     public static final double BOOST_SPEED = 1.0;
     public static final double PERCISION_SPEED = 1.0;
 
+    public static boolean fieldRelative = true;
+
     public static final class ModuleConstants {
 
         // Swerve Current Limiting
@@ -148,7 +150,7 @@ public class Constants {
         public static final int BACK_LEFT_DRIVE_MOTOR = 43; // Back left drive motor ID
         public static final int BACK_LEFT_STEER_MOTOR = 44; // Back left steer motor ID
         public static final int BACK_LEFT_STEER_ENCODER = 54; // Back left steer encoder ID
-        public static final double BACK_LEFT_STEER_OFFSET = -0.065674; // Back left steer offset
+        public static final double BACK_LEFT_STEER_OFFSET = 0.0595703125; // Back left steer offset
 
         public static final String BACK_RIGHT_MODULE_NAME = "BackRight";
         public static final int BACK_RIGHT_DRIVE_MOTOR = 45; // Back right drive motor ID
@@ -163,21 +165,22 @@ public class Constants {
 
         public static final class PivotPIDConstants {
 
-            public static final double kP = 0.5;
+            public static final double kP = 0.02;
             public static final double kI = 0.0;
             public static final double kD = 0.0;
             public static final double kIz = 0.0;
             public static final double kFF = 0.0;
             public static final double kMaxOutput = 1;
-            public static final double kMinOutput = -0.025;
+            public static final double kMinOutput = -0.45;
             
         }
 
         public static final class PivotPostions {
-            public static final double ZeroOffset = 34.43;
-            public static final double DumpPoint = 64.5;
-            public static final double ShootingPoint = 35;
-            public static final double StartingPoint = 21;
+            public static final double ZeroOffset = 124.4;
+            public static final double DumpPoint = 70;
+            public static final double ShootingPointMidRange = 37; //auto shooting pos 2
+            public static final double ShootingPointShortRange = 27; //auto shooting pos 1
+            public static final double StartingPoint = 21; //up close shooting
         }
 
     }
@@ -187,12 +190,16 @@ public class Constants {
         public static int UpperSparkmaxDeviceID = 9;
         public static int LowerSparkmaxDeviceID = 55;
         public static int UpperTransportSparkmaxDeviceID = 33;
-        public static int TimeOfFlightSensorID = 89;
 
-        public static int NoIntakeThreshold = 0;
+        public static int TimeOfFlightASensorID = 89;
+        public static int TimeOfFlightBSensorID = 90;
 
-        public static double FiringSpeed = 0.2;             // 0.4
-        public static double TransportMotorSpeed = 0.2;     // 0.8
+        public static int NoIntakeThresholdA = 30;
+        public static int NoIntakeThresholdB = 30;
+
+        //public static double FiringSpeed = 0.2;             // 0.4
+        public static double FiringSpeed = 0.4;
+        public static double TransportMotorSpeed = 0.4;     // 0.8
 
         public static final class FiringHeadPIDConstants {
             
@@ -205,10 +212,7 @@ public class Constants {
             public static final double kMinOutput = 0;
 
             public static final double FireVelocity = 0.4;
-
         }
-        
-
     }
 
     public static final class IntakeConstants {
@@ -217,10 +221,15 @@ public class Constants {
         public static int UpperConvyerSparkmaxDeviceID = 1;
         public static int LowerConvyerSparkmaxDeviceID = 2;
         public static int UpperIntakeSparkmaxDeviceID = 33;
-        public static int TimeOfFlightSensorId = 88;
-        public static double ballTreshholdIntake = 0;
-        public static double IntakeMotorSpeed = 0.2; // Number Reduced For Testing  Original 1
-        public static double ConveyrMotorSpeed = 0.1; //                                     0.8
+
+        public static int TimeOfFlightASensorId = 88;
+        public static int TimeOfFlightBSensorId = 87;
+
+        public static double ATreshholdIntake = 30;
+        public static double BTreshholdIntake = 30;
+
+        public static double IntakeMotorSpeed = 0.7; // Number Reduced For Testing  Original 1
+        public static double ConveyrMotorSpeed = 0.4; //                                     0.8
 
     }
 }

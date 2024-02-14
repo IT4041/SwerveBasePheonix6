@@ -2,69 +2,50 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-
 package frc.robot.Subsystems;
 
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.CANSparkBase.IdleMode;
 import com.revrobotics.CANSparkLowLevel.MotorType;
-import com.revrobotics.SparkPIDController;
 import com.playingwithfusion.TimeOfFlight;
 import com.playingwithfusion.TimeOfFlight.RangingMode;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
-
 public class FiringHead extends SubsystemBase {
-  
+
   private CANSparkMax fireMotor;
   private CANSparkMax followMotor;
-  
+
   enum Stages {
     Idle,
     Triggered,
     Paused,
     Fired
   }
-  
+
   Stages stage = Stages.Idle;
 
-  private final TimeOfFlight firingSensor = new TimeOfFlight(Constants.FiringHeadConstants.TimeOfFlightSensorID);
+  private final TimeOfFlight firingSensorA = new TimeOfFlight(Constants.FiringHeadConstants.TimeOfFlightASensorID);
+  private final TimeOfFlight firingSensorB = new TimeOfFlight(Constants.FiringHeadConstants.TimeOfFlightBSensorID);
 
   private CANSparkMax transportMotor;
-  private SparkPIDController m_pidController;
   private RelativeEncoder m_Encoder;
-  private double kP, kI, kD, kIz, kFF, kMaxOutput, kMinOutput, cRPM;
 
   /** Creates a new FiringHead. */
   public FiringHead() {
-    fireMotor = new CANSparkMax(Constants.FiringHeadConstants.UpperSparkmaxDeviceID,MotorType.kBrushless);
-    followMotor = new CANSparkMax(Constants.FiringHeadConstants.LowerSparkmaxDeviceID,MotorType.kBrushless);
-    transportMotor = new CANSparkMax(Constants.FiringHeadConstants.UpperTransportSparkmaxDeviceID,MotorType.kBrushless);
-    
+    fireMotor = new CANSparkMax(Constants.FiringHeadConstants.UpperSparkmaxDeviceID, MotorType.kBrushless);
+    followMotor = new CANSparkMax(Constants.FiringHeadConstants.LowerSparkmaxDeviceID, MotorType.kBrushless);
+    transportMotor = new CANSparkMax(Constants.FiringHeadConstants.UpperTransportSparkmaxDeviceID,
+        MotorType.kBrushless);
+
     fireMotor.restoreFactoryDefaults();
     followMotor.restoreFactoryDefaults();
     transportMotor.restoreFactoryDefaults();
-    
-    //m_pidController = fireMotor.getPIDController();
-    m_Encoder = fireMotor.getEncoder();
 
-    // kP = Constants.FiringHeadConstants.FiringHeadPIDConstants.kP;
-    // kI = Constants.FiringHeadConstants.FiringHeadPIDConstants.kI;
-    // kD = Constants.FiringHeadConstants.FiringHeadPIDConstants.kD;
-    // kIz = Constants.FiringHeadConstants.FiringHeadPIDConstants.kIz;
-    // kFF = Constants.FiringHeadConstants.FiringHeadPIDConstants.kFF;
-    // kMaxOutput = Constants.FiringHeadConstants.FiringHeadPIDConstants.kMaxOutput;
-    // kMinOutput = Constants.FiringHeadConstants.FiringHeadPIDConstants.kMinOutput;
-    
-    // m_pidController.setP(kP);
-    // m_pidController.setI(kI);
-    // m_pidController.setD(kD);
-    // m_pidController.setIZone(kIz);
-    // m_pidController.setFF(kFF);
-    // m_pidController.setOutputRange(kMinOutput, kMaxOutput);
+    m_Encoder = fireMotor.getEncoder();
 
     fireMotor.setIdleMode(IdleMode.kBrake);
     fireMotor.setSmartCurrentLimit(80);
@@ -80,48 +61,28 @@ public class FiringHead extends SubsystemBase {
 
     followMotor.follow(fireMotor, true);
 
-    firingSensor.setRangingMode(RangingMode.Long, 1);
+    firingSensorA.setRangingMode(RangingMode.Long, 1);
+    firingSensorB.setRangingMode(RangingMode.Long, 1);
   }
-  
+
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-    
-    // if (m_Encoder.getVelocity() >= CalculateRPM(0)) {
-      
-    // }
-    SmartDashboard.putString("Firing Stage",stage.toString());
+
+    SmartDashboard.putString("Firing Stage", stage.toString());
     SmartDashboard.putNumber("firing head velocity", m_Encoder.getVelocity());
-    SmartDashboard.putBoolean("firingSensor triggered?",this.IntakeTriggered());
-    if(this.IntakeTriggered() && stage == Stages.Triggered) {
-      StopTransport();
-    }
-    
-  }
-  private double CalculateRPM(double distance) {
-    cRPM = 0;
-    return cRPM;
+
+    SmartDashboard.putBoolean("firingSensorA triggered?", this.IntakeATriggered());
+    SmartDashboard.putBoolean("firingSensorB triggered?", this.IntakeBTriggered());
+
+    SmartDashboard.putNumber("firingSensorA distance", firingSensorA.getRange());
+    SmartDashboard.putNumber("firingSensorB distance", firingSensorB.getRange());
+
   }
 
   public void Feed() {
-    if (stage == Stages.Idle) {
-      transportMotor.set(Constants.FiringHeadConstants.TransportMotorSpeed);
-      stage = Stages.Triggered;
-    } else {
-      if(stage == Stages.Paused){
-        transportMotor.set(Constants.FiringHeadConstants.TransportMotorSpeed);
-        fireMotor.set(Constants.FiringHeadConstants.FiringSpeed);
-        stage = Stages.Fired;
-      }
-    }
-  }
-
-  public void SpeedUp() {
-    //m_pidController.setReference(Constants.FiringHeadConstants.FiringHeadPIDConstants.FireVelocity, CANSparkMax.ControlType.kVelocity);
-  }
- 
-  public void Fire() {
-    //m_pidController.setReference(Constants.FiringHeadConstants.FiringHeadPIDConstants.FireVelocity, CANSparkMax.ControlType.kVelocity);
+    transportMotor.set(Constants.FiringHeadConstants.TransportMotorSpeed);
+    fireMotor.set(Constants.FiringHeadConstants.FiringSpeed);
   }
 
   public void StopTransport() {
@@ -129,10 +90,14 @@ public class FiringHead extends SubsystemBase {
     stage = Stages.Paused;
   }
 
-  public boolean IntakeTriggered(){
-    return firingSensor.getRange() <= Constants.FiringHeadConstants.NoIntakeThreshold;
+  public boolean IntakeATriggered() {
+    return firingSensorA.getRange() <= Constants.FiringHeadConstants.NoIntakeThresholdA;
   }
-  
+
+  public boolean IntakeBTriggered() {
+    return firingSensorB.getRange() <= Constants.FiringHeadConstants.NoIntakeThresholdB;
+  }
+
   public void MasterStop() {
     transportMotor.stopMotor();
     fireMotor.stopMotor();

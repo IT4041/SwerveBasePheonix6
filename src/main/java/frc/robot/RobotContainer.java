@@ -4,7 +4,6 @@
 
 package frc.robot;
 
-import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
@@ -24,10 +23,8 @@ public class RobotContainer {
   private final Pigeon2Subsystem pigeon2Subsystem = new Pigeon2Subsystem();
   private final PoseEstimator poseEstimator = new PoseEstimator(swerveSubsystem, pigeon2Subsystem);
 
-  public static final CommandXboxController driverController = new CommandXboxController(
-      Constants.kDriverControllerPort);
-  public static final CommandXboxController operatorController = new CommandXboxController(
-      Constants.kOperatorControllerPort);
+  public static final CommandXboxController driverController = new CommandXboxController(Constants.kDriverControllerPort);
+  public static final CommandXboxController operatorController = new CommandXboxController(Constants.kOperatorControllerPort);
 
   private final Pivot pivot = new Pivot();
   private final Intake intake = new Intake();
@@ -43,8 +40,8 @@ public class RobotContainer {
         () -> -driverController.getLeftY(),
         () -> -driverController.getLeftX(),
         () -> driverController.getRightX(),
-        () -> GlobalVariables.fieldRelative,
-        () -> GlobalVariables.maxSpeed));
+        () -> Constants.fieldRelative,
+        () -> Constants.DRIVE_SPEED));
     configureBindings();
   }
 
@@ -57,26 +54,21 @@ public class RobotContainer {
     // driverController.b().onTrue(new InstantCommand(() -> swerveSubsystem.lock(),
     // swerveSubsystem));
 
-    driverController.x().onTrue(new InstantCommand(() -> swerveSubsystem.RotateToAim(), swerveSubsystem)); // To Aim The
-                                                                                                           // Robot To
-                                                                                                           // Correct
-                                                                                                           // Target
+     // To Aim The Robot To Correct Target
+    driverController.x().onTrue(new InstantCommand(() -> swerveSubsystem.RotateToAim(), swerveSubsystem));
+
     driverController.y().onTrue(new InstantCommand(() -> masterController.pivot_shooting(), masterController));
     driverController.b().onTrue(new InstantCommand(() -> masterController.pivot_starting(), masterController));
     driverController.a().onTrue(new InstantCommand(() -> masterController.pivot_dump(), masterController));
 
-    driverController.rightBumper()
-        .onTrue(new InstantCommand(() -> masterController.firingHead_feed(), masterController));
-    driverController.leftBumper()
-        .onTrue(new InstantCommand(() -> masterController.firingHead_MasterStop(), masterController));
+    driverController.rightBumper().onTrue(new InstantCommand(() -> masterController.firingHead_feed(), masterController));
+    driverController.leftBumper().onTrue(new InstantCommand(() -> masterController.firingHead_MasterStop(), masterController));
 
     driverController.rightTrigger().onTrue(new InstantCommand(() -> masterController.intake_on(), masterController));
     driverController.leftTrigger().onTrue(new InstantCommand(() -> masterController.intake_off(), masterController));
 
-    // operatorController.rightBumper().onTrue(new InstantCommand(() -> intake.on(),
-    // intake));
-    // operatorController.leftBumper().onTrue(new InstantCommand(() -> intake.off(),
-    // intake));
+    // operatorController.rightBumper().onTrue(new InstantCommand(() -> intake.on(), intake));
+    // operatorController.leftBumper().onTrue(new InstantCommand(() -> intake.off(), intake));
 
   }
 

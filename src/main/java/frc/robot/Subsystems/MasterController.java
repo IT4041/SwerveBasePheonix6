@@ -5,10 +5,6 @@
 package frc.robot.Subsystems;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Subsystems.Intake;
-import frc.robot.Subsystems.FiringHead;
-import frc.robot.Subsystems.Pivot;
-import frc.robot.Subsystems.Pigeon2Subsystem;
 
 public class MasterController extends SubsystemBase {
 
@@ -48,7 +44,7 @@ public class MasterController extends SubsystemBase {
   // pivot
 
   public void pivot_shooting() {
-    m_pivot.Shooting();
+    m_pivot.ShootingShortRange();
   }
 
   public void pivot_starting() {

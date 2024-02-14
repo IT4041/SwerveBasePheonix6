@@ -11,7 +11,6 @@ import com.revrobotics.CANSparkBase.IdleMode;
 import com.revrobotics.CANSparkBase.SoftLimitDirection;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 import com.revrobotics.SparkAbsoluteEncoder.Type;
-import com.revrobotics.SparkPIDController.ArbFFUnits;
 import com.revrobotics.SparkPIDController;
 
 import edu.wpi.first.math.controller.PIDController;
@@ -40,23 +39,23 @@ public class Pivot extends SubsystemBase {
     m_Encoder.setInverted(false);
     m_Encoder.setZeroOffset(Constants.PivotConstants.PivotPostions.ZeroOffset);
 
-    kP = Constants.PivotConstants.PivotPIDConstants.kP;
-    kI = Constants.PivotConstants.PivotPIDConstants.kI;
-    kD = Constants.PivotConstants.PivotPIDConstants.kD;
-    kIz = Constants.PivotConstants.PivotPIDConstants.kIz;
-    kFF = Constants.PivotConstants.PivotPIDConstants.kFF;
-    kMaxOutput = Constants.PivotConstants.PivotPIDConstants.kMaxOutput;
-    kMinOutput = Constants.PivotConstants.PivotPIDConstants.kMinOutput;
+    // kP = Constants.PivotConstants.PivotPIDConstants.kP;
+    // kI = Constants.PivotConstants.PivotPIDConstants.kI;
+    // kD = Constants.PivotConstants.PivotPIDConstants.kD;
+    // kIz = Constants.PivotConstants.PivotPIDConstants.kIz;
+    // kFF = Constants.PivotConstants.PivotPIDConstants.kFF;
+    // kMaxOutput = Constants.PivotConstants.PivotPIDConstants.kMaxOutput;
+    // kMinOutput = Constants.PivotConstants.PivotPIDConstants.kMinOutput;
 
     m_wPidController = new PIDController(0.02, 0.0, 0.0, 0.001);
 
-    // m_pidController = mainMotor.getPIDController();
-    // m_pidController.setP(kP);
-    // m_pidController.setI(kI);
-    // m_pidController.setD(kD);
-    // m_pidController.setIZone(kIz);
-    // m_pidController.setFF(kFF);
-    // m_pidController.setOutputRange(kMinOutput, kMaxOutput);
+    m_pidController = mainMotor.getPIDController();
+    m_pidController.setP(kP);
+    m_pidController.setI(kI);
+    m_pidController.setD(kD);
+    m_pidController.setIZone(kIz);
+    m_pidController.setFF(kFF);
+    m_pidController.setOutputRange(kMinOutput, kMaxOutput);
 
     mainMotor.setIdleMode(IdleMode.kBrake);
     mainMotor.setSmartCurrentLimit(60);
@@ -74,6 +73,9 @@ public class Pivot extends SubsystemBase {
 
     wpi_pid_output = m_wPidController.calculate(m_Encoder.getPosition(), target_position);
     mainMotor.set(wpi_pid_output);
+
+    //m_pidController.setReference(target_position, CANSparkMax.ControlType.kPosition, 0, 0, ArbFFUnits.kPercentOut); 
+
     // This method will be called once per scheduler run
     SmartDashboard.putNumber("Pivot encoder position", m_Encoder.getPosition());
     SmartDashboard.putNumber("Pivot encoder offset", m_Encoder.getZeroOffset());
@@ -88,7 +90,6 @@ public class Pivot extends SubsystemBase {
     //   //we're moving against gravity so give an assist
     //   arbFeedForward = 0.05;
     // }
-    //m_pidController.setReference(position, CANSparkMax.ControlType.kPosition, 0, arbFeedForward, ArbFFUnits.kPercentOut);
     target_position = position;
 
   }
@@ -103,9 +104,14 @@ public class Pivot extends SubsystemBase {
     current_position = Constants.PivotConstants.PivotPostions.StartingPoint;
   }
 
-  public void Shooting() {
-    this.setPosition(Constants.PivotConstants.PivotPostions.ShootingPoint);
-    current_position = Constants.PivotConstants.PivotPostions.ShootingPoint;
+  public void ShootingShortRange() {
+    this.setPosition(Constants.PivotConstants.PivotPostions.ShootingPointShortRange);
+    current_position = Constants.PivotConstants.PivotPostions.ShootingPointShortRange;
+  }
+
+  public void ShootingMidRange() {
+    this.setPosition(Constants.PivotConstants.PivotPostions.ShootingPointMidRange);
+    current_position = Constants.PivotConstants.PivotPostions.ShootingPointMidRange;
   }
 
   public void TestingOn() {

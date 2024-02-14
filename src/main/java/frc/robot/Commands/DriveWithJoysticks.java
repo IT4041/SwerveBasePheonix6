@@ -31,12 +31,13 @@ public class DriveWithJoysticks extends Command {
   private final SlewRateLimiter xLimiter, yLimiter, turnLimiter;
 
   public DriveWithJoysticks(SwerveSubsystem swerveSubsystem, 
-  PoseEstimator poseEstimator, 
-  DoubleSupplier translationX, 
-  DoubleSupplier translationY, 
-  DoubleSupplier rotation, 
-  BooleanSupplier relative, 
-  DoubleSupplier maxSpeed) {
+                            PoseEstimator poseEstimator, 
+                            DoubleSupplier translationX, 
+                            DoubleSupplier translationY, 
+                            DoubleSupplier rotation, 
+                            BooleanSupplier relative, 
+                            DoubleSupplier maxSpeed)
+   {
     this.swerveSubsystem = swerveSubsystem;
     this.poseEstimator = poseEstimator;
     this.translationX = translationX;
@@ -59,6 +60,7 @@ public class DriveWithJoysticks extends Command {
     SmartDashboard.putNumber("Joy Y", translationX.getAsDouble());
     SmartDashboard.putNumber("Joy X", translationY.getAsDouble());
     SmartDashboard.putNumber("Joy Rot", rotation.getAsDouble());
+
     if(relative.getAsBoolean()){
       swerveSubsystem.drive(ChassisSpeeds.fromFieldRelativeSpeeds(
       modifyAxis(translationX.getAsDouble(), maxSpeed.getAsDouble(), yLimiter) * SwerveConstants.MAX_VELOCITY_METERS_PER_SECOND,
