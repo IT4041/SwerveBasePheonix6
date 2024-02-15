@@ -93,4 +93,12 @@ public class Intake extends SubsystemBase {
     stage = Stages.Idle;
 
   }
+
+  public void setIntakeSpeed(double in_speed){
+    intake.set(in_speed); 
+  }
+  public void setConveyrSpeed(double con_speed){
+    conveyrUp.set(con_speed);
+    conveyrLow.set(con_speed);
+  }
 }

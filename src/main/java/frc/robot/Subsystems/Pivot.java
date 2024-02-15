@@ -125,4 +125,8 @@ public class Pivot extends SubsystemBase {
   public boolean InStartingPosition() {
     return m_Encoder.getPosition() == Constants.PivotConstants.PivotPostions.StartingPoint;
   }
+
+  public void goToPosition(double position){
+    this.setPosition(position);
+  }
 }

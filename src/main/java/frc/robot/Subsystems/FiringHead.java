@@ -103,4 +103,13 @@ public class FiringHead extends SubsystemBase {
     fireMotor.stopMotor();
     stage = Stages.Idle;
   }
+
+  public void shooterSetSpeed(double speed){
+      fireMotor.set(speed);
+  }
+  public void transportMotor(double speed){
+    transportMotor.set(speed);
+  }
+  
+ 
 }
