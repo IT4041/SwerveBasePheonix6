@@ -57,6 +57,11 @@ public class RobotContainer {
 
     driverController.rightTrigger().onTrue(new InstantCommand(() -> masterController.intake_on(), masterController));
     driverController.leftTrigger().onTrue(new InstantCommand(() -> masterController.intake_off(), masterController));
+
+    operatorController.y().onTrue(new InstantCommand(() -> pivot.up(), pivot));
+    operatorController.a().onTrue(new InstantCommand(() -> pivot.down(), pivot));
+    //operatorController.b().onTrue(new InstantCommand() -> ... , ...)
+
   }
 
   public Command getAutonomousCommand() {

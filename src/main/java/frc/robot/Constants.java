@@ -179,9 +179,10 @@ public class Constants {
         public static final class PivotPostions {
             public static final double ZeroOffset = 124.4;
             public static final double DumpPoint = 70;
-            public static final double ShootingPointMidRange = 37; //auto shooting pos 2
+            public static final double ShootingPointMidRange = 39; //auto shooting pos 2
             public static final double ShootingPointShortRange = 27; //auto shooting pos 1
             public static final double StartingPoint = 21; //up close shooting
+            public static final double[] PivotPoses = {StartingPoint, ShootingPointMidRange, ShootingPointMidRange, DumpPoint};
         }
 
     }
@@ -200,6 +201,7 @@ public class Constants {
 
         //public static double FiringSpeed = 0.2;             // 0.4
         public static double FiringSpeed = 0.4;
+        public static double FarFiringSpeed = 0.45;
         public static double TransportMotorSpeed = 0.4;     // 0.8
 
         public static final class FiringHeadPIDConstants {

@@ -43,14 +43,14 @@ public class WeekZeroAuto extends SequentialCommandGroup {
 
     addCommands(new ParallelCommandGroup(
       new RunCommand(() -> m_SwerveSubsystem.goForward(-0.4), m_SwerveSubsystem)
-        .withTimeout(4)
+        .withTimeout(3.25)
         .andThen(new InstantCommand(() -> m_SwerveSubsystem.stop(),m_SwerveSubsystem)),
       new RunCommand(() -> m_masterController.runConveyors(),m_masterController)
         .until(() -> m_firingHead.EitherSensorTriggered())
         .andThen(new InstantCommand(() -> m_masterController.stopConveyors(),m_masterController))
         ));
 
-    addCommands(new InstantCommand(() -> m_firingHead.shooterSetSpeed(Constants.FiringHeadConstants.FiringSpeed), m_firingHead));
+    addCommands(new InstantCommand(() -> m_firingHead.shooterSetSpeed(Constants.FiringHeadConstants.FarFiringSpeed), m_firingHead));
     addCommands(new InstantCommand(() -> m_pivot.goToPosition(Constants.PivotConstants.PivotPostions.ShootingPointMidRange), m_pivot)); //37
     addCommands(new WaitCommand(2));
     addCommands(new InstantCommand(() -> m_firingHead.setTransportMotorSpeed(Constants.FiringHeadConstants.TransportMotorSpeed), m_firingHead)); 

@@ -4,7 +4,6 @@
 
 package frc.robot.Subsystems;
 
-
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.SparkAbsoluteEncoder;
 import com.revrobotics.CANSparkBase.IdleMode;
@@ -25,12 +24,14 @@ public class Pivot extends SubsystemBase {
   private PIDController m_wPidController;
   private SparkAbsoluteEncoder m_Encoder;
   private double kP, kI, kD, kIz, kFF;
-  private double kMaxOutput, kMinOutput, wpi_pid_output, target_position = Constants.PivotConstants.PivotPostions.StartingPoint;
+  private double kMaxOutput, kMinOutput, wpi_pid_output;
   private double current_position = Constants.PivotConstants.PivotPostions.StartingPoint;
+  private double target_position = current_position;
+  private int position_index = 0;
 
   public Pivot() {
     mainMotor = new CANSparkMax(Constants.PivotConstants.SparkmaxDeviceID, MotorType.kBrushless);
-    mainMotor.restoreFactoryDefaults(); 
+    mainMotor.restoreFactoryDefaults();
     mainMotor.setControlFramePeriodMs(0);
 
     m_Encoder = mainMotor.getAbsoluteEncoder(Type.kDutyCycle);
@@ -60,8 +61,8 @@ public class Pivot extends SubsystemBase {
     mainMotor.setIdleMode(IdleMode.kBrake);
     mainMotor.setSmartCurrentLimit(60);
     mainMotor.setClosedLoopRampRate(2);
-    mainMotor.setSoftLimit(SoftLimitDirection.kForward, (float)Constants.PivotConstants.PivotPostions.DumpPoint);
-    mainMotor.setSoftLimit(SoftLimitDirection.kReverse, (float)Constants.PivotConstants.PivotPostions.StartingPoint);
+    mainMotor.setSoftLimit(SoftLimitDirection.kForward, (float) Constants.PivotConstants.PivotPostions.DumpPoint);
+    mainMotor.setSoftLimit(SoftLimitDirection.kReverse, (float) Constants.PivotConstants.PivotPostions.StartingPoint);
     mainMotor.enableSoftLimit(SoftLimitDirection.kForward, false);
     mainMotor.enableSoftLimit(SoftLimitDirection.kReverse, false);
     mainMotor.enableVoltageCompensation(12);
@@ -74,7 +75,8 @@ public class Pivot extends SubsystemBase {
     wpi_pid_output = m_wPidController.calculate(m_Encoder.getPosition(), target_position);
     mainMotor.set(wpi_pid_output);
 
-    //m_pidController.setReference(target_position, CANSparkMax.ControlType.kPosition, 0, 0, ArbFFUnits.kPercentOut); 
+    // m_pidController.setReference(target_position,
+    // CANSparkMax.ControlType.kPosition, 0, 0, ArbFFUnits.kPercentOut);
 
     // This method will be called once per scheduler run
     SmartDashboard.putNumber("Pivot encoder position", m_Encoder.getPosition());
@@ -87,11 +89,10 @@ public class Pivot extends SubsystemBase {
   public void setPosition(double position) {
     // double arbFeedForward = 0.0;
     // if(position > m_Encoder.getPosition()){
-    //   //we're moving against gravity so give an assist
-    //   arbFeedForward = 0.05;
+    // //we're moving against gravity so give an assist
+    // arbFeedForward = 0.05;
     // }
     target_position = position;
-
   }
 
   public void Dump() {
@@ -126,7 +127,23 @@ public class Pivot extends SubsystemBase {
     return m_Encoder.getPosition() == Constants.PivotConstants.PivotPostions.StartingPoint;
   }
 
-  public void goToPosition(double position){
+  public void goToPosition(double position) {
     this.setPosition(position);
+  }
+
+  public void up() {
+    if (position_index < 3) {
+      position_index++;
+    }
+    this.current_position = Constants.PivotConstants.PivotPostions.PivotPoses[position_index];
+    this.setPosition(current_position);
+  }
+
+  public void down() {
+    if (position_index > 0) {
+      position_index--;
+    }
+    this.current_position = Constants.PivotConstants.PivotPostions.PivotPoses[position_index];
+    this.setPosition(current_position);
   }
 }
