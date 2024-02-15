@@ -28,8 +28,8 @@ public class FiringHead extends SubsystemBase {
 
   Stages stage = Stages.Idle;
 
-  private final TimeOfFlight firingSensorA = new TimeOfFlight(Constants.FiringHeadConstants.TimeOfFlightASensorID);
-  private final TimeOfFlight firingSensorB = new TimeOfFlight(Constants.FiringHeadConstants.TimeOfFlightBSensorID);
+  private final TimeOfFlight centerSensor = new TimeOfFlight(Constants.FiringHeadConstants.TimeOfFlightASensorID);
+  private final TimeOfFlight sideSensor = new TimeOfFlight(Constants.FiringHeadConstants.TimeOfFlightBSensorID);
 
   private CANSparkMax transportMotor;
   private RelativeEncoder m_Encoder;
@@ -61,8 +61,8 @@ public class FiringHead extends SubsystemBase {
 
     followMotor.follow(fireMotor, true);
 
-    firingSensorA.setRangingMode(RangingMode.Long, 1);
-    firingSensorB.setRangingMode(RangingMode.Long, 1);
+    centerSensor.setRangingMode(RangingMode.Short, 1);
+    sideSensor.setRangingMode(RangingMode.Short, 1);
   }
 
   @Override
@@ -72,11 +72,11 @@ public class FiringHead extends SubsystemBase {
     SmartDashboard.putString("Firing Stage", stage.toString());
     SmartDashboard.putNumber("firing head velocity", m_Encoder.getVelocity());
 
-    SmartDashboard.putBoolean("firingSensorA triggered?", this.IntakeATriggered());
-    SmartDashboard.putBoolean("firingSensorB triggered?", this.IntakeBTriggered());
+    SmartDashboard.putBoolean("SH Center triggered?", this.CenterSensorTriggered());
+    SmartDashboard.putBoolean("SH Side triggered?", this.SideSensorTriggered());
 
-    SmartDashboard.putNumber("firingSensorA distance", firingSensorA.getRange());
-    SmartDashboard.putNumber("firingSensorB distance", firingSensorB.getRange());
+    SmartDashboard.putNumber("SH Center distance", centerSensor.getRange());
+    SmartDashboard.putNumber("SH Side distance", sideSensor.getRange());
 
   }
 
@@ -90,12 +90,16 @@ public class FiringHead extends SubsystemBase {
     stage = Stages.Paused;
   }
 
-  public boolean IntakeATriggered() {
-    return firingSensorA.getRange() <= Constants.FiringHeadConstants.NoIntakeThresholdA;
+  public boolean CenterSensorTriggered() {
+    return centerSensor.getRange() <= Constants.FiringHeadConstants.NoIntakeThresholdA;
   }
 
-  public boolean IntakeBTriggered() {
-    return firingSensorB.getRange() <= Constants.FiringHeadConstants.NoIntakeThresholdB;
+  public boolean SideSensorTriggered() {
+    return sideSensor.getRange() <= Constants.FiringHeadConstants.NoIntakeThresholdB;
+  }
+
+  public boolean EitherSensorTriggered(){
+    return this.SideSensorTriggered() || this.CenterSensorTriggered();
   }
 
   public void MasterStop() {
@@ -112,7 +116,7 @@ public class FiringHead extends SubsystemBase {
   }
 
   public TimeOfFlight getSensorA(){
-    return firingSensorA;
+    return centerSensor;
   }
  
 }

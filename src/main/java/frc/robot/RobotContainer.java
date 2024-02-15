@@ -48,16 +48,6 @@ public class RobotContainer {
 
   private void configureBindings() {
 
-    // driverController.back().onTrue(new InstantCommand(() ->
-    // poseEstimator.setPose(new Pose2d()), poseEstimator));
-    // driverController.x().onTrue(new InstantCommand(() ->
-    // GlobalVariables.fieldRelative = !GlobalVariables.fieldRelative));
-    // driverController.b().onTrue(new InstantCommand(() -> swerveSubsystem.lock(),
-    // swerveSubsystem));
-
-     // To Aim The Robot To Correct Target
-    driverController.x().onTrue(new InstantCommand(() -> swerveSubsystem.RotateToAim(), swerveSubsystem));
-
     driverController.y().onTrue(new InstantCommand(() -> masterController.pivot_shooting(), masterController));
     driverController.b().onTrue(new InstantCommand(() -> masterController.pivot_starting(), masterController));
     driverController.a().onTrue(new InstantCommand(() -> masterController.pivot_dump(), masterController));
@@ -67,14 +57,10 @@ public class RobotContainer {
 
     driverController.rightTrigger().onTrue(new InstantCommand(() -> masterController.intake_on(), masterController));
     driverController.leftTrigger().onTrue(new InstantCommand(() -> masterController.intake_off(), masterController));
-
-    // operatorController.rightBumper().onTrue(new InstantCommand(() -> intake.on(), intake));
-    // operatorController.leftBumper().onTrue(new InstantCommand(() -> intake.off(), intake));
-
   }
 
   public Command getAutonomousCommand() {
     //return new PathPlannerAuto("New Auto");
-    return new WeekZeroAuto(pivot, intake, firingHead, masterController);
+    return new WeekZeroAuto(pivot, intake, firingHead, masterController, swerveSubsystem, poseEstimator);
   }
 }

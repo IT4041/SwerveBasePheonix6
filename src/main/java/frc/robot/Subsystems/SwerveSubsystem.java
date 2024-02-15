@@ -142,14 +142,19 @@ public class SwerveSubsystem extends SubsystemBase {
     swerveModules[3].setDesiredState(new SwerveModuleState(0.0, Rotation2d.fromDegrees(45)));
   }
 
+    public void goForward(double speed){
+    swerveModules[0].setDesiredState(new SwerveModuleState(speed, new Rotation2d().minus(swerveModules[0].getEncoderAngle())));
+    swerveModules[1].setDesiredState(new SwerveModuleState(speed, new Rotation2d().minus(swerveModules[1].getEncoderAngle())));
+    swerveModules[2].setDesiredState(new SwerveModuleState(speed, new Rotation2d().minus(swerveModules[2].getEncoderAngle())));
+    swerveModules[3].setDesiredState(new SwerveModuleState(speed, new Rotation2d().minus(swerveModules[3].getEncoderAngle())));
+  }
+
 
   public void reset(){
-
     swerveModules[0].setDesiredState(new SwerveModuleState(0.0, new Rotation2d().minus(swerveModules[0].getEncoderAngle())));
     swerveModules[1].setDesiredState(new SwerveModuleState(0.0, new Rotation2d().minus(swerveModules[1].getEncoderAngle())));
     swerveModules[2].setDesiredState(new SwerveModuleState(0.0, new Rotation2d().minus(swerveModules[2].getEncoderAngle())));
     swerveModules[3].setDesiredState(new SwerveModuleState(0.0, new Rotation2d().minus(swerveModules[3].getEncoderAngle())));
-
   }
 
   /**
@@ -210,7 +215,7 @@ public class SwerveSubsystem extends SubsystemBase {
     return currentHeading;
   }
 
-  public void RotateToAim() {
+  public void driveForward(double distance) {
     
   }
 }

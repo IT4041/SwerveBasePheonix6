@@ -46,6 +46,7 @@ public class Intake extends SubsystemBase {
     conveyrUp.setIdleMode(IdleMode.kBrake);
     conveyrUp.setSmartCurrentLimit(80);
     conveyrUp.setClosedLoopRampRate(1);
+    conveyrUp.setInverted(true);
 
     // lower conveyor
     conveyrLow = new CANSparkMax(Constants.IntakeConstants.LowerConvyerSparkmaxDeviceID, MotorType.kBrushless);
