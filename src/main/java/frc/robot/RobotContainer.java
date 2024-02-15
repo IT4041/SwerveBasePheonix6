@@ -61,6 +61,6 @@ public class RobotContainer {
 
   public Command getAutonomousCommand() {
     //return new PathPlannerAuto("New Auto");
-    return new WeekZeroAuto(pivot, intake, firingHead, masterController, swerveSubsystem, poseEstimator);
+    return new WeekZeroAuto(pivot, intake, firingHead, masterController, swerveSubsystem);
   }
 }

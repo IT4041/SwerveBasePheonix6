@@ -4,9 +4,6 @@
 
 package frc.robot.Commands;
 
-import java.util.function.DoubleSupplier;
-
-import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.RunCommand;
@@ -23,18 +20,17 @@ public class WeekZeroAuto extends SequentialCommandGroup {
   private final FiringHead m_firingHead;
   private final MasterController m_masterController;
   private final SwerveSubsystem m_SwerveSubsystem;
-  private final PoseEstimator m_PoseEstimator;
+  
   /** Creates a new WeekZeroAuto. */
-  public WeekZeroAuto(Pivot in_pivot, Intake in_intake, FiringHead in_firingHead, MasterController in_masterController, SwerveSubsystem in_SwerveSubsystem, PoseEstimator in_PoseEstimator) {
+  public WeekZeroAuto(Pivot in_pivot, Intake in_intake, FiringHead in_firingHead, MasterController in_masterController, SwerveSubsystem in_SwerveSubsystem) {
     m_intake = in_intake;
     m_pivot = in_pivot;
     m_firingHead = in_firingHead;
     m_masterController = in_masterController;
     m_SwerveSubsystem = in_SwerveSubsystem;
-    m_PoseEstimator = in_PoseEstimator;
+
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
-
     addCommands(new InstantCommand(() -> m_firingHead.shooterSetSpeed(Constants.FiringHeadConstants.FiringSpeed), m_firingHead));
     addCommands(new InstantCommand(() -> m_pivot.goToPosition(Constants.PivotConstants.PivotPostions.ShootingPointShortRange), m_pivot)); //27
     addCommands(new WaitCommand(2));
