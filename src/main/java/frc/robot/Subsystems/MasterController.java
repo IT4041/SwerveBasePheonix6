@@ -5,6 +5,9 @@
 package frc.robot.Subsystems;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
+
+import com.playingwithfusion.TimeOfFlight;
 
 public class MasterController extends SubsystemBase {
 
@@ -55,6 +58,22 @@ public class MasterController extends SubsystemBase {
     m_pivot.Dump();
   }
 
+  public boolean runIntakeUntilTriggered(TimeOfFlight in_timeOfFlight, double in_threshold){
+
+    boolean done = false;
+    m_firingHead.setTransportMotorSpeed(Constants.FiringHeadConstants.TransportMotorSpeed);
+    m_intake.setConveyrSpeed(Constants.IntakeConstants.ConveyrMotorSpeed);
+    m_intake.setIntakeSpeed(Constants.IntakeConstants.IntakeMotorSpeed);
+  
+    if(in_timeOfFlight.getRange()<= in_threshold){
+      m_firingHead.setTransportMotorSpeed(0);
+      m_intake.setConveyrSpeed(0);
+      m_intake.setIntakeSpeed(0);
+      done = true;
+    }
+
+    return done;
+  }
   @Override
   public void periodic() {
     if (intake_on) {

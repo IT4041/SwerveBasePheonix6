@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.Commands.DriveWithJoysticks;
+import frc.robot.Commands.WeekZeroAuto;
 import frc.robot.Subsystems.FiringHead;
 import frc.robot.Subsystems.Intake;
 import frc.robot.Subsystems.Pigeon2Subsystem;
@@ -73,6 +74,7 @@ public class RobotContainer {
   }
 
   public Command getAutonomousCommand() {
-    return new PathPlannerAuto("New Auto");
+    //return new PathPlannerAuto("New Auto");
+    return new WeekZeroAuto(pivot, intake, firingHead, masterController);
   }
 }

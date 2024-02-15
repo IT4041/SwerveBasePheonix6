@@ -107,9 +107,12 @@ public class FiringHead extends SubsystemBase {
   public void shooterSetSpeed(double speed){
       fireMotor.set(speed);
   }
-  public void transportMotor(double speed){
+  public void setTransportMotorSpeed(double speed){
     transportMotor.set(speed);
   }
-  
+
+  public TimeOfFlight getSensorA(){
+    return firingSensorA;
+  }
  
 }
