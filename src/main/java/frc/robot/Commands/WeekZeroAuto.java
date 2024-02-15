@@ -48,8 +48,9 @@ public class WeekZeroAuto extends SequentialCommandGroup {
     addCommands(new InstantCommand(() -> m_firingHead.setTransportMotorSpeed(Constants.FiringHeadConstants.TransportMotorSpeed), m_firingHead)); 
     addCommands(new WaitCommand(2));
     //add new parallel command
+    addCommands(new InstantCommand(() -> m_firingHead.setTransportMotorSpeed(0), m_firingHead));
     addCommands(new ParallelCommandGroup(
-      new InstantCommand(() -> m_firingHead.setTransportMotorSpeed(0), m_firingHead), //conveyrs
+       //intake
       new InstantCommand(() -> m_firingHead.shooterSetSpeed(0), m_firingHead), //shooter
       new InstantCommand(() -> m_intake.setIntakeSpeed(0), m_intake) //intake
     ));
