@@ -118,5 +118,7 @@ public class FiringHead extends SubsystemBase {
   public TimeOfFlight getSensorA(){
     return centerSensor;
   }
+
+
  
 }

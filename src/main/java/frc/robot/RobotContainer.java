@@ -6,6 +6,9 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
+import edu.wpi.first.wpilibj2.command.RunCommand;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.Commands.DriveWithJoysticks;
 import frc.robot.Commands.WeekZeroAuto;
@@ -62,7 +65,20 @@ public class RobotContainer {
     operatorController.a().onTrue(new InstantCommand(() -> pivot.down(), pivot));
     //operatorController.b().onTrue(new InstantCommand() -> ... , ...)
 
+    operatorController.rightTrigger().onTrue( new RunCommand(() ->  firingHead.shooterSetSpeed(Constants.FiringHeadConstants.FiringSpeed), firingHead)
+    .withTimeout(1)
+    .andThen(new InstantCommand(() -> firingHead.setTransportMotorSpeed(Constants.FiringHeadConstants.TransportMotorSpeed), firingHead)));
+     
+    operatorController.start().onTrue(new SequentialCommandGroup(
+      new InstantCommand(() -> firingHead.shooterSetSpeed(0), firingHead), //shooter off
+      new InstantCommand(() -> intake.setIntakeSpeed(0), intake), //intake off
+      new InstantCommand(() -> firingHead.setTransportMotorSpeed(0), firingHead), //transport motor off
+      new InstantCommand(() -> intake.setConveyrSpeed(0), intake), //conveyr off
+      new InstantCommand(() -> pivot.setPosition(0), pivot) //pivot starting position
+
+    ));
   }
+ 
 
   public Command getAutonomousCommand() {
     //return new PathPlannerAuto("New Auto");
