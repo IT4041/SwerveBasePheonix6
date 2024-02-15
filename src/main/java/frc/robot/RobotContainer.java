@@ -60,8 +60,9 @@ public class RobotContainer {
 
     operatorController.y().onTrue(new InstantCommand(() -> pivot.up(), pivot));
     operatorController.a().onTrue(new InstantCommand(() -> pivot.down(), pivot));
-    //operatorController.b().onTrue(new InstantCommand() -> ... , ...)
-
+    //operatorController.b().onTrue(new InstantCommand(() -> intake.TempTrig(), intake));
+    operatorController.b().toggleOnTrue(new InstantCommand(() -> intake.on(), intake).finallyDo(() -> intake.off()));
+    
   }
 
   public Command getAutonomousCommand() {
