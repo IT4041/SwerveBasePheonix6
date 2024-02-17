@@ -84,6 +84,12 @@ public class Pivot extends SubsystemBase {
     SmartDashboard.putNumber("current_position", current_position);
     SmartDashboard.putNumber("output", mainMotor.getAppliedOutput());
     SmartDashboard.putNumber("wpi_pid_output", wpi_pid_output);
+
+    SmartDashboard.putBoolean("Dump", position_index == 3);
+    SmartDashboard.putBoolean("Shoot High", position_index == 2);
+    SmartDashboard.putBoolean("Shoot Low", position_index == 1);
+    SmartDashboard.putBoolean("Starting", position_index == 0);
+
   }
 
   public void setPosition(double position) {
