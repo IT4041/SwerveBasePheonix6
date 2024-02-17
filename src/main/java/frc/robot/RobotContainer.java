@@ -9,6 +9,7 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.Commands.DriveWithJoysticks;
 import frc.robot.Commands.WeekZeroAuto;
@@ -50,33 +51,32 @@ public class RobotContainer {
   }
 
   private void configureBindings() {
+    
+    SequentialCommandGroup home = new SequentialCommandGroup(
+    new InstantCommand(() -> firingHead.shooterSetSpeed(0), firingHead), //shooter off
+    new InstantCommand(() -> intake.setIntakeSpeed(0), intake), //intake off
+    new InstantCommand(() -> firingHead.setTransportMotorSpeed(0), firingHead), //transport motor off
+    new InstantCommand(() -> intake.setConveyrSpeed(0), intake), //conveyr off
+    new InstantCommand(() -> pivot.Starting(), pivot) //pivot starting position
+    );
 
-    driverController.y().onTrue(new InstantCommand(() -> masterController.pivot_shooting(), masterController));
-    driverController.b().onTrue(new InstantCommand(() -> masterController.pivot_starting(), masterController));
-    driverController.a().onTrue(new InstantCommand(() -> masterController.pivot_dump(), masterController));
-
-    driverController.rightBumper().onTrue(new InstantCommand(() -> masterController.firingHead_feed(), masterController));
-    driverController.leftBumper().onTrue(new InstantCommand(() -> masterController.firingHead_MasterStop(), masterController));
-
-    driverController.rightTrigger().onTrue(new InstantCommand(() -> masterController.intake_on(), masterController));
-    driverController.leftTrigger().onTrue(new InstantCommand(() -> masterController.intake_off(), masterController));
-
+    driverController.start().onTrue(home);
+    
     operatorController.y().onTrue(new InstantCommand(() -> pivot.up(), pivot));
     operatorController.a().onTrue(new InstantCommand(() -> pivot.down(), pivot));
     
-    operatorController.b().toggleOnTrue(new InstantCommand(() -> intake.on(), intake).finallyDo(() -> intake.off()));
-    operatorController.rightTrigger().onTrue( new RunCommand(() ->  firingHead.shooterSetSpeed(Constants.FiringHeadConstants.FiringSpeed), firingHead)
-    .withTimeout(1)
-    .andThen(new InstantCommand(() -> firingHead.setTransportMotorSpeed(Constants.FiringHeadConstants.TransportMotorSpeed), firingHead)));
-     
-    operatorController.start().onTrue(new SequentialCommandGroup(
-      new InstantCommand(() -> firingHead.shooterSetSpeed(0), firingHead), //shooter off
-      new InstantCommand(() -> intake.setIntakeSpeed(0), intake), //intake off
-      new InstantCommand(() -> firingHead.setTransportMotorSpeed(0), firingHead), //transport motor off
-      new InstantCommand(() -> intake.setConveyrSpeed(0), intake), //conveyr off
-      new InstantCommand(() -> pivot.setPosition(0), pivot) //pivot starting position
+    operatorController.b().onTrue(new RunCommand(() -> masterController.runConveyors(),masterController)
+    .until(() -> firingHead.EitherSensorTriggered())
+    .andThen(new InstantCommand(() -> masterController.stopConveyors(),masterController)));
 
-    ));
+    driverController.rightTrigger().onTrue(new SequentialCommandGroup(
+      new InstantCommand(() -> firingHead.shooterSetSpeed(Constants.FiringHeadConstants.FiringSpeed), firingHead), //shooter off
+      new WaitCommand(1),
+      new InstantCommand(() -> firingHead.setTransportMotorSpeed(Constants.FiringHeadConstants.TransportMotorSpeed), firingHead), //transport motor off
+      new WaitCommand(3 ), //conveyr off
+      new InstantCommand(() -> firingHead.MasterStop(), firingHead)));
+
+    operatorController.start().onTrue(home); //pivot starting position
   }
  
 

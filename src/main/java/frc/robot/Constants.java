@@ -179,10 +179,10 @@ public class Constants {
         public static final class PivotPostions {
             public static final double ZeroOffset = 124.4;
             public static final double DumpPoint = 70;
-            public static final double ShootingPointMidRange = 39; //auto shooting pos 2
+            public static final double ShootingPointMidRange = 39.5; //auto shooting pos 2
             public static final double ShootingPointShortRange = 27; //auto shooting pos 1
             public static final double StartingPoint = 21; //up close shooting
-            public static final double[] PivotPoses = {StartingPoint, ShootingPointMidRange, ShootingPointMidRange, DumpPoint};
+            public static final double[] PivotPoses = {StartingPoint, ShootingPointShortRange, ShootingPointMidRange, DumpPoint};
         }
 
     }

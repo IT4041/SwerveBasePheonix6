@@ -56,6 +56,11 @@ public class MasterController extends SubsystemBase {
     m_pivot.Dump();
   }
 
+  public void MasterStop(){
+    
+  }
+
+
   public void runConveyors(){
     m_firingHead.setTransportMotorSpeed(Constants.FiringHeadConstants.TransportMotorSpeed);
     m_intake.setConveyrSpeed(Constants.IntakeConstants.ConveyrMotorSpeed);

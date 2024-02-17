@@ -109,6 +109,7 @@ public class Pivot extends SubsystemBase {
   public void Starting() {
     this.setPosition(Constants.PivotConstants.PivotPostions.StartingPoint);
     current_position = Constants.PivotConstants.PivotPostions.StartingPoint;
+    position_index = 0;
   }
 
   public void ShootingShortRange() {
