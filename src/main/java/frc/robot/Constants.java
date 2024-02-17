@@ -225,7 +225,7 @@ public class Constants {
         public static int TimeOfFlightTopSensorID = 87;
 
         public static double SideTreshholdIntake = 100;
-        public static double CenterTreshholdIntake = 250;
+        public static double TopTreshholdIntake = 250;
 
         public static double IntakeMotorSpeed = 0.7; // Number Reduced For Testing  Original 1
         public static double ConveyrMotorSpeed = 0.4; //                                     0.8

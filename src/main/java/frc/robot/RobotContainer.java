@@ -66,7 +66,7 @@ public class RobotContainer {
     operatorController.a().onTrue(new InstantCommand(() -> pivot.down(), pivot));
     
     operatorController.b().onTrue(new RunCommand(() -> masterController.runConveyors(),masterController)
-    .until(() -> firingHead.EitherSensorTriggered())
+    .until(() -> (firingHead.EitherSensorTriggered() && pivot.InStartingPosition()) || (intake.EitherSensorTriggered() && !pivot.InStartingPosition()))
     .andThen(new InstantCommand(() -> masterController.stopConveyors(),masterController)));
 
     driverController.rightTrigger().onTrue(new SequentialCommandGroup(

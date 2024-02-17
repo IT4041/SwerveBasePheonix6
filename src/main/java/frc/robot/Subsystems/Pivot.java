@@ -131,7 +131,12 @@ public class Pivot extends SubsystemBase {
   }
 
   public boolean InStartingPosition() {
-    return m_Encoder.getPosition() == Constants.PivotConstants.PivotPostions.StartingPoint;
+    return withinRange(2.25, m_Encoder.getPosition(), Constants.PivotConstants.PivotPostions.StartingPoint);
+  }
+
+  private boolean withinRange(double range, double value, double compareAgainst){
+   return compareAgainst+range >= value && compareAgainst-range < value;
+
   }
 
   public void goToPosition(double position) {
