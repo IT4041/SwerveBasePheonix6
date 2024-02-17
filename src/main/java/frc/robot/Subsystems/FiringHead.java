@@ -18,6 +18,8 @@ public class FiringHead extends SubsystemBase {
 
   private CANSparkMax fireMotor;
   private CANSparkMax followMotor;
+ 
+
 
   enum Stages {
     Idle,
@@ -78,9 +80,13 @@ public class FiringHead extends SubsystemBase {
     SmartDashboard.putNumber("SH Center distance", centerSensor.getRange());
     SmartDashboard.putNumber("SH Side distance", sideSensor.getRange());
 
+    SmartDashboard.putBoolean("conveyr on", transportMotor.get()>0);
+    SmartDashboard.putBoolean("shooter head is on", fireMotor.get()>0);
+
   }
 
   public void Feed() {
+  
     transportMotor.set(Constants.FiringHeadConstants.TransportMotorSpeed);
     fireMotor.set(Constants.FiringHeadConstants.FiringSpeed);
   }

@@ -68,6 +68,9 @@ public class Intake extends SubsystemBase {
     SmartDashboard.putNumber("Intake A distance", rangeSensorIntakeA.getRange());
     SmartDashboard.putNumber("Intake b distance", rangeSensorIntakeB.getRange());
 
+    SmartDashboard.putBoolean("intake head is on", intake.get()>0);
+
+
   }
 
   public boolean IntakeATriggered() {
