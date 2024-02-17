@@ -64,13 +64,9 @@ public class Intake extends SubsystemBase {
     SmartDashboard.putString("Intake Stage", stage.toString());
     SmartDashboard.putBoolean("Intake A triggered?", this.IntakeATriggered());
     SmartDashboard.putBoolean("Intake B triggered?", this.IntakeBTriggered());
-
     SmartDashboard.putNumber("Intake A distance", rangeSensorIntakeA.getRange());
     SmartDashboard.putNumber("Intake b distance", rangeSensorIntakeB.getRange());
-
-    SmartDashboard.putBoolean("intake head is on", intake.get()>0);
-
-
+    SmartDashboard.putBoolean("intake head is on", intake.get() > 0);
   }
 
   public boolean IntakeATriggered() {
@@ -88,7 +84,6 @@ public class Intake extends SubsystemBase {
     intake.set(Constants.IntakeConstants.IntakeMotorSpeed);
     
     stage = Stages.Triggered;
-
   }
 
   public void off() {
@@ -97,16 +92,17 @@ public class Intake extends SubsystemBase {
     conveyrUp.stopMotor();
 
     stage = Stages.Idle;
-
   }
 
   public void setIntakeSpeed(double in_speed){
     intake.set(in_speed); 
   }
+
   public void setConveyrSpeed(double con_speed){
     conveyrUp.set(con_speed);
     conveyrLow.set(con_speed);
   }
+
   public void TempTrig() {
     if (stage==Stages.Idle) {
       stage=Stages.Triggered;
@@ -119,9 +115,5 @@ public class Intake extends SubsystemBase {
         setConveyrSpeed(0);
       }
     }
-  
-
-    
-    
   }
 }

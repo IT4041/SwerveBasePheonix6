@@ -18,8 +18,6 @@ public class FiringHead extends SubsystemBase {
 
   private CANSparkMax fireMotor;
   private CANSparkMax followMotor;
- 
-
 
   enum Stages {
     Idle,
@@ -40,8 +38,7 @@ public class FiringHead extends SubsystemBase {
   public FiringHead() {
     fireMotor = new CANSparkMax(Constants.FiringHeadConstants.UpperSparkmaxDeviceID, MotorType.kBrushless);
     followMotor = new CANSparkMax(Constants.FiringHeadConstants.LowerSparkmaxDeviceID, MotorType.kBrushless);
-    transportMotor = new CANSparkMax(Constants.FiringHeadConstants.UpperTransportSparkmaxDeviceID,
-        MotorType.kBrushless);
+    transportMotor = new CANSparkMax(Constants.FiringHeadConstants.UpperTransportSparkmaxDeviceID,MotorType.kBrushless);
 
     fireMotor.restoreFactoryDefaults();
     followMotor.restoreFactoryDefaults();
@@ -80,13 +77,12 @@ public class FiringHead extends SubsystemBase {
     SmartDashboard.putNumber("SH Center distance", centerSensor.getRange());
     SmartDashboard.putNumber("SH Side distance", sideSensor.getRange());
 
-    SmartDashboard.putBoolean("conveyr on", transportMotor.get()>0);
-    SmartDashboard.putBoolean("shooter head is on", fireMotor.get()>0);
+    SmartDashboard.putBoolean("conveyr on", transportMotor.get() > 0);
+    SmartDashboard.putBoolean("shooter head is on", fireMotor.get() > 0);
 
   }
 
   public void Feed() {
-  
     transportMotor.set(Constants.FiringHeadConstants.TransportMotorSpeed);
     fireMotor.set(Constants.FiringHeadConstants.FiringSpeed);
   }
@@ -104,7 +100,7 @@ public class FiringHead extends SubsystemBase {
     return sideSensor.getRange() <= Constants.FiringHeadConstants.NoIntakeThresholdB;
   }
 
-  public boolean EitherSensorTriggered(){
+  public boolean EitherSensorTriggered() {
     return this.SideSensorTriggered() || this.CenterSensorTriggered();
   }
 
@@ -114,17 +110,15 @@ public class FiringHead extends SubsystemBase {
     stage = Stages.Idle;
   }
 
-  public void shooterSetSpeed(double speed){
-      fireMotor.set(speed);
+  public void shooterSetSpeed(double speed) {
+    fireMotor.set(speed);
   }
-  public void setTransportMotorSpeed(double speed){
+
+  public void setTransportMotorSpeed(double speed) {
     transportMotor.set(speed);
   }
 
-  public TimeOfFlight getSensorA(){
+  public TimeOfFlight getSensorA() {
     return centerSensor;
   }
-
-
- 
 }

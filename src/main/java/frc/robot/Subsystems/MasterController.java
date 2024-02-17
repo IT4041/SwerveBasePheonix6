@@ -4,11 +4,8 @@
 
 package frc.robot.Subsystems;
 
-import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
-
-import com.playingwithfusion.TimeOfFlight;
 
 public class MasterController extends SubsystemBase {
 
@@ -72,11 +69,5 @@ public class MasterController extends SubsystemBase {
   }
 
   @Override
-  public void periodic() {
-    // if (intake_on) {
-    //   if (m_pivot.InStartingPosition()) {
-    //     m_firingHead.Feed();
-    //   }
-    // }
-  }
+  public void periodic() {}
 }
