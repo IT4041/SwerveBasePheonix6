@@ -63,8 +63,8 @@ public class RobotContainer {
 
     operatorController.y().onTrue(new InstantCommand(() -> pivot.up(), pivot));
     operatorController.a().onTrue(new InstantCommand(() -> pivot.down(), pivot));
-    //operatorController.b().onTrue(new InstantCommand() -> ... , ...)
-
+    
+    operatorController.b().toggleOnTrue(new InstantCommand(() -> intake.on(), intake).finallyDo(() -> intake.off()));
     operatorController.rightTrigger().onTrue( new RunCommand(() ->  firingHead.shooterSetSpeed(Constants.FiringHeadConstants.FiringSpeed), firingHead)
     .withTimeout(1)
     .andThen(new InstantCommand(() -> firingHead.setTransportMotorSpeed(Constants.FiringHeadConstants.TransportMotorSpeed), firingHead)));
