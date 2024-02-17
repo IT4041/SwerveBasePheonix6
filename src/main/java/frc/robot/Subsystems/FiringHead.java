@@ -46,11 +46,11 @@ public class FiringHead extends SubsystemBase {
 
     m_Encoder = fireMotor.getEncoder();
 
-    fireMotor.setIdleMode(IdleMode.kBrake);
+    fireMotor.setIdleMode(IdleMode.kCoast);
     fireMotor.setSmartCurrentLimit(80);
     fireMotor.setClosedLoopRampRate(1);
 
-    followMotor.setIdleMode(IdleMode.kBrake);
+    followMotor.setIdleMode(IdleMode.kCoast);
     followMotor.setSmartCurrentLimit(80);
     followMotor.setClosedLoopRampRate(1);
 

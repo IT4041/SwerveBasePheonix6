@@ -28,8 +28,8 @@ public class Intake extends SubsystemBase {
 
   Stages stage = Stages.Idle;
 
-  private final TimeOfFlight rangeSensorIntakeA = new TimeOfFlight(Constants.IntakeConstants.TimeOfFlightASensorId);
-  private final TimeOfFlight rangeSensorIntakeB = new TimeOfFlight(Constants.IntakeConstants.TimeOfFlightBSensorId);
+  private final TimeOfFlight SideSensor = new TimeOfFlight(Constants.IntakeConstants.TimeOfFlightSideSensorID);
+  private final TimeOfFlight topSensor = new TimeOfFlight(Constants.IntakeConstants.TimeOfFlightTopSensorID);
 
   public Intake() {
 
@@ -55,26 +55,30 @@ public class Intake extends SubsystemBase {
     conveyrLow.setSmartCurrentLimit(80);
     conveyrLow.setClosedLoopRampRate(1);
 
-    rangeSensorIntakeA.setRangingMode(RangingMode.Long, 1);
-    rangeSensorIntakeB.setRangingMode(RangingMode.Long, 1);
+    SideSensor.setRangingMode(RangingMode.Medium, 1);
+    topSensor.setRangingMode(RangingMode.Long, 1);
   }
 
   @Override
   public void periodic() {
     SmartDashboard.putString("Intake Stage", stage.toString());
-    SmartDashboard.putBoolean("Intake A triggered?", this.IntakeATriggered());
-    SmartDashboard.putBoolean("Intake B triggered?", this.IntakeBTriggered());
-    SmartDashboard.putNumber("Intake A distance", rangeSensorIntakeA.getRange());
-    SmartDashboard.putNumber("Intake b distance", rangeSensorIntakeB.getRange());
+    SmartDashboard.putBoolean("Intake A triggered?", this.SideTriggered());
+    SmartDashboard.putBoolean("Intake B triggered?", this.TopTriggered());
+    SmartDashboard.putNumber("Intake A distance", SideSensor.getRange());
+    SmartDashboard.putNumber("Intake b distance", topSensor.getRange());
     SmartDashboard.putBoolean("intake head is on", intake.get() > 0);
   }
 
-  public boolean IntakeATriggered() {
-    return rangeSensorIntakeA.getRange() <= Constants.IntakeConstants.ATreshholdIntake;
+  public boolean SideTriggered() {
+    return SideSensor.getRange() <= Constants.IntakeConstants.SideTreshholdIntake;
   }
 
-  public boolean IntakeBTriggered() {
-    return rangeSensorIntakeB.getRange() <= Constants.IntakeConstants.BTreshholdIntake;
+  public boolean TopTriggered() {
+    return topSensor.getRange() <= Constants.IntakeConstants.CenterTreshholdIntake;
+  }
+
+  public boolean EitherSensorTriggered() {
+    return this.SideTriggered() || this.TopTriggered();
   }
 
   public void on() {

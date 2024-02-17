@@ -43,7 +43,7 @@ public class WeekZeroAuto extends SequentialCommandGroup {
 
     addCommands(new ParallelCommandGroup(
       new RunCommand(() -> m_SwerveSubsystem.goForward(-0.4), m_SwerveSubsystem)
-        .withTimeout(3.25)
+        .withTimeout(3.35)
         .andThen(new InstantCommand(() -> m_SwerveSubsystem.stop(),m_SwerveSubsystem)),
       new RunCommand(() -> m_masterController.runConveyors(),m_masterController)
         .until(() -> m_firingHead.EitherSensorTriggered())

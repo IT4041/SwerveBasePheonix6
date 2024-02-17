@@ -104,23 +104,21 @@ public class Constants {
         // public static final double MAX_VELOCITY_METERS_PER_SECOND = 6380.0 / 60.0 *
         // ((14.0 / 50.0) * (27.0 / 17.0) * (15.0 / 45.0)) * 0.100076 * Math.PI;
         public static final double MAX_VELOCITY_METERS_PER_SECOND = Units.feetToMeters(16.5);
-
-        public static final double MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND = MAX_VELOCITY_METERS_PER_SECOND
-                / Math.hypot(TRACKWIDTH_METERS / 2.0, WHEELBASE_METERS / 2.0);
+        public static final double MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND = MAX_VELOCITY_METERS_PER_SECOND / Math.hypot(TRACKWIDTH_METERS / 2.0, WHEELBASE_METERS / 2.0);
 
         /*
-         * +X
-         * |
-         * |
-         * |
-         * +Y | -Y
-         * <------------|---------->
-         * |
-         * |
-         * |
-         * |
-         * -X
-         */
+        *              +X
+        *               |
+        *               |
+        *               |
+        *  +Y           |         -Y
+        *  <------------|---------->
+        *               |
+        *               |
+        *               |
+        *               |
+        *              -X
+        */
 
         public static final SwerveDriveKinematics KINEMATICS = new SwerveDriveKinematics(
                 new Translation2d(TRACKWIDTH_METERS / 2.0, WHEELBASE_METERS / 2.0), // Front Left
@@ -172,8 +170,7 @@ public class Constants {
             public static final double kIz = 0.0;
             public static final double kFF = 0.0;
             public static final double kMaxOutput = 1;
-            public static final double kMinOutput = -0.45;
-            
+            public static final double kMinOutput = -0.45; 
         }
 
         public static final class PivotPostions {
@@ -184,7 +181,6 @@ public class Constants {
             public static final double StartingPoint = 21; //up close shooting
             public static final double[] PivotPoses = {StartingPoint, ShootingPointShortRange, ShootingPointMidRange, DumpPoint};
         }
-
     }
 
     public static final class FiringHeadConstants {
@@ -225,11 +221,11 @@ public class Constants {
         public static int LowerConvyerSparkmaxDeviceID = 2;
         public static int UpperIntakeSparkmaxDeviceID = 33;
 
-        public static int TimeOfFlightASensorId = 88;
-        public static int TimeOfFlightBSensorId = 87;
+        public static int TimeOfFlightSideSensorID = 88;
+        public static int TimeOfFlightTopSensorID = 87;
 
-        public static double ATreshholdIntake = 30;
-        public static double BTreshholdIntake = 30;
+        public static double SideTreshholdIntake = 100;
+        public static double CenterTreshholdIntake = 250;
 
         public static double IntakeMotorSpeed = 0.7; // Number Reduced For Testing  Original 1
         public static double ConveyrMotorSpeed = 0.4; //                                     0.8
