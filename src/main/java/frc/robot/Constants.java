@@ -196,7 +196,8 @@ public class Constants {
         public static int NoIntakeThresholdB = 30;
 
         //public static double FiringSpeed = 0.2;             // 0.4
-        public static double FiringSpeed = 0.4;
+        public static double FiringSpeed = 0.4; //0.4
+        public static double DumpSpeed = 0.15;
         public static double FarFiringSpeed = 0.45;
         public static double TransportMotorSpeed = 0.4;     // 0.8
 
