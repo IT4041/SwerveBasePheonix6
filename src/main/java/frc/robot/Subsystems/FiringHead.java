@@ -58,7 +58,7 @@ public class FiringHead extends SubsystemBase {
     transportMotor.setSmartCurrentLimit(80);
     transportMotor.setClosedLoopRampRate(1);
 
-    //followMotor.follow(fireMotor, true);
+    followMotor.follow(fireMotor, true);
 
     centerSensor.setRangingMode(RangingMode.Short, 1);
     sideSensor.setRangingMode(RangingMode.Short, 1);
