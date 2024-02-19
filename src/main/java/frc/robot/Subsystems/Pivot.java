@@ -143,6 +143,10 @@ public class Pivot extends SubsystemBase {
     this.setPosition(position);
   }
 
+  public double returnPosition(){
+    return this.current_position;
+  }
+
   public void up() {
     if (position_index < 3) {
       position_index++;
