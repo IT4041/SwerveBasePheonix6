@@ -18,7 +18,6 @@ import frc.lib.BetterSwerveModuleState;
 import frc.lib.SwerveModuleConstants;
 import frc.robot.Constants.SwerveConstants;
 
-
 public class SwerveSubsystem extends SubsystemBase {
 
   public SwerveModule[] swerveModules;
@@ -215,7 +214,5 @@ public class SwerveSubsystem extends SubsystemBase {
     return currentHeading;
   }
 
-  public void driveForward(double distance) {
-    
-  }
+
 }

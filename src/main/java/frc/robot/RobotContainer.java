@@ -4,15 +4,16 @@
 
 package frc.robot;
 
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
-import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.Commands.DriveWithJoysticks;
-import frc.robot.Commands.WeekZeroAuto;
+import frc.robot.Commands.Autonomous.AutoSequences;
+import frc.robot.Commands.Autonomous.WeekZeroAuto;
 import frc.robot.Subsystems.FiringHead;
 import frc.robot.Subsystems.Intake;
 import frc.robot.Subsystems.Pigeon2Subsystem;
@@ -20,9 +21,20 @@ import frc.robot.Subsystems.Pivot;
 import frc.robot.Subsystems.PoseEstimator;
 import frc.robot.Subsystems.SwerveSubsystem;
 import frc.robot.Subsystems.MasterController;
+
+
+import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.auto.NamedCommands;
 import com.pathplanner.lib.commands.PathPlannerAuto;
+import com.pathplanner.lib.path.GoalEndState;
+import com.pathplanner.lib.path.PathConstraints;
+import com.pathplanner.lib.path.PathPlannerPath;
+
 
 public class RobotContainer {
+
+  private AutoSequences autoSequences;
+  private SendableChooser<Command> trajChooser;
 
   private final SwerveSubsystem swerveSubsystem = new SwerveSubsystem();
   private final Pigeon2Subsystem pigeon2Subsystem = new Pigeon2Subsystem();
@@ -38,6 +50,8 @@ public class RobotContainer {
 
   public RobotContainer() {
 
+    autoSequences = new AutoSequences();
+
     swerveSubsystem.reset();
     swerveSubsystem.setDefaultCommand(new DriveWithJoysticks(
         swerveSubsystem,
@@ -48,6 +62,7 @@ public class RobotContainer {
         () -> Constants.fieldRelative,
         () -> Constants.DRIVE_SPEED));
     configureBindings();
+    setupTrajectoryDashboardChooser();
   }
 
   private void configureBindings() {
@@ -81,10 +96,13 @@ public class RobotContainer {
     operatorController.start().onTrue(home); //pivot starting position
   }
   
- 
-
   public Command getAutonomousCommand() {
     //return new PathPlannerAuto("New Auto");
     return new WeekZeroAuto(pivot, intake, firingHead, masterController, swerveSubsystem);
+    //return trajChooser.getSelected();
+  }
+
+  public void setupTrajectoryDashboardChooser(){
+    trajChooser = AutoBuilder.buildAutoChooser();
   }
 }
