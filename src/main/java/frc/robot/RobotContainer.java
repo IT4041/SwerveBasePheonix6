@@ -71,19 +71,12 @@ public class RobotContainer {
 
     driverController.rightTrigger().onTrue(
       new SequentialCommandGroup(
-      new InstantCommand(() -> firingHead.shooterSetSpeed(Constants.FiringHeadConstants.FiringSpeed), firingHead), //shooter off
+      new InstantCommand(() -> firingHead.shooterSetSpeed(masterController.getFiringSpeed()), firingHead), //shooter off
       new WaitCommand(1),
       new InstantCommand(() -> firingHead.setTransportMotorSpeed(Constants.FiringHeadConstants.TransportMotorSpeed), firingHead), //transport motor off
       new WaitCommand(3 ), //conveyr off
-      new InstantCommand(() -> firingHead.MasterStop(), firingHead)));
-
-      driverController.rightBumper().onTrue(
-        new SequentialCommandGroup(
-      new InstantCommand(() -> firingHead.shooterSetSpeed(Constants.FiringHeadConstants.DumpSpeed), firingHead), //shooter off
-      new WaitCommand(1),
-      new InstantCommand(() -> firingHead.setTransportMotorSpeed(Constants.FiringHeadConstants.TransportMotorSpeed), firingHead), //transport motor off
-      new WaitCommand(3 ), //conveyr off
-      new InstantCommand(() -> firingHead.MasterStop(), firingHead)));
+      new InstantCommand(() -> firingHead.MasterStop(), firingHead))
+      );
 
     operatorController.start().onTrue(home); //pivot starting position
   }

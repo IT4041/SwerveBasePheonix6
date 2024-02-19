@@ -72,6 +72,14 @@ public class MasterController extends SubsystemBase {
       m_intake.setIntakeSpeed(0);
   }
 
+  public double getFiringSpeed(){
+    double retSpeed = Constants.FiringHeadConstants.FiringSpeed;
+    if(m_pivot.returnPosition() == Constants.PivotConstants.PivotPostions.DumpPoint){
+      retSpeed = Constants.FiringHeadConstants.DumpSpeed;
+    }
+    return retSpeed;
+  }
+
   @Override
   public void periodic() {}
 }
