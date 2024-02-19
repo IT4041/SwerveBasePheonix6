@@ -210,8 +210,6 @@ public class Constants {
             public static final double kFF = 0;
             public static final double kMaxOutput = 0;
             public static final double kMinOutput = 0;
-
-            public static final double FireVelocity = 0.4;
         }
     }
 
