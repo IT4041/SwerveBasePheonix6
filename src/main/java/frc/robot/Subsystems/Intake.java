@@ -74,11 +74,11 @@ public class Intake extends SubsystemBase {
   }
 
   public boolean TopTriggered() {
-    return topSensor.getRange() <= Constants.IntakeConstants.CenterTreshholdIntake;
+    return topSensor.getRange() <= Constants.IntakeConstants.TopTreshholdIntake;
   }
 
   public boolean EitherSensorTriggered() {
-    return this.SideTriggered() || this.TopTriggered();
+    return this.SideTriggered(); //|| this.TopTriggered();
   }
 
   public void on() {
