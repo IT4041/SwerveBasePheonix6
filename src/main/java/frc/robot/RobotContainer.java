@@ -16,6 +16,7 @@ import frc.robot.Commands.Autonomous.AutoSequences;
 import frc.robot.Commands.Autonomous.WeekZeroAuto;
 import frc.robot.Subsystems.FiringHead;
 import frc.robot.Subsystems.Intake;
+import frc.robot.Subsystems.Lift;
 import frc.robot.Subsystems.Pigeon2Subsystem;
 import frc.robot.Subsystems.Pivot;
 import frc.robot.Subsystems.PoseEstimator;
@@ -46,6 +47,7 @@ public class RobotContainer {
   private final Pivot pivot = new Pivot();
   private final Intake intake = new Intake();
   private final FiringHead firingHead = new FiringHead();
+  private final Lift lift = new Lift();
   private final MasterController masterController = new MasterController(pivot, intake, firingHead);
 
   public RobotContainer() {
@@ -92,6 +94,9 @@ public class RobotContainer {
       new WaitCommand(3 ), //conveyr off
       new InstantCommand(() -> firingHead.MasterStop(), firingHead))
       );
+
+    operatorController.x().whileTrue(new InstantCommand(() -> lift.up(), lift));
+    operatorController.b().whileTrue(new InstantCommand(() -> lift.down(), lift));
 
     operatorController.start().onTrue(home); //pivot starting position
   }
