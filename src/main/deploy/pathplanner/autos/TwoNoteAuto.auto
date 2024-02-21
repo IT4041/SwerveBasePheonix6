@@ -20,13 +20,13 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Example Path"
+            "pathName": "TwoNotePath"
           }
         },
         {
           "type": "named",
           "data": {
-            "name": "fire"
+            "name": "fire_far"
           }
         }
       ]
