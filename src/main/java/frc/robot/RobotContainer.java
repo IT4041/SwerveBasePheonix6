@@ -58,7 +58,7 @@ public class RobotContainer {
         () -> Constants.DRIVE_SPEED));
     configureBindings();
 
-    AutoSequences autoSeq = new AutoSequences(pivot, intake, firingHead);
+    AutoSequences autoSeq = new AutoSequences(pivot, intake, firingHead, masterController);
 
     NamedCommands.registerCommand("near_shooting", new InstantCommand(() -> firingHead.shooterSetSpeed(Constants.FiringHeadConstants.FiringSpeed),firingHead));
     NamedCommands.registerCommand("far_shooting", new InstantCommand(() -> firingHead.shooterSetSpeed(Constants.FiringHeadConstants.FarFiringSpeed),firingHead));
@@ -70,6 +70,7 @@ public class RobotContainer {
     NamedCommands.registerCommand("pivot_start", new InstantCommand(() -> pivot.goToPosition(Constants.PivotConstants.PivotPostions.StartingPoint),pivot));
 
     NamedCommands.registerCommand("starting_sequence", autoSeq.AutoStartingSequence());
+    NamedCommands.registerCommand("run_conveyors", autoSeq.AutoConveyrSequence());
 
 
     trajChooser = AutoBuilder.buildAutoChooser();

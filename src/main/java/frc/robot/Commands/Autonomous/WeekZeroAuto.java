@@ -32,7 +32,7 @@ public class WeekZeroAuto extends SequentialCommandGroup {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     
-  
+    addCommands(new AutoSequences(m_pivot,m_intake,m_firingHead,m_masterController).AutoStartingSequence());
 
     addCommands(new ParallelCommandGroup(
       new RunCommand(() -> m_SwerveSubsystem.goForward(-0.4), m_SwerveSubsystem)
