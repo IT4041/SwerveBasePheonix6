@@ -33,8 +33,8 @@ public class AutoSequences {
         new InstantCommand(() -> m_firingHead.shooterSetSpeed(Constants.FiringHeadConstants.FiringSpeed), m_firingHead),
         new InstantCommand(() -> m_pivot.goToPosition(Constants.PivotConstants.PivotPostions.ShootingPointShortRange), m_pivot), //27
         new WaitCommand(0.5),
-        new InstantCommand(() -> m_firingHead.setTransportMotorSpeed(Constants.FiringHeadConstants.TransportMotorSpeed), m_firingHead),
-        new WaitCommand(1));
+        new InstantCommand(() -> m_firingHead.setTransportMotorSpeed(Constants.FiringHeadConstants.TransportMotorSpeed), m_firingHead)
+        );
         
         return shootingCommand;
     }
@@ -42,6 +42,7 @@ public class AutoSequences {
 
         SequentialCommandGroup group = new SequentialCommandGroup(  
         this.AutoShootingSequence(),
+        new WaitCommand(1),
         new InstantCommand(() -> m_firingHead.shooterSetSpeed(0), m_firingHead),
         new InstantCommand(() -> m_pivot.goToPosition(Constants.PivotConstants.PivotPostions.StartingPoint), m_pivot),
         new InstantCommand(() -> m_intake.setIntakeSpeed(Constants.IntakeConstants.IntakeMotorSpeed), m_intake),
