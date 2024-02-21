@@ -62,13 +62,13 @@ public class MasterController extends SubsystemBase {
 
   public void runConveyors(){
     m_firingHead.setTransportMotorSpeed(Constants.FiringHeadConstants.TransportMotorSpeed);
-    m_intake.setConveyrSpeed(Constants.IntakeConstants.ConveyrMotorSpeed);
+    m_intake.setConveyorSpeed(Constants.IntakeConstants.ConveyrMotorSpeed);
     m_intake.setIntakeSpeed(Constants.IntakeConstants.IntakeMotorSpeed);
   }
 
   public void stopConveyors(){
       m_firingHead.setTransportMotorSpeed(0);
-      m_intake.setConveyrSpeed(0);
+      m_intake.setConveyorSpeed(0);
       m_intake.setIntakeSpeed(0);
   }
 

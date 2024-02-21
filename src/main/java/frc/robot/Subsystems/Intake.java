@@ -102,7 +102,7 @@ public class Intake extends SubsystemBase {
     intake.set(in_speed); 
   }
 
-  public void setConveyrSpeed(double con_speed){
+  public void setConveyorSpeed(double con_speed){
     conveyrUp.set(con_speed);
     conveyrLow.set(con_speed);
   }
@@ -111,12 +111,12 @@ public class Intake extends SubsystemBase {
     if (stage==Stages.Idle) {
       stage=Stages.Triggered;
       setIntakeSpeed(Constants.IntakeConstants.ConveyrMotorSpeed);
-      setConveyrSpeed(Constants.IntakeConstants.ConveyrMotorSpeed);
+      setConveyorSpeed(Constants.IntakeConstants.ConveyrMotorSpeed);
       
     } else { if(stage==Stages.Triggered){
         stage = Stages.Idle;
         setIntakeSpeed(0);
-        setConveyrSpeed(0);
+        setConveyorSpeed(0);
       }
     }
   }

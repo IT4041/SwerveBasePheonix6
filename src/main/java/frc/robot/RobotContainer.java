@@ -70,8 +70,12 @@ public class RobotContainer {
     NamedCommands.registerCommand("pivot_start", new InstantCommand(() -> pivot.goToPosition(Constants.PivotConstants.PivotPostions.StartingPoint),pivot));
 
     NamedCommands.registerCommand("starting_sequence", autoSeq.AutoStartingSequence());
-    NamedCommands.registerCommand("run_conveyors", autoSeq.AutoConveyrSequence());
+    NamedCommands.registerCommand("run_conveyors", autoSeq.AutoConveyorSequence());
     NamedCommands.registerCommand("stop_conveyors", autoSeq.AutoStopSequence());
+
+    NamedCommands.registerCommand("fire_dump", autoSeq.AutoShootingSequence(Constants.FiringHeadConstants.DumpSpeed,Constants.PivotConstants.PivotPostions.DumpPoint));
+    NamedCommands.registerCommand("fire_near", autoSeq.AutoShootingSequence(Constants.FiringHeadConstants.FiringSpeed,Constants.PivotConstants.PivotPostions.ShootingPointShortRange));
+    NamedCommands.registerCommand("fire_far", autoSeq.AutoShootingSequence(Constants.FiringHeadConstants.FarFiringSpeed,Constants.PivotConstants.PivotPostions.ShootingPointMidRange));
 
     trajChooser = AutoBuilder.buildAutoChooser();
     SmartDashboard.putData("Auto Chooser", trajChooser);
@@ -83,7 +87,7 @@ public class RobotContainer {
         new InstantCommand(() -> firingHead.shooterSetSpeed(0), firingHead), // shooter off
         new InstantCommand(() -> intake.setIntakeSpeed(0), intake), // intake off
         new InstantCommand(() -> firingHead.setTransportMotorSpeed(0), firingHead), // transport motor off
-        new InstantCommand(() -> intake.setConveyrSpeed(0), intake), // conveyr off
+        new InstantCommand(() -> intake.setConveyorSpeed(0), intake), // conveyr off
         new InstantCommand(() -> pivot.Starting(), pivot) // pivot starting position
     );
 
