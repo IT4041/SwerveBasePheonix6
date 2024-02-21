@@ -11,6 +11,7 @@ import frc.robot.Subsystems.MasterController;
 import frc.robot.Subsystems.Pivot;
 import frc.robot.Subsystems.SwerveSubsystem;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.Constants;
@@ -52,6 +53,18 @@ public class AutoSequences {
         .andThen(new InstantCommand(() -> m_masterController.stopConveyors(),m_masterController));
 
         return command;
+    }
+
+    public SequentialCommandGroup AutoStopSequence(){
+       
+      SequentialCommandGroup stopCommand = new SequentialCommandGroup(
+      new InstantCommand(() -> m_firingHead.setTransportMotorSpeed(0), m_firingHead),
+      new InstantCommand(() -> m_intake.setConveyrSpeed(0), m_intake), 
+      new InstantCommand(() -> m_firingHead.shooterSetSpeed(0), m_firingHead),
+      new InstantCommand(() -> m_intake.setIntakeSpeed(0), m_intake) );
+
+      return stopCommand;
+
     }
     
 }
