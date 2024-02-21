@@ -71,7 +71,7 @@ public class RobotContainer {
 
     NamedCommands.registerCommand("starting_sequence", autoSeq.AutoStartingSequence());
     NamedCommands.registerCommand("run_conveyors", autoSeq.AutoConveyrSequence());
-
+    NamedCommands.registerCommand("stop_conveyors", autoSeq.AutoStopSequence());
 
     trajChooser = AutoBuilder.buildAutoChooser();
     SmartDashboard.putData("Auto Chooser", trajChooser);

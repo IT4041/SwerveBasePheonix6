@@ -16,7 +16,7 @@ import com.revrobotics.CANSparkMax;
 public class Lift extends SubsystemBase {
 
     private CANSparkMax lift;
-    //private RelativeEncoder m_Encoder;
+    // private RelativeEncoder m_Encoder;
 
     public Lift() {
         lift = new CANSparkMax(Constants.LiftConstants.LiftSparkmaxDeviceID, MotorType.kBrushless);
@@ -25,21 +25,23 @@ public class Lift extends SubsystemBase {
         lift.setSmartCurrentLimit(80);
         lift.setInverted(false);
 
-        //m_Encoder = lift.getEncoder();
+        // m_Encoder = lift.getEncoder();
         lift.setSoftLimit(SoftLimitDirection.kForward, Constants.LiftConstants.Extended);
         lift.setSoftLimit(SoftLimitDirection.kReverse, Constants.LiftConstants.Home);
         lift.enableSoftLimit(SoftLimitDirection.kForward, true);
         lift.enableSoftLimit(SoftLimitDirection.kReverse, true);
         lift.burnFlash();
     }
-    public void periodic() { }
 
-    public void up(){
-    lift.set(Constants.LiftConstants.up_speed);
+    public void periodic() {
+    }
+
+    public void up() {
+        lift.set(Constants.LiftConstants.up_speed);
     }
 
     public void down() {
-    lift.set(Constants.LiftConstants.down_speed);
+        lift.set(Constants.LiftConstants.down_speed);
     }
 
 }
