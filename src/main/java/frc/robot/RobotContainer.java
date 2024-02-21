@@ -13,6 +13,7 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.Commands.DriveWithJoysticks;
+import frc.robot.Commands.Autonomous.AutoSequences;
 import frc.robot.Subsystems.FiringHead;
 import frc.robot.Subsystems.Intake;
 import frc.robot.Subsystems.Lift;
@@ -57,6 +58,8 @@ public class RobotContainer {
         () -> Constants.DRIVE_SPEED));
     configureBindings();
 
+    AutoSequences autoSeq = new AutoSequences(pivot, intake, firingHead);
+
     NamedCommands.registerCommand("near_shooting", new InstantCommand(() -> firingHead.shooterSetSpeed(Constants.FiringHeadConstants.FiringSpeed),firingHead));
     NamedCommands.registerCommand("far_shooting", new InstantCommand(() -> firingHead.shooterSetSpeed(Constants.FiringHeadConstants.FarFiringSpeed),firingHead));
     NamedCommands.registerCommand("dump_shooting", new InstantCommand(() -> firingHead.shooterSetSpeed(Constants.FiringHeadConstants.DumpSpeed),firingHead));
@@ -65,6 +68,9 @@ public class RobotContainer {
     NamedCommands.registerCommand("pivot_mid", new InstantCommand(() -> pivot.goToPosition(Constants.PivotConstants.PivotPostions.ShootingPointMidRange),pivot));
     NamedCommands.registerCommand("pivot_short", new InstantCommand(() -> pivot.goToPosition(Constants.PivotConstants.PivotPostions.ShootingPointShortRange),pivot));
     NamedCommands.registerCommand("pivot_start", new InstantCommand(() -> pivot.goToPosition(Constants.PivotConstants.PivotPostions.StartingPoint),pivot));
+
+    NamedCommands.registerCommand("starting_sequence", autoSeq.AutoStartingSequence());
+
 
     trajChooser = AutoBuilder.buildAutoChooser();
     SmartDashboard.putData("Auto Chooser", trajChooser);
