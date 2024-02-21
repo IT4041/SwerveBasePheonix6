@@ -37,7 +37,7 @@ public class PoseEstimator extends SubsystemBase {
   // This in turn means the particualr component will have a stronger influence on the final pose estimate.
   private final Matrix<N3, N1> stateStdDevs = VecBuilder.fill(0.1, 0.1, 0.1); //was 0.05, 0.05, deg to rad 5
   private final Matrix<N3, N1> visionMeasurementStdDevs = VecBuilder.fill(0.9, 0.9, 0.9); //was 0.02, 0.02, 5
-  private static SwerveDrivePoseEstimator poseEstimator;
+  private static SwerveDrivePoseEstimator swerveDrivePoseEstimator;
   
   private final Field2d field2d = new Field2d();
 
@@ -54,7 +54,7 @@ public class PoseEstimator extends SubsystemBase {
     this.swerveSubsystem = swerveSubsystem;
     this.pigeon2Subsystem = pigeon2Subsystem;
 
-    poseEstimator = new SwerveDrivePoseEstimator(
+    swerveDrivePoseEstimator = new SwerveDrivePoseEstimator(
       SwerveConstants.KINEMATICS, 
       pigeon2Subsystem.getGyroRotation(true), 
       swerveSubsystem.getPositions(true), 
@@ -117,8 +117,8 @@ public class PoseEstimator extends SubsystemBase {
         FailedDaqs++;
     }*/
 
-    poseEstimator.updateWithTime(Timer.getFPGATimestamp(), pigeon2Subsystem.getGyroRotation(true), swerveSubsystem.getPositions(true));
-    field2d.setRobotPose(poseEstimator.getEstimatedPosition());
+    swerveDrivePoseEstimator.updateWithTime(Timer.getFPGATimestamp(), pigeon2Subsystem.getGyroRotation(true), swerveSubsystem.getPositions(true));
+    field2d.setRobotPose(swerveDrivePoseEstimator.getEstimatedPosition());
   }
 
   /**
@@ -126,7 +126,7 @@ public class PoseEstimator extends SubsystemBase {
    * @return Pose2d representing the current estimated X, Y, and Theta of the robot
    */
   public Pose2d getPose() {
-    return poseEstimator.getEstimatedPosition();
+    return swerveDrivePoseEstimator.getEstimatedPosition();
   }
 
   /**
@@ -134,7 +134,7 @@ public class PoseEstimator extends SubsystemBase {
    * @return double representing the current estimated X of the robot
    */
   public double getPoseX() {
-    return poseEstimator.getEstimatedPosition().getX();
+    return swerveDrivePoseEstimator.getEstimatedPosition().getX();
   }
 
   /**
@@ -142,7 +142,7 @@ public class PoseEstimator extends SubsystemBase {
    * @return double representing the current estimated Y of the robot
    */
   public double getPoseY() {
-    return poseEstimator.getEstimatedPosition().getY();
+    return swerveDrivePoseEstimator.getEstimatedPosition().getY();
   }
 
   /**
@@ -150,7 +150,7 @@ public class PoseEstimator extends SubsystemBase {
    * @return double representing the current estimated Theta of the robot
    */
   public double getPoseTheta() {
-    return poseEstimator.getEstimatedPosition().getRotation().getDegrees();
+    return swerveDrivePoseEstimator.getEstimatedPosition().getRotation().getDegrees();
   }
 
   /**
@@ -158,7 +158,7 @@ public class PoseEstimator extends SubsystemBase {
    * @return Rotation2d representing the current estimated Theta of the robot
    */
   public Rotation2d getPoseRotation() {
-    return poseEstimator.getEstimatedPosition().getRotation();
+    return swerveDrivePoseEstimator.getEstimatedPosition().getRotation();
   }
 
   /**
@@ -166,7 +166,7 @@ public class PoseEstimator extends SubsystemBase {
    * @param pose to set the pose estimator to
    */
   public void setPose(Pose2d pose) {
-    poseEstimator.resetPosition(pigeon2Subsystem.getGyroRotation(true), swerveSubsystem.getPositions(true), pose);
+    swerveDrivePoseEstimator.resetPosition(pigeon2Subsystem.getGyroRotation(true), swerveSubsystem.getPositions(true), pose);
   }
 
   /**
