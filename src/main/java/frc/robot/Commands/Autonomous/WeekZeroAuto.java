@@ -58,7 +58,9 @@ public class WeekZeroAuto extends SequentialCommandGroup {
       new InstantCommand(() -> m_firingHead.shooterSetSpeed(0), m_firingHead), //shooter
       new InstantCommand(() -> m_intake.setIntakeSpeed(0), m_intake) //intake
     ));
+
     
+
     addCommands(new InstantCommand(() -> m_pivot.goToPosition(Constants.PivotConstants.PivotPostions.StartingPoint), m_pivot));
   }
 }
