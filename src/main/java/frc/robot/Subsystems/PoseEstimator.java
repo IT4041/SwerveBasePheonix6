@@ -16,6 +16,7 @@ import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.numbers.N1;
 import edu.wpi.first.math.numbers.N3;
 import edu.wpi.first.math.trajectory.Trajectory;
@@ -79,8 +80,8 @@ public class PoseEstimator extends SubsystemBase {
     AutoBuilder.configureHolonomic(
         this::getPose, // Robot pose supplier
         this::setPose, // Method to reset odometry (will be called if your auto has a starting pose)
-        swerveSubsystem::getCurrentChassisSpeeds, // ChassisSpeeds supplier. MUST BE ROBOT RELATIVE
-        swerveSubsystem::betterDrive, // Method that will drive the robot given ROBOT RELATIVE ChassisSpeeds
+        this::getRobotRelativeSpeeds, // ChassisSpeeds supplier. MUST BE ROBOT RELATIVE
+        this::robotRelativeDrive, // Method that will drive the robot given ROBOT RELATIVE ChassisSpeeds
         new HolonomicPathFollowerConfig( // HolonomicPathFollowerConfig, this should likely live in your Constants class
             new PIDConstants(5.0, 0.0, 0.0), // Translation PID constants
             new PIDConstants(5.0, 0.0, 0.0), // Rotation PID constants
@@ -190,5 +191,13 @@ public class PoseEstimator extends SubsystemBase {
    */
   public void setTrajectoryField2d(Trajectory trajectory) {
     field2d.getObject("traj").setTrajectory(trajectory);
+  }
+
+  public ChassisSpeeds getRobotRelativeSpeeds() {
+     return ChassisSpeeds.fromRobotRelativeSpeeds(SwerveConstants.KINEMATICS.toChassisSpeeds(swerveSubsystem.getStates(true)),this.getPoseRotation());
+  }
+
+  public void robotRelativeDrive(ChassisSpeeds chassisSpeeds){
+    swerveSubsystem.drive(ChassisSpeeds.fromRobotRelativeSpeeds(chassisSpeeds, this.getPoseRotation()));
   }
 }
