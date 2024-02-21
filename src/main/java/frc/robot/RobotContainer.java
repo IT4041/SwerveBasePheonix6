@@ -93,31 +93,28 @@ public class RobotContainer {
 
     driverController.rightTrigger().onTrue(
         new SequentialCommandGroup(
-            new InstantCommand(() -> firingHead.shooterSetSpeed(masterController.getFiringSpeed()), firingHead), // shooter
-                                                                                                                 // off
+            new InstantCommand(() -> firingHead.shooterSetSpeed(masterController.getFiringSpeed()), firingHead), // shooter off
             new WaitCommand(1),
-            new InstantCommand(
-                () -> firingHead.setTransportMotorSpeed(Constants.FiringHeadConstants.TransportMotorSpeed), firingHead), // transport
-                                                                                                                         // motor
-                                                                                                                         // off
+            new InstantCommand(() -> firingHead.setTransportMotorSpeed(Constants.FiringHeadConstants.TransportMotorSpeed), firingHead), // transport motor off
             new WaitCommand(3), // conveyr off
             new InstantCommand(() -> firingHead.MasterStop(), firingHead)));
 
     driverController.start().onTrue(home);
 
-
     //********************* operator control **************************/
     operatorController.x().whileTrue(new InstantCommand(() -> lift.up(), lift));
+    operatorController.x().onFalse(new InstantCommand(() -> lift.stop(), lift));
+
     operatorController.b().whileTrue(new InstantCommand(() -> lift.down(), lift));
+    operatorController.b().onFalse(new InstantCommand(() -> lift.stop(), lift));
 
     operatorController.start().onTrue(home); // pivot starting position
 
     operatorController.y().onTrue(new InstantCommand(() -> pivot.up(), pivot));
     operatorController.a().onTrue(new InstantCommand(() -> pivot.down(), pivot));
 
-    operatorController.b().onTrue(new RunCommand(() -> masterController.runConveyors(), masterController)
-        .until(() -> (firingHead.EitherSensorTriggered() && pivot.InStartingPosition())
-            || (intake.EitherSensorTriggered() && !pivot.InStartingPosition()))
+    operatorController.rightTrigger().onTrue(new RunCommand(() -> masterController.runConveyors(), masterController)
+        .until(() -> (firingHead.EitherSensorTriggered() && pivot.InStartingPosition()) || (intake.EitherSensorTriggered() && !pivot.InStartingPosition()))
         .andThen(new InstantCommand(() -> masterController.stopConveyors(), masterController)));
   }
 

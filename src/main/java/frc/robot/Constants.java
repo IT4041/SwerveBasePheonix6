@@ -232,9 +232,9 @@ public class Constants {
     }
 
     public static final class LiftConstants{
-        public static final int LiftSparkmaxDeviceID=32;
-        public static final int Home=100;
-        public static final int Extended=500;
+        public static final int LiftSparkmaxDeviceID = 32;
+        public static final int Home = 0;
+        public static final int Extended = 733;
         public static final double up_speed = 1.0;
         public static final double down_speed = -1.0;
         

@@ -27,6 +27,7 @@ public class Lift extends SubsystemBase {
         lift.setInverted(true);
 
         m_Encoder = lift.getEncoder();
+        m_Encoder.setPosition(0);
         // lift.setSoftLimit(SoftLimitDirection.kForward, Constants.LiftConstants.Extended);
         // lift.setSoftLimit(SoftLimitDirection.kReverse, Constants.LiftConstants.Home);
         // lift.enableSoftLimit(SoftLimitDirection.kForward, true);
@@ -45,6 +46,10 @@ public class Lift extends SubsystemBase {
 
     public void down() {
         lift.set(Constants.LiftConstants.down_speed);
+    }
+
+    public void stop() {
+        lift.stopMotor();
     }
 
 }
