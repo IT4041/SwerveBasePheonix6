@@ -9,9 +9,7 @@ import frc.robot.Subsystems.FiringHead;
 import frc.robot.Subsystems.Intake;
 import frc.robot.Subsystems.MasterController;
 import frc.robot.Subsystems.Pivot;
-import frc.robot.Subsystems.SwerveSubsystem;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
-import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.Constants;
@@ -22,7 +20,6 @@ public class AutoSequences {
   private final Pivot m_pivot;
   private final FiringHead m_firingHead;
   private final MasterController m_masterController;
-
   
   public AutoSequences(Pivot in_pivot, Intake in_intake, FiringHead in_firingHead, MasterController in_masterController) {
     m_intake = in_intake;
