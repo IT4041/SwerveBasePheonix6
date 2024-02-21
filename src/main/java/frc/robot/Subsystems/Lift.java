@@ -4,6 +4,7 @@
 
 package frc.robot.Subsystems;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
@@ -11,29 +12,31 @@ import com.revrobotics.CANSparkBase.IdleMode;
 import com.revrobotics.CANSparkBase.SoftLimitDirection;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 import com.revrobotics.CANSparkMax;
-//import com.revrobotics.RelativeEncoder;
+import com.revrobotics.RelativeEncoder;
 
 public class Lift extends SubsystemBase {
 
     private CANSparkMax lift;
-    // private RelativeEncoder m_Encoder;
+    private RelativeEncoder m_Encoder;
 
     public Lift() {
         lift = new CANSparkMax(Constants.LiftConstants.LiftSparkmaxDeviceID, MotorType.kBrushless);
         lift.restoreFactoryDefaults();
         lift.setIdleMode(IdleMode.kBrake);
         lift.setSmartCurrentLimit(80);
-        lift.setInverted(false);
+        lift.setInverted(true);
 
-        // m_Encoder = lift.getEncoder();
-        lift.setSoftLimit(SoftLimitDirection.kForward, Constants.LiftConstants.Extended);
-        lift.setSoftLimit(SoftLimitDirection.kReverse, Constants.LiftConstants.Home);
-        lift.enableSoftLimit(SoftLimitDirection.kForward, true);
-        lift.enableSoftLimit(SoftLimitDirection.kReverse, true);
+        m_Encoder = lift.getEncoder();
+        // lift.setSoftLimit(SoftLimitDirection.kForward, Constants.LiftConstants.Extended);
+        // lift.setSoftLimit(SoftLimitDirection.kReverse, Constants.LiftConstants.Home);
+        // lift.enableSoftLimit(SoftLimitDirection.kForward, true);
+        // lift.enableSoftLimit(SoftLimitDirection.kReverse, true);
         lift.burnFlash();
+
     }
 
     public void periodic() {
+        SmartDashboard.putNumber("Lift_Encoder", m_Encoder.getPosition());
     }
 
     public void up() {
