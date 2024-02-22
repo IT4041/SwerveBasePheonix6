@@ -31,12 +31,12 @@ public class Lift extends SubsystemBase {
 
         m_Encoder = lift.getEncoder();
         ResetEncoder();
+
         lift.setSoftLimit(SoftLimitDirection.kForward, Constants.LiftConstants.Extended);
         lift.setSoftLimit(SoftLimitDirection.kReverse, Constants.LiftConstants.Home);
         lift.enableSoftLimit(SoftLimitDirection.kForward, true);
         lift.enableSoftLimit(SoftLimitDirection.kReverse, true);
         lift.burnFlash();
-
     }
 
     public void periodic() {
@@ -48,7 +48,6 @@ public class Lift extends SubsystemBase {
                 lift.stopMotor();
             }
             ResetEncoder();
-
         }
     }
 
@@ -76,5 +75,4 @@ public class Lift extends SubsystemBase {
     private void ResetEncoder() {
         m_Encoder.setPosition(Constants.LiftConstants.Home);
     }
-
 }

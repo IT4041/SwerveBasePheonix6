@@ -15,7 +15,7 @@ public class LED extends SubsystemBase {
 
   private AddressableLED m_led;
   private AddressableLEDBuffer m_ledBuffer;
-  private Color indicator = Constants.LEDConstants.orange;
+  private Color indicator = Constants.LEDConstants.red;
 
   /** Creates a new LED. */
   public LED() {
@@ -38,38 +38,23 @@ public class LED extends SubsystemBase {
   @Override
   public void periodic() {
 
-    SmartDashboard.putBoolean("SignalCone", indicator == Constants.LEDConstants.yellow);
+    SmartDashboard.putBoolean("note captured", indicator == Constants.LEDConstants.green);
 
     // This method will be called once per scheduler run
     for (var i = 0; i < m_ledBuffer.getLength(); i++) {
       // Sets the specified LED to the RGB values for red
-      if(indicator == Constants.LEDConstants.yellow || indicator == Constants.LEDConstants.purple){
-        m_ledBuffer.setLED(i, indicator);
-      }
-      else{
-        m_ledBuffer.setLED(i, shimmer());
-      }
-      
-   }
-   
-   m_led.setData(m_ledBuffer);
+      m_ledBuffer.setLED(i, indicator);
+    }
+    m_led.setData(m_ledBuffer);
   }
 
-  public void signalCone(){
-    indicator = Constants.LEDConstants.yellow;
+  public void capturedNote(){
+    indicator = Constants.LEDConstants.green;
 
   }
-  public void signalCube(){
-    indicator = Constants.LEDConstants.purple;
+  
+  public void NoNote(){
+    indicator = Constants.LEDConstants.red;
 
-  }
-
-  private Color shimmer(){
-
-    Double red = (Math.random()*10000) % 256;
-    Double green = (Math.random()*10000) % 256;
-    Double blue = (Math.random()*10000) % 256;
-
-    return new Color(red.intValue(), green.intValue(), blue.intValue());
   }
 }

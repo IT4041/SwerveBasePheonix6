@@ -12,27 +12,31 @@ public class MasterController extends SubsystemBase {
   private final Intake m_intake;
   private final Pivot m_pivot;
   private final FiringHead m_firingHead;
-  private boolean intake_on = false;
+  private final LED m_led;
 
-  public MasterController(Pivot in_pivot, Intake in_intake, FiringHead in_firingHead) {
+  public MasterController(Pivot in_pivot, Intake in_intake, FiringHead in_firingHead, LED in_led) {
     m_intake = in_intake;
     m_pivot = in_pivot;
     m_firingHead = in_firingHead;
+    m_led = in_led;
   }
 
-  // intake
+  @Override
+  public void periodic() {
+    if (this.anySensortrigger()) {
+      m_led.capturedNote();
+    } else {
+      m_led.NoNote();
+    }
+  }
 
   public void intake_on() {
     m_intake.on();
-    intake_on = true;
   }
 
   public void intake_off() {
     m_intake.off();
-    intake_on = false;
   }
-
-  // firing head
 
   public void firingHead_feed() {
     m_firingHead.Feed();
@@ -41,8 +45,6 @@ public class MasterController extends SubsystemBase {
   public void firingHead_MasterStop() {
     m_firingHead.MasterStop();
   }
-
-  // pivot
 
   public void pivot_shooting() {
     m_pivot.ShootingShortRange();
@@ -56,30 +58,27 @@ public class MasterController extends SubsystemBase {
     m_pivot.Dump();
   }
 
-  public void MasterStop(){
-    
-  }
-
-  public void runConveyors(){
+  public void runConveyors() {
     m_firingHead.setTransportMotorSpeed(Constants.FiringHeadConstants.TransportMotorSpeed);
     m_intake.setConveyorSpeed(Constants.IntakeConstants.ConveyrMotorSpeed);
     m_intake.setIntakeSpeed(Constants.IntakeConstants.IntakeMotorSpeed);
   }
 
-  public void stopConveyors(){
-      m_firingHead.setTransportMotorSpeed(0);
-      m_intake.setConveyorSpeed(0);
-      m_intake.setIntakeSpeed(0);
+  public void stopConveyors() {
+    m_firingHead.setTransportMotorSpeed(0);
+    m_intake.setConveyorSpeed(0);
+    m_intake.setIntakeSpeed(0);
   }
 
-  public double getFiringSpeed(){
+  public double getFiringSpeed() {
     double retSpeed = Constants.FiringHeadConstants.FiringSpeed;
-    if(m_pivot.returnPosition() == Constants.PivotConstants.PivotPostions.DumpPoint){
+    if (m_pivot.returnPosition() == Constants.PivotConstants.PivotPostions.DumpPoint) {
       retSpeed = Constants.FiringHeadConstants.DumpSpeed;
     }
     return retSpeed;
   }
 
-  @Override
-  public void periodic() {}
+  private boolean anySensortrigger() {
+    return m_firingHead.EitherSensorTriggered() || m_intake.EitherSensorTriggered();
+  }
 }

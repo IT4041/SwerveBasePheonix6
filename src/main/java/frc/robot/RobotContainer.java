@@ -44,8 +44,9 @@ public class RobotContainer {
   private final Intake intake = new Intake();
   private final FiringHead firingHead = new FiringHead();
   private final Lift lift = new Lift();
-  private final MasterController masterController = new MasterController(pivot, intake, firingHead);
   private final LED led = new LED();
+  private final MasterController masterController = new MasterController(pivot, intake, firingHead, led);
+  
 
   public RobotContainer() {
 

@@ -249,5 +249,8 @@ public class Constants {
         public static final Color purple = new Color(255, 1, 255);
         public static final Color yellow = new Color(255, 128, 1);
         public static final Color orange = new Color(1, 255, 255);
+        public static final Color green = new Color(1, 255, 1);
+        public static final Color red = new Color(255, 1, 1);
+
     }
 }
