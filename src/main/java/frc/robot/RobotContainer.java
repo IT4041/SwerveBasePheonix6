@@ -16,6 +16,7 @@ import frc.robot.Commands.DriveWithJoysticks;
 import frc.robot.Commands.Autonomous.AutoSequences;
 import frc.robot.Subsystems.FiringHead;
 import frc.robot.Subsystems.Intake;
+import frc.robot.Subsystems.LED;
 import frc.robot.Subsystems.Lift;
 import frc.robot.Subsystems.Pigeon2Subsystem;
 import frc.robot.Subsystems.Pivot;
@@ -44,6 +45,7 @@ public class RobotContainer {
   private final FiringHead firingHead = new FiringHead();
   private final Lift lift = new Lift();
   private final MasterController masterController = new MasterController(pivot, intake, firingHead);
+  private final LED led = new LED();
 
   public RobotContainer() {
 

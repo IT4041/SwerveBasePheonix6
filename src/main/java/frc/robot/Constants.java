@@ -11,6 +11,7 @@ import com.ctre.phoenix6.signals.SensorDirectionValue;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.wpilibj.util.Color;
 import frc.lib.BetterSwerveKinematics;
 
 public class Constants {
@@ -239,5 +240,14 @@ public class Constants {
         public static final double down_speed = -1.0;
         public static final int limitSwitchPort = 5;
         
+    }
+
+    public static final class LEDConstants{
+        public static final int PWMPort = 9;
+        public static final int StripLength = 12;
+
+        public static final Color purple = new Color(255, 1, 255);
+        public static final Color yellow = new Color(255, 128, 1);
+        public static final Color orange = new Color(1, 255, 255);
     }
 }
