@@ -23,10 +23,10 @@ public class MasterController extends SubsystemBase {
 
   @Override
   public void periodic() {
-    if (this.anySensortrigger()) {
+    if (this.anySensorTriggered()) {
       m_led.capturedNote();
     } else {
-      m_led.NoNote();
+      m_led.noNote();
     }
   }
 
@@ -78,7 +78,7 @@ public class MasterController extends SubsystemBase {
     return retSpeed;
   }
 
-  private boolean anySensortrigger() {
+  private boolean anySensorTriggered() {
     return m_firingHead.EitherSensorTriggered() || m_intake.EitherSensorTriggered();
   }
 }
