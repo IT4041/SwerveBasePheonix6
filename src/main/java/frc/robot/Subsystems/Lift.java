@@ -4,6 +4,7 @@
 
 package frc.robot.Subsystems;
 
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
@@ -18,6 +19,7 @@ public class Lift extends SubsystemBase {
 
     private CANSparkMax lift;
     private RelativeEncoder m_Encoder;
+    private DigitalInput limit_switch;
 
     public Lift() {
         lift = new CANSparkMax(Constants.LiftConstants.LiftSparkmaxDeviceID, MotorType.kBrushless);
@@ -25,19 +27,29 @@ public class Lift extends SubsystemBase {
         lift.setIdleMode(IdleMode.kBrake);
         lift.setSmartCurrentLimit(80);
         lift.setInverted(true);
+        limit_switch = new DigitalInput(Constants.LiftConstants.limitSwitchPort);
 
         m_Encoder = lift.getEncoder();
-        m_Encoder.setPosition(0);
-        // lift.setSoftLimit(SoftLimitDirection.kForward, Constants.LiftConstants.Extended);
-        // lift.setSoftLimit(SoftLimitDirection.kReverse, Constants.LiftConstants.Home);
-        // lift.enableSoftLimit(SoftLimitDirection.kForward, true);
-        // lift.enableSoftLimit(SoftLimitDirection.kReverse, true);
+        ResetEncoder();
+        lift.setSoftLimit(SoftLimitDirection.kForward, Constants.LiftConstants.Extended);
+        lift.setSoftLimit(SoftLimitDirection.kReverse, Constants.LiftConstants.Home);
+        lift.enableSoftLimit(SoftLimitDirection.kForward, true);
+        lift.enableSoftLimit(SoftLimitDirection.kReverse, true);
         lift.burnFlash();
 
     }
 
     public void periodic() {
         SmartDashboard.putNumber("Lift_Encoder", m_Encoder.getPosition());
+        SmartDashboard.putBoolean("get limit switch state", getLimitSwitchState());
+
+        if (getLimitSwitchState()) {
+            if (lift.get() < 0) {
+                lift.stopMotor();
+            }
+            ResetEncoder();
+
+        }
     }
 
     public void up() {
@@ -45,11 +57,24 @@ public class Lift extends SubsystemBase {
     }
 
     public void down() {
-        lift.set(Constants.LiftConstants.down_speed);
+        double speed = Constants.LiftConstants.down_speed;
+        if (m_Encoder.getPosition() < 100) {
+            speed = speed / 2;
+        }
+        lift.set(speed);
+
     }
 
     public void stop() {
         lift.stopMotor();
+    }
+
+    public boolean getLimitSwitchState() {
+        return !limit_switch.get();
+    }
+
+    private void ResetEncoder() {
+        m_Encoder.setPosition(Constants.LiftConstants.Home);
     }
 
 }
