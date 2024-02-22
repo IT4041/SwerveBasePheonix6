@@ -97,10 +97,15 @@ public class RobotContainer {
     driverController.rightTrigger().onTrue(
         new SequentialCommandGroup(
             new InstantCommand(() -> firingHead.shooterSetSpeed(masterController.getFiringSpeed()), firingHead), // shooter off
-            new WaitCommand(1),
+            new WaitCommand(.1),
             new InstantCommand(() -> firingHead.setTransportMotorSpeed(Constants.FiringHeadConstants.TransportMotorSpeed), firingHead), // transport motor off
-            new WaitCommand(3), // conveyr off
-            new InstantCommand(() -> firingHead.MasterStop(), firingHead)));
+            new WaitCommand(1), // conveyr off
+            new InstantCommand(() -> firingHead.MasterStop(), firingHead),
+            new InstantCommand(() -> pivot.Starting(), pivot)));
+
+    driverController.leftTrigger().onTrue(new RunCommand(() -> firingHead.source(), firingHead)
+        .until(() -> (firingHead.SideSensorTriggered()))
+        .andThen(new InstantCommand(() -> firingHead.MasterStop(), firingHead)));        
 
     driverController.start().onTrue(home);
 

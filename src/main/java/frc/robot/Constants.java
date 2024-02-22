@@ -193,14 +193,17 @@ public class Constants {
         public static int TimeOfFlightASensorID = 89;
         public static int TimeOfFlightBSensorID = 90;
 
-        public static int NoIntakeThresholdA = 30;
-        public static int NoIntakeThresholdB = 30;
+        public static int CenterSensorThreshold = 30;
+        public static int SideSensorThreshold = 30;
 
-        //public static double FiringSpeed = 0.2;             // 0.4
-        public static double FiringSpeed = 0.4; //0.4
+        public static double FiringSpeed = 0.4;
         public static double DumpSpeed = 0.15;
         public static double FarFiringSpeed = 0.45;
-        public static double TransportMotorSpeed = 0.4;     // 0.8
+
+        public static double TransportMotorSpeed = 0.4;
+
+        public static double SourceSpeed = -0.2;
+        public static double SourceTransportMotorSpeed = -0.4;
 
         public static final class FiringHeadPIDConstants {
             
@@ -243,7 +246,7 @@ public class Constants {
     }
 
     public static final class LEDConstants{
-        public static final int PWMPort = 9;
+        public static final int PWMPort = 5;
         public static final int StripLength = 12;
 
         public static final Color purple = new Color(255, 1, 255);

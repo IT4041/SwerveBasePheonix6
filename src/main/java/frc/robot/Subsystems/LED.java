@@ -50,11 +50,9 @@ public class LED extends SubsystemBase {
 
   public void capturedNote(){
     indicator = Constants.LEDConstants.green;
-
   }
 
   public void noNote(){
     indicator = Constants.LEDConstants.red;
-
   }
 }

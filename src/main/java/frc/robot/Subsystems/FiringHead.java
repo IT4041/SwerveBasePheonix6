@@ -19,15 +19,6 @@ public class FiringHead extends SubsystemBase {
   private CANSparkMax fireMotor;
   private CANSparkMax followMotor;
 
-  enum Stages {
-    Idle,
-    Triggered,
-    Paused,
-    Fired
-  }
-
-  Stages stage = Stages.Idle;
-
   private final TimeOfFlight centerSensor = new TimeOfFlight(Constants.FiringHeadConstants.TimeOfFlightASensorID);
   private final TimeOfFlight sideSensor = new TimeOfFlight(Constants.FiringHeadConstants.TimeOfFlightBSensorID);
 
@@ -67,8 +58,6 @@ public class FiringHead extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-
-    SmartDashboard.putString("Firing Stage", stage.toString());
     SmartDashboard.putNumber("firing head velocity", m_Encoder.getVelocity());
 
     SmartDashboard.putBoolean("SH Center triggered?", this.CenterSensorTriggered());
@@ -79,7 +68,6 @@ public class FiringHead extends SubsystemBase {
 
     SmartDashboard.putBoolean("conveyr on", transportMotor.get() > 0);
     SmartDashboard.putBoolean("shooter head is on", fireMotor.get() > 0);
-
   }
 
   public void Feed() {
@@ -87,17 +75,21 @@ public class FiringHead extends SubsystemBase {
     fireMotor.set(Constants.FiringHeadConstants.FiringSpeed);
   }
 
+  public void source() {
+    transportMotor.set(Constants.FiringHeadConstants.SourceTransportMotorSpeed);
+    fireMotor.set(Constants.FiringHeadConstants.SourceSpeed);
+  }
+
   public void StopTransport() {
     transportMotor.stopMotor();
-    stage = Stages.Paused;
   }
 
   public boolean CenterSensorTriggered() {
-    return centerSensor.getRange() <= Constants.FiringHeadConstants.NoIntakeThresholdA;
+    return centerSensor.getRange() <= Constants.FiringHeadConstants.CenterSensorThreshold;
   }
 
   public boolean SideSensorTriggered() {
-    return sideSensor.getRange() <= Constants.FiringHeadConstants.NoIntakeThresholdB;
+    return sideSensor.getRange() <= Constants.FiringHeadConstants.SideSensorThreshold;
   }
 
   public boolean EitherSensorTriggered() {
@@ -107,7 +99,6 @@ public class FiringHead extends SubsystemBase {
   public void MasterStop() {
     transportMotor.stopMotor();
     fireMotor.stopMotor();
-    stage = Stages.Idle;
   }
 
   public void shooterSetSpeed(double speed) {

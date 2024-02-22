@@ -23,10 +23,20 @@ public class MasterController extends SubsystemBase {
 
   @Override
   public void periodic() {
+
+    // change leds if we have a note
     if (this.anySensorTriggered()) {
       m_led.capturedNote();
     } else {
       m_led.noNote();
+    }
+
+    //if we have a note in firing head move to short shooting position
+    // and turn on shooting wheels
+    if(m_firingHead.EitherSensorTriggered()){
+      //TODO: this needs to be overridden when the operator moves the pivot
+      m_pivot.ShootingShortRange();
+      m_firingHead.shooterSetSpeed(getFiringSpeed());
     }
   }
 
