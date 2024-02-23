@@ -28,11 +28,33 @@ public class AutoSequences {
         m_masterController = in_masterController;
     }
 
-    public SequentialCommandGroup AutoShootingSequence(double shooter_speed, double pivot_pos) {
+    public SequentialCommandGroup AutoShootingSequenceNear() {
 
         SequentialCommandGroup shootingCommand = new SequentialCommandGroup(
-                new InstantCommand(() -> m_firingHead.shooterSetSpeed(shooter_speed), m_firingHead),
-                new InstantCommand(() -> m_pivot.goToPosition(pivot_pos), m_pivot),
+                new InstantCommand(() -> m_firingHead.shooterSetSpeed(Constants.FiringHeadConstants.FiringSpeed), m_firingHead),
+                new InstantCommand(() -> m_pivot.GoToStarting(), m_pivot),
+                new WaitCommand(0.55),
+                new InstantCommand( () -> m_firingHead.setTransportMotorSpeed(Constants.FiringHeadConstants.TransportMotorSpeed), m_firingHead));
+
+        return shootingCommand;
+    }
+
+    public SequentialCommandGroup AutoShootingSequenceFar() {
+
+        SequentialCommandGroup shootingCommand = new SequentialCommandGroup(
+                new InstantCommand(() -> m_firingHead.shooterSetSpeed(Constants.FiringHeadConstants.FarFiringSpeed), m_firingHead),
+                new InstantCommand(() -> m_pivot.GoToShootingMidRange(), m_pivot),
+                new WaitCommand(0.55),
+                new InstantCommand( () -> m_firingHead.setTransportMotorSpeed(Constants.FiringHeadConstants.TransportMotorSpeed), m_firingHead));
+
+        return shootingCommand;
+    }
+
+    public SequentialCommandGroup AutoShootingSequenceDump() {
+
+        SequentialCommandGroup shootingCommand = new SequentialCommandGroup(
+                new InstantCommand(() -> m_firingHead.shooterSetSpeed(Constants.FiringHeadConstants.DumpSpeed), m_firingHead),
+                new InstantCommand(() -> m_pivot.GoToDump(), m_pivot),
                 new WaitCommand(0.55),
                 new InstantCommand( () -> m_firingHead.setTransportMotorSpeed(Constants.FiringHeadConstants.TransportMotorSpeed), m_firingHead));
 
@@ -42,10 +64,10 @@ public class AutoSequences {
     public SequentialCommandGroup AutoStartingSequence() {
 
         SequentialCommandGroup group = new SequentialCommandGroup(
-                this.AutoShootingSequence(Constants.FiringHeadConstants.FiringSpeed, Constants.PivotConstants.PivotPostions.ShootingPointShortRange),
+                this.AutoShootingSequenceNear(),
                 new WaitCommand(1),
                 new InstantCommand(() -> m_firingHead.shooterSetSpeed(0), m_firingHead),
-                new InstantCommand(() -> m_pivot.goToPosition(Constants.PivotConstants.PivotPostions.StartingPoint), m_pivot),
+                new InstantCommand(() -> m_pivot.GoToStarting(), m_pivot),
                 new InstantCommand(() -> m_intake.setIntakeSpeed(Constants.IntakeConstants.IntakeMotorSpeed), m_intake),
                 new InstantCommand(() -> m_intake.setConveyorSpeed(Constants.IntakeConstants.ConveyrMotorSpeed), m_intake));
 

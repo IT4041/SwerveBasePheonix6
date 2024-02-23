@@ -35,10 +35,11 @@ public class MasterController extends SubsystemBase {
     // and turn on shooting wheels
     if(m_firingHead.EitherSensorTriggered()){
       //TODO: this needs to be overridden when the operator moves the pivot
-      //m_pivot.ShootingShortRange();
-      m_firingHead.shooterSetSpeed(getFiringSpeed());
+      if(m_pivot.InStartingPosition()){
+        m_pivot.GoToShootingShortRange();
+      }
+      m_firingHead.shooterSetSpeed(this.getFiringSpeed());
     }
-    
   }
 
   public void intake_on() {
@@ -58,15 +59,15 @@ public class MasterController extends SubsystemBase {
   }
 
   public void pivot_shooting() {
-    m_pivot.ShootingShortRange();
+    m_pivot.GoToShootingShortRange();
   }
 
   public void pivot_starting() {
-    m_pivot.Starting();
+    m_pivot.GoToStarting();
   }
 
   public void pivot_dump() {
-    m_pivot.Dump();
+    m_pivot.GoToDump();
   }
 
   public void runConveyors() {
@@ -82,9 +83,22 @@ public class MasterController extends SubsystemBase {
   }
 
   public double getFiringSpeed() {
-    double retSpeed = Constants.FiringHeadConstants.FiringSpeed;
-    if (m_pivot.returnPosition() == Constants.PivotConstants.PivotPostions.DumpPoint) {
-      retSpeed = Constants.FiringHeadConstants.DumpSpeed;
+    double retSpeed;
+    switch (m_pivot.ReturnPositionIndex()) {
+      case 3:
+        retSpeed = Constants.FiringHeadConstants.DumpSpeed;
+        break;
+      case 2:
+        retSpeed = Constants.FiringHeadConstants.FarFiringSpeed;
+        break;
+      case 1:
+        retSpeed = Constants.FiringHeadConstants.FiringSpeed;
+        break;
+      case 0:
+        retSpeed = Constants.FiringHeadConstants.FiringSpeed;
+        break;
+      default:retSpeed = Constants.FiringHeadConstants.FiringSpeed;
+        break;
     }
     return retSpeed;
   }

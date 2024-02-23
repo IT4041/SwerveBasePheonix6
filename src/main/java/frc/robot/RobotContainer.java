@@ -74,18 +74,18 @@ public class RobotContainer {
     NamedCommands.registerCommand("far_shooting", new InstantCommand(() -> firingHead.shooterSetSpeed(Constants.FiringHeadConstants.FarFiringSpeed),firingHead));
     NamedCommands.registerCommand("dump_shooting", new InstantCommand(() -> firingHead.shooterSetSpeed(Constants.FiringHeadConstants.DumpSpeed),firingHead));
 
-    NamedCommands.registerCommand("pivot_dump", new InstantCommand(() -> pivot.goToPosition(Constants.PivotConstants.PivotPostions.DumpPoint),pivot));
-    NamedCommands.registerCommand("pivot_mid", new InstantCommand(() -> pivot.goToPosition(Constants.PivotConstants.PivotPostions.ShootingPointMidRange),pivot));
-    NamedCommands.registerCommand("pivot_short", new InstantCommand(() -> pivot.goToPosition(Constants.PivotConstants.PivotPostions.ShootingPointShortRange),pivot));
-    NamedCommands.registerCommand("pivot_start", new InstantCommand(() -> pivot.goToPosition(Constants.PivotConstants.PivotPostions.StartingPoint),pivot));
+    NamedCommands.registerCommand("pivot_dump", new InstantCommand(() -> pivot.GoToDump(),pivot));
+    NamedCommands.registerCommand("pivot_mid", new InstantCommand(() -> pivot.GoToShootingMidRange(),pivot));
+    NamedCommands.registerCommand("pivot_short", new InstantCommand(() -> pivot.GoToShootingShortRange(),pivot));
+    NamedCommands.registerCommand("pivot_start", new InstantCommand(() -> pivot.GoToStarting(),pivot));
 
     NamedCommands.registerCommand("starting_sequence", autoSeq.AutoStartingSequence());
     NamedCommands.registerCommand("run_conveyors", autoSeq.AutoConveyorSequence());
     NamedCommands.registerCommand("stop_conveyors", autoSeq.AutoStopSequence());
 
-    NamedCommands.registerCommand("fire_dump", autoSeq.AutoShootingSequence(Constants.FiringHeadConstants.DumpSpeed,Constants.PivotConstants.PivotPostions.DumpPoint));
-    NamedCommands.registerCommand("fire_near", autoSeq.AutoShootingSequence(Constants.FiringHeadConstants.FiringSpeed,Constants.PivotConstants.PivotPostions.ShootingPointShortRange));
-    NamedCommands.registerCommand("fire_far", autoSeq.AutoShootingSequence(Constants.FiringHeadConstants.FarFiringSpeed,Constants.PivotConstants.PivotPostions.ShootingPointMidRange));
+    NamedCommands.registerCommand("fire_dump", autoSeq.AutoShootingSequenceDump());
+    NamedCommands.registerCommand("fire_near", autoSeq.AutoShootingSequenceNear());
+    NamedCommands.registerCommand("fire_far", autoSeq.AutoShootingSequenceFar());
 
     trajChooser = AutoBuilder.buildAutoChooser();
     SmartDashboard.putData("Auto Chooser", trajChooser);
@@ -98,19 +98,19 @@ public class RobotContainer {
         new InstantCommand(() -> intake.setIntakeSpeed(0), intake), // intake off
         new InstantCommand(() -> firingHead.setTransportMotorSpeed(0), firingHead), // transport motor off
         new InstantCommand(() -> intake.setConveyorSpeed(0), intake), // conveyr off
-        new InstantCommand(() -> pivot.Starting(), pivot) // pivot starting position
+        new InstantCommand(() -> pivot.GoToStarting(), pivot) // pivot starting position
     );
 
     driverController.rightTrigger().onTrue(
         new SequentialCommandGroup(
             new InstantCommand(() -> firingHead.shooterSetSpeed(masterController.getFiringSpeed()), firingHead), // shooter off
-            new WaitCommand(.1),
+            new WaitCommand(.2),
             new InstantCommand(() -> firingHead.setTransportMotorSpeed(Constants.FiringHeadConstants.TransportMotorSpeed), firingHead), // transport motor off
             new WaitCommand(1), // conveyr off
             new InstantCommand(() -> firingHead.MasterStop(), firingHead),
-            new InstantCommand(() -> pivot.Starting(), pivot)));
+            new InstantCommand(() -> pivot.GoToStarting(), pivot)));
 
-    driverController.leftTrigger().onTrue(new RunCommand(() -> firingHead.source(), firingHead)
+    driverController.leftTrigger().onTrue(new RunCommand(() -> firingHead.Source(), firingHead)
         .until(() -> (firingHead.SideSensorTriggered()))
         .andThen(new InstantCommand(() -> firingHead.MasterStop(), firingHead)));        
 
@@ -129,7 +129,9 @@ public class RobotContainer {
     operatorController.a().onTrue(new InstantCommand(() -> pivot.down(), pivot));
 
     operatorController.rightTrigger().onTrue(new RunCommand(() -> masterController.runConveyors(), masterController)
-        .until(() -> (firingHead.EitherSensorTriggered() && pivot.InStartingPosition()) || (intake.EitherSensorTriggered() && !pivot.InStartingPosition()))
+       .until(() -> (firingHead.EitherSensorTriggered() && pivot.InStartingPosition()) 
+                    || (intake.EitherSensorTriggered() && !pivot.InStartingPosition()) 
+                    || operatorController.leftTrigger().getAsBoolean())
         .andThen(new InstantCommand(() -> masterController.stopConveyors(), masterController)));
   }
 

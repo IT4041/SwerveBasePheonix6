@@ -79,7 +79,7 @@ public class FiringHead extends SubsystemBase {
     fireMotor.set(Constants.FiringHeadConstants.FiringSpeed);
   }
 
-  public void source() {
+  public void Source() {
     transportMotor.set(Constants.FiringHeadConstants.SourceTransportMotorSpeed);
     fireMotor.set(Constants.FiringHeadConstants.SourceSpeed);
   }
@@ -111,9 +111,5 @@ public class FiringHead extends SubsystemBase {
 
   public void setTransportMotorSpeed(double speed) {
     transportMotor.set(speed);
-  }
-
-  public TimeOfFlight getSensorA() {
-    return centerSensor;
   }
 }

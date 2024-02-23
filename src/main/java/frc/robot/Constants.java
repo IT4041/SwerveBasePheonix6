@@ -168,10 +168,7 @@ public class Constants {
             public static final double kP = 0.02;
             public static final double kI = 0.0;
             public static final double kD = 0.0;
-            public static final double kIz = 0.0;
-            public static final double kFF = 0.0;
-            public static final double kMaxOutput = 1;
-            public static final double kMinOutput = -0.45; 
+            public static final double period = 0.001;
         }
 
         public static final class PivotPostions {

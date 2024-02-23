@@ -47,7 +47,7 @@ public class WeekZeroAuto extends SequentialCommandGroup {
     addCommands(new InstantCommand(() -> m_firingHead.shooterSetSpeed(Constants.FiringHeadConstants.FarFiringSpeed),
         m_firingHead));
     addCommands(new InstantCommand(
-        () -> m_pivot.goToPosition(Constants.PivotConstants.PivotPostions.ShootingPointMidRange), m_pivot)); // 37
+        () -> m_pivot.GoToShootingMidRange(), m_pivot)); // 37
     addCommands(new WaitCommand(0.5));
     addCommands(new InstantCommand(
         () -> m_firingHead.setTransportMotorSpeed(Constants.FiringHeadConstants.TransportMotorSpeed), m_firingHead));
@@ -64,6 +64,6 @@ public class WeekZeroAuto extends SequentialCommandGroup {
     ));
 
     addCommands(
-        new InstantCommand(() -> m_pivot.goToPosition(Constants.PivotConstants.PivotPostions.StartingPoint), m_pivot));
+        new InstantCommand(() -> m_pivot.GoToStarting(), m_pivot));
   }
 }
