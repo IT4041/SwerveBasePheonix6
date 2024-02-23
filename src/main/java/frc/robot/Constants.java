@@ -26,7 +26,7 @@ public class Constants {
     public static final double BOOST_SPEED = 1.0;
     public static final double PERCISION_SPEED = 1.0;
 
-    public static boolean fieldRelative = true;
+    public static boolean fieldRelative = false;
 
     public static final class ModuleConstants {
 
@@ -202,7 +202,7 @@ public class Constants {
 
         public static double TransportMotorSpeed = 0.4;
 
-        public static double SourceSpeed = -0.2;
+        public static double SourceSpeed = -0.3;
         public static double SourceTransportMotorSpeed = -0.4;
 
         public static final class FiringHeadPIDConstants {

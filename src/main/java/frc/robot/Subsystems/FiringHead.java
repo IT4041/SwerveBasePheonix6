@@ -53,6 +53,10 @@ public class FiringHead extends SubsystemBase {
 
     centerSensor.setRangingMode(RangingMode.Short, 1);
     sideSensor.setRangingMode(RangingMode.Short, 1);
+
+    fireMotor.burnFlash();
+    followMotor.burnFlash();
+    transportMotor.burnFlash();
   }
 
   @Override

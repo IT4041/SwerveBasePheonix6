@@ -35,9 +35,10 @@ public class MasterController extends SubsystemBase {
     // and turn on shooting wheels
     if(m_firingHead.EitherSensorTriggered()){
       //TODO: this needs to be overridden when the operator moves the pivot
-      m_pivot.ShootingShortRange();
+      //m_pivot.ShootingShortRange();
       m_firingHead.shooterSetSpeed(getFiringSpeed());
     }
+    
   }
 
   public void intake_on() {

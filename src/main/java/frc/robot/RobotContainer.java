@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
@@ -46,7 +47,6 @@ public class RobotContainer {
   private final Lift lift = new Lift();
   private final LED led = new LED();
   private final MasterController masterController = new MasterController(pivot, intake, firingHead, led);
-  
 
   public RobotContainer() {
 
@@ -59,6 +59,13 @@ public class RobotContainer {
         () -> driverController.getRightX(),
         () -> Constants.fieldRelative,
         () -> Constants.DRIVE_SPEED));
+
+    // ParallelCommandGroup ShootPrep = new ParallelCommandGroup(
+    //   new InstantCommand(() ->  pivot.ShootingShortRange(), pivot),
+    //   new InstantCommand(() ->  firingHead.shooterSetSpeed(masterController.getFiringSpeed()), firingHead));
+
+    // firingHead.setDefaultCommand(ShootPrep);
+
     configureBindings();
 
     AutoSequences autoSeq = new AutoSequences(pivot, intake, firingHead, masterController);
